@@ -71,12 +71,12 @@
     @apply border-border selection:bg-app-pink/20 selection:text-foreground;
   }
 
-  body {
-    @apply bg-background text-foreground antialiased overflow-x-hidden min-h-screen transition-colors duration-200;
+  html, body {
+    @apply h-full w-full m-0 p-0;
   }
 
-  /* Apply dark mode gradient only in dark mode */
-  .dark body {
+  body {
+    @apply bg-background text-foreground antialiased min-h-screen transition-colors duration-300;
     @apply bg-gradient-dark;
   }
   
@@ -85,7 +85,11 @@
     @apply bg-gradient-to-br from-gray-50 to-gray-100;
   }
 
-  /* User-specific backgrounds */
+  /* User-specific backgrounds - these should override the default backgrounds */
+  body.user-isabel {
+    @apply bg-none;
+  }
+  
   body.user-isabel.dark {
     @apply bg-gradient-to-b from-pink-950 via-purple-950 to-pink-900;
   }
@@ -94,6 +98,10 @@
     @apply bg-gradient-to-br from-pink-50 to-pink-100;
   }
 
+  body.user-zozo {
+    @apply bg-none;
+  }
+  
   body.user-zozo.dark {
     @apply bg-gradient-to-b from-blue-950 via-indigo-950 to-blue-900;
   }
