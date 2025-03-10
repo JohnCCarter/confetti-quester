@@ -44,7 +44,7 @@
   }
 
   .task-item {
-    @apply relative flex items-center p-4 mb-3 rounded-xl transition-all duration-300 hover:bg-task-hover group;
+    @apply relative flex items-center p-4 mb-3 rounded-xl transition-all duration-300 hover:bg-task-hover;
   }
 
   .task-item.completed {

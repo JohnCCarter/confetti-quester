@@ -1,16 +1,13 @@
-
 import React, { useState, useEffect, useRef } from 'react';
-import { Calendar, Trophy, AlarmClock, Moon, Plus, RotateCcw, User } from 'lucide-react';
+import { Calendar, Trophy, AlarmClock, Moon, Plus, RotateCcw, User as UserIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import UserCard from '@/components/UserCard';
 import SectionHeader from '@/components/SectionHeader';
 import TaskItem from '@/components/TaskItem';
 import Confetti from '@/components/Confetti';
-import TaskDialog from '@/components/TaskDialog';
-import UserDialog from '@/components/UserDialog';
+import TaskDialog, { Task } from '@/components/TaskDialog';
+import UserDialog, { User } from '@/components/UserDialog';
 import ThemeToggle from '@/components/ThemeToggle';
-import { Task } from '@/components/TaskDialog';
-import { User } from '@/components/UserDialog';
 
 const defaultUser: User = {
   id: '1',
@@ -81,7 +78,6 @@ const Index = () => {
   const [currentTask, setCurrentTask] = useState<Task | undefined>(undefined);
   const [completedTaskId, setCompletedTaskId] = useState<string | null>(null);
 
-  // Load data from localStorage on mount
   useEffect(() => {
     const savedTasks = localStorage.getItem('tasks');
     const savedUser = localStorage.getItem('user');
@@ -95,13 +91,11 @@ const Index = () => {
     }
   }, []);
 
-  // Save to localStorage when data changes
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
     localStorage.setItem('user', JSON.stringify(user));
   }, [tasks, user]);
 
-  // Check if all tasks in a category are completed
   useEffect(() => {
     if (!completedTaskId) return;
     
@@ -124,11 +118,9 @@ const Index = () => {
   }, [tasks, completedTaskId]);
 
   const handleCompleteTask = (id: string) => {
-    // Find the task by id
     const taskToComplete = tasks.find(task => task.id === id);
     if (!taskToComplete || taskToComplete.completed) return;
     
-    // Get element position for confetti
     const taskElement = document.getElementById(`task-${id}`);
     if (taskElement) {
       const rect = taskElement.getBoundingClientRect();
@@ -138,10 +130,8 @@ const Index = () => {
       });
     }
     
-    // Play confetti
     setShowConfetti(true);
     
-    // Update tasks and add points
     setTasks(prev => prev.map(task => 
       task.id === id 
         ? { ...task, completed: true } 
@@ -153,10 +143,8 @@ const Index = () => {
       points: prev.points + (taskToComplete?.points || 0)
     }));
     
-    // Set the completed task ID for checking category completion
     setCompletedTaskId(id);
     
-    // Show toast
     toast.success(`Bra jobbat! +${taskToComplete?.points || 0} poäng`, {
       duration: 2000
     });
@@ -172,11 +160,9 @@ const Index = () => {
 
   const handleSaveTask = (task: Task) => {
     if (tasks.some(t => t.id === task.id)) {
-      // Update existing task
       setTasks(prev => prev.map(t => t.id === task.id ? task : t));
       toast.success('Uppgift uppdaterad!');
     } else {
-      // Add new task
       setTasks(prev => [...prev, task]);
       toast.success('Ny uppgift tillagd!');
     }
@@ -193,19 +179,15 @@ const Index = () => {
   };
 
   const handleSwitchUser = () => {
-    // Simple toggle between two users
     if (user.id === defaultUser.id) {
       const savedZozo = localStorage.getItem('zozo');
       setUser(savedZozo ? JSON.parse(savedZozo) : alternateUser);
     } else {
-      // Save current Zozo state
       localStorage.setItem('zozo', JSON.stringify(user));
-      // Switch to Isabel
       const savedIsabel = localStorage.getItem('isabel');
       setUser(savedIsabel ? JSON.parse(savedIsabel) : defaultUser);
     }
     
-    // Reset tasks
     const savedTasks = localStorage.getItem('tasks');
     setTasks(savedTasks ? JSON.parse(savedTasks) : defaultTasks);
   };
@@ -229,11 +211,10 @@ const Index = () => {
 
   return (
     <div className="min-h-screen px-4 py-6 max-w-md mx-auto">
-      {/* Header */}
       <div className="glass-card mb-6 p-4 relative">
         <div className="flex items-center">
           <div className="w-10 h-10 rounded-full bg-app-pink flex items-center justify-center">
-            <User size={20} className="text-white" />
+            <UserIcon size={20} className="text-white" />
           </div>
           <div className="ml-3">
             <h1 className="text-xl font-bold">{user.name}s Lista</h1>
@@ -251,7 +232,6 @@ const Index = () => {
         </div>
       </div>
       
-      {/* User Card */}
       <UserCard 
         name={`Dina poäng`}
         points={user.points}
@@ -260,7 +240,6 @@ const Index = () => {
         onEdit={() => setUserDialogOpen(true)}
       />
       
-      {/* Weekly Overview */}
       <SectionHeader 
         icon={<Calendar size={20} />} 
         title="Veckoöversikt"
@@ -270,7 +249,6 @@ const Index = () => {
         </div>
       </SectionHeader>
       
-      {/* Achievements */}
       <SectionHeader 
         icon={<Trophy size={20} />} 
         title="Prestationer" 
@@ -281,11 +259,9 @@ const Index = () => {
         </div>
       </SectionHeader>
       
-      {/* Tasks */}
       <div className="mb-5">
         <h2 className="text-xl font-semibold mb-4">Mina uppgifter</h2>
         
-        {/* Task filters */}
         <div className="glass-card flex mb-4 rounded-lg overflow-hidden">
           <button 
             className={`task-filter-button ${filter === 'all' ? 'active' : ''}`}
@@ -309,7 +285,6 @@ const Index = () => {
           </button>
         </div>
         
-        {/* Morning tasks */}
         {(filter === 'all' || filter === 'morning') && morningTasks.length > 0 && (
           <div className="mb-4">
             <div className="section-header">
@@ -338,7 +313,6 @@ const Index = () => {
           </div>
         )}
         
-        {/* Evening tasks */}
         {(filter === 'all' || filter === 'evening') && eveningTasks.length > 0 && (
           <div className="mb-4">
             <div className="section-header">
@@ -373,7 +347,6 @@ const Index = () => {
           </div>
         )}
         
-        {/* Action buttons */}
         <div className="flex justify-between mt-4">
           <button 
             className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center transition-colors"
@@ -393,7 +366,6 @@ const Index = () => {
         </div>
       </div>
       
-      {/* Task completion messages */}
       {showConfetti && (
         <Confetti 
           active={showConfetti} 
@@ -411,7 +383,6 @@ const Index = () => {
         />
       )}
       
-      {/* Success toast for completing a task */}
       <div className="fixed bottom-6 right-6 pointer-events-none">
         {completedTaskId && (
           <div className="bg-app-green/90 text-white px-4 py-3 rounded-lg animate-fade-in">
@@ -420,7 +391,6 @@ const Index = () => {
         )}
       </div>
       
-      {/* Task Dialog */}
       <TaskDialog
         open={taskDialogOpen}
         onClose={() => setTaskDialogOpen(false)}
@@ -429,7 +399,6 @@ const Index = () => {
         isEditing={!!currentTask}
       />
       
-      {/* User Dialog */}
       <UserDialog
         open={userDialogOpen}
         onClose={() => setUserDialogOpen(false)}
