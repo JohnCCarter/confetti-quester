@@ -34,7 +34,10 @@ const Index = () => {
 
   // Apply user-specific class to body for theme
   useEffect(() => {
+    // Remove any existing user classes
     document.body.classList.remove('user-isabel', 'user-zozo');
+    
+    // Add the appropriate user class
     document.body.classList.add(isIsabel ? 'user-isabel' : 'user-zozo');
     
     return () => {

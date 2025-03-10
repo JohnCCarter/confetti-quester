@@ -12,12 +12,14 @@ export function ThemeToggle() {
     
     if (savedTheme) {
       setTheme(savedTheme);
+      document.documentElement.classList.toggle("light", savedTheme === "light");
       document.documentElement.classList.toggle("dark", savedTheme === "dark");
     } else {
       // If no saved preference, check system preference
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
       const initialTheme = prefersDark ? "dark" : "light";
       setTheme(initialTheme);
+      document.documentElement.classList.toggle("light", initialTheme === "light");
       document.documentElement.classList.toggle("dark", initialTheme === "dark");
       localStorage.setItem("theme", initialTheme);
     }
@@ -31,6 +33,7 @@ export function ThemeToggle() {
       if (!localStorage.getItem("theme")) { // Only update if user hasn't set a preference
         const newTheme = e.matches ? "dark" : "light";
         setTheme(newTheme);
+        document.documentElement.classList.toggle("light", newTheme === "light");
         document.documentElement.classList.toggle("dark", newTheme === "dark");
       }
     };
@@ -43,6 +46,7 @@ export function ThemeToggle() {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
+    document.documentElement.classList.toggle("light", newTheme === "light");
     document.documentElement.classList.toggle("dark", newTheme === "dark");
   };
 
