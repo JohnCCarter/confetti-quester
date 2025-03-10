@@ -59,6 +59,12 @@ export default {
 					complete: '#3a4657',
 					morning: '#1e293b',
 					evening: '#111827',
+					// Light mode equivalents
+					light: {
+						DEFAULT: '#F9FAFB',
+						hover: '#F3F4F6',
+						complete: '#E5E7EB',
+					}
 				},
 				app: {
 					background: '#0f172a',
@@ -126,6 +132,7 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-dark': 'linear-gradient(to bottom, #0f172a, #1e1b4b, #4c1d95)',
+				'gradient-light': 'linear-gradient(to bottom, #f8fafc, #eef2ff, #f0f9ff)',
 			}
 		}
 	},
