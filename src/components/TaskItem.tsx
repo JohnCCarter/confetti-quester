@@ -1,16 +1,17 @@
 
 import React, { useState } from 'react';
-import { Check, Edit2, Shirt, Bed, Coffee } from 'lucide-react';
+import { Check, Edit2, Shirt, Bed, Coffee, Droplet, Home, Book, Heart, Pencil, Moon } from 'lucide-react';
 import { toast } from 'sonner';
 
 export interface TaskProps {
   id: string;
   title: string;
-  icon: 'shirt' | 'bed' | 'coffee' | string;
+  icon: 'shirt' | 'bed' | 'coffee' | 'droplet' | 'home' | 'book' | 'heart' | 'pencil' | 'moon' | string;
   points: number;
   completed: boolean;
   onComplete: (id: string) => void;
   onEdit: (id: string) => void;
+  userTheme?: 'pink' | 'blue';
 }
 
 const TaskItem: React.FC<TaskProps> = ({ 
@@ -20,7 +21,8 @@ const TaskItem: React.FC<TaskProps> = ({
   points, 
   completed, 
   onComplete,
-  onEdit
+  onEdit,
+  userTheme = 'pink'
 }) => {
   const [isChecking, setIsChecking] = useState(false);
 
@@ -42,6 +44,18 @@ const TaskItem: React.FC<TaskProps> = ({
         return <Bed size={20} className="text-indigo-400" />;
       case 'coffee':
         return <Coffee size={20} className="text-amber-400" />;
+      case 'droplet':
+        return <Droplet size={20} className="text-blue-400" />;
+      case 'home':
+        return <Home size={20} className="text-green-400" />;
+      case 'book':
+        return <Book size={20} className="text-purple-400" />;
+      case 'heart':
+        return <Heart size={20} className="text-red-400" />;
+      case 'pencil':
+        return <Pencil size={20} className="text-yellow-400" />;
+      case 'moon':
+        return <Moon size={20} className="text-indigo-400" />;
       default:
         return <Coffee size={20} className="text-amber-400" />;
     }
@@ -55,7 +69,7 @@ const TaskItem: React.FC<TaskProps> = ({
             ? 'border-app-green bg-app-green' 
             : isChecking 
               ? 'border-app-green' 
-              : 'border-gray-600 group-hover:border-gray-400'}`}
+              : 'border-gray-600 hover:border-gray-400'}`}
         onClick={handleComplete}
       >
         {completed && <Check size={16} className="text-white" />}

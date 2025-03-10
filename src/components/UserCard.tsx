@@ -8,6 +8,7 @@ interface UserCardProps {
   completedTasks: number;
   stars: number;
   onEdit?: () => void;
+  userTheme?: 'pink' | 'blue';
 }
 
 const UserCard: React.FC<UserCardProps> = ({ 
@@ -15,8 +16,12 @@ const UserCard: React.FC<UserCardProps> = ({
   points, 
   completedTasks, 
   stars,
-  onEdit 
+  onEdit,
+  userTheme = 'pink'
 }) => {
+  const bgColorClass = userTheme === 'pink' ? 'bg-app-pink' : 'bg-app-blue';
+  const starColorClass = userTheme === 'pink' ? 'text-app-pink' : 'text-app-blue';
+
   return (
     <div className="glass-card p-4 mb-6 relative animate-fade-in">
       <div className="absolute right-4 top-4 cursor-pointer hover:opacity-80 transition-opacity" onClick={onEdit}>
@@ -24,7 +29,7 @@ const UserCard: React.FC<UserCardProps> = ({
       </div>
       
       <div className="flex items-center mb-4">
-        <div className="w-12 h-12 rounded-full bg-app-pink flex items-center justify-center">
+        <div className={`w-12 h-12 rounded-full ${bgColorClass} flex items-center justify-center`}>
           <User size={24} className="text-white" />
         </div>
         <div className="ml-3 flex flex-col">
@@ -32,17 +37,17 @@ const UserCard: React.FC<UserCardProps> = ({
           <div className="text-sm text-gray-400">Samla fler för belöningar</div>
         </div>
         <div className="ml-auto">
-          <div className="badge-point animate-pulse-scale">
+          <div className={`badge-point animate-pulse-scale ${userTheme === 'blue' ? 'bg-app-blue' : ''}`}>
             {points}
           </div>
         </div>
       </div>
       
       <div className="flex items-center justify-start">
-        <Trophy size={16} className="text-app-pink mr-1" />
+        <Trophy size={16} className={`${starColorClass} mr-1`} />
         <div className="flex space-x-1">
           {[...Array(5)].map((_, i) => (
-            <span key={i} className={`text-xl ${i < stars ? 'text-app-pink' : 'text-gray-600'}`}>
+            <span key={i} className={`text-xl ${i < stars ? starColorClass : 'text-gray-600'}`}>
               ★
             </span>
           ))}

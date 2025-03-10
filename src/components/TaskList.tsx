@@ -9,22 +9,25 @@ interface TaskListProps {
   tasks: Task[];
   onComplete: (id: string) => void;
   onEdit: (id: string) => void;
+  userTheme?: 'pink' | 'blue';
 }
 
-const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit }) => {
+const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit, userTheme = 'pink' }) => {
   const morningTasks = tasks.filter(task => task.category === 'morning');
   const eveningTasks = tasks.filter(task => task.category === 'evening');
   
   const completedMorningTasks = morningTasks.filter(task => task.completed).length;
   const completedEveningTasks = eveningTasks.filter(task => task.completed).length;
 
+  const textColorClass = userTheme === 'pink' ? 'text-app-pink' : 'text-app-blue';
+
   return (
     <>
       {(filter === 'all' || filter === 'morning') && morningTasks.length > 0 && (
         <div className="mb-4">
           <div className="section-header">
-            <AlarmClock size={16} className="mr-2" />
-            <h3 className="text-sm font-medium">Morgonrutiner</h3>
+            <AlarmClock size={16} className={`mr-2 ${textColorClass}`} />
+            <h3 className={`text-sm font-medium ${textColorClass}`}>Morgonrutiner</h3>
             <span className="ml-2 text-xs text-gray-400">
               {completedMorningTasks}/{morningTasks.length}
             </span>
@@ -41,6 +44,7 @@ const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit }
                   completed={task.completed}
                   onComplete={onComplete}
                   onEdit={onEdit}
+                  userTheme={userTheme}
                 />
               </div>
             ))}
@@ -51,8 +55,8 @@ const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit }
       {(filter === 'all' || filter === 'evening') && eveningTasks.length > 0 && (
         <div className="mb-4">
           <div className="section-header">
-            <Moon size={16} className="mr-2" />
-            <h3 className="text-sm font-medium">Kvällsrutiner</h3>
+            <Moon size={16} className={`mr-2 ${textColorClass}`} />
+            <h3 className={`text-sm font-medium ${textColorClass}`}>Kvällsrutiner</h3>
             <span className="ml-2 text-xs text-gray-400">
               {completedEveningTasks}/{eveningTasks.length}
             </span>
@@ -69,6 +73,7 @@ const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit }
                   completed={task.completed}
                   onComplete={onComplete}
                   onEdit={onEdit}
+                  userTheme={userTheme}
                 />
               </div>
             ))}

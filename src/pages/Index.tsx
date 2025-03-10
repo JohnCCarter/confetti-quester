@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Calendar, Trophy, User as UserIcon } from 'lucide-react';
+import { Calendar, Trophy } from 'lucide-react';
 import { toast } from 'sonner';
 
 import UserCard from '@/components/UserCard';
@@ -21,7 +21,133 @@ const defaultUser: User = {
   stars: 1
 };
 
-const defaultTasks: Task[] = [
+const isabelTasks: Task[] = [
+  // Morning tasks
+  {
+    id: '1',
+    title: 'Bädda sängen',
+    icon: 'bed',
+    points: 1,
+    completed: false,
+    category: 'morning'
+  },
+  {
+    id: '2',
+    title: 'Klä på sig',
+    icon: 'shirt',
+    points: 1,
+    completed: false,
+    category: 'morning'
+  },
+  {
+    id: '3',
+    title: 'Borsta håret',
+    icon: 'coffee',
+    points: 1,
+    completed: false,
+    category: 'morning'
+  },
+  {
+    id: '4',
+    title: 'Äta frukost',
+    icon: 'coffee',
+    points: 1,
+    completed: false,
+    category: 'morning'
+  },
+  {
+    id: '5',
+    title: 'Borsta tänderna',
+    icon: 'coffee',
+    points: 1,
+    completed: false,
+    category: 'morning'
+  },
+  {
+    id: '6',
+    title: 'Klä på sig ytterkläder',
+    icon: 'shirt',
+    points: 1,
+    completed: false,
+    category: 'morning'
+  },
+  {
+    id: '7',
+    title: 'Pussa mamma och pappa och säg att du älskar dem',
+    icon: 'heart',
+    points: 2,
+    completed: false,
+    category: 'morning'
+  },
+  // Evening tasks
+  {
+    id: '8',
+    title: 'Plocka sina saker',
+    icon: 'home',
+    points: 1,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '9',
+    title: 'Duscha',
+    icon: 'droplet',
+    points: 1,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '10',
+    title: 'Borsta tänderna',
+    icon: 'coffee',
+    points: 1,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '11',
+    title: 'Förbereda kläder',
+    icon: 'shirt',
+    points: 1,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '12',
+    title: 'Göra hemläxa',
+    icon: 'pencil',
+    points: 2,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '13',
+    title: 'Läsa och skriva',
+    icon: 'book',
+    points: 2,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '14',
+    title: 'Sova kl. 19:00',
+    icon: 'moon',
+    points: 2,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '15',
+    title: 'Pussa mamma och pappa och säg att du älskar dem',
+    icon: 'heart',
+    points: 2,
+    completed: false,
+    category: 'evening'
+  }
+];
+
+const zozoTasks: Task[] = [
+  // Morning tasks
   {
     id: '1',
     title: 'Bädda sängen',
@@ -52,13 +178,86 @@ const defaultTasks: Task[] = [
     icon: 'coffee',
     points: 1,
     completed: false,
-    category: 'evening'
+    category: 'morning'
   },
   {
     id: '5',
-    title: 'Pyjamas på',
+    title: 'Klä på sig ytterkläder',
     icon: 'shirt',
     points: 1,
+    completed: false,
+    category: 'morning'
+  },
+  {
+    id: '6',
+    title: 'Pussa mamma och pappa och säg att du älskar dem',
+    icon: 'heart',
+    points: 2,
+    completed: false,
+    category: 'morning'
+  },
+  // Evening tasks - same as Isabel's evening tasks
+  {
+    id: '7',
+    title: 'Plocka sina saker',
+    icon: 'home',
+    points: 1,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '8',
+    title: 'Duscha',
+    icon: 'droplet',
+    points: 1,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '9',
+    title: 'Borsta tänderna',
+    icon: 'coffee',
+    points: 1,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '10',
+    title: 'Förbereda kläder',
+    icon: 'shirt',
+    points: 1,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '11',
+    title: 'Göra hemläxa',
+    icon: 'pencil',
+    points: 2,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '12',
+    title: 'Läsa och skriva',
+    icon: 'book',
+    points: 2,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '13',
+    title: 'Sova kl. 19:00',
+    icon: 'moon',
+    points: 2,
+    completed: false,
+    category: 'evening'
+  },
+  {
+    id: '14',
+    title: 'Pussa mamma och pappa och säg att du älskar dem',
+    icon: 'heart',
+    points: 2,
     completed: false,
     category: 'evening'
   }
@@ -73,7 +272,7 @@ const alternateUser: User = {
 
 const Index = () => {
   const [user, setUser] = useState<User>(defaultUser);
-  const [tasks, setTasks] = useState<Task[]>(defaultTasks);
+  const [tasks, setTasks] = useState<Task[]>(isabelTasks);
   const [filter, setFilter] = useState<'all' | 'morning' | 'evening'>('all');
   const [showConfetti, setShowConfetti] = useState(false);
   const [confettiPosition, setConfettiPosition] = useState<{x: number, y: number} | null>(null);
@@ -153,16 +352,26 @@ const Index = () => {
 
   const handleSwitchUser = () => {
     if (user.id === defaultUser.id) {
+      // Switching to Zozo
+      localStorage.setItem('isabel', JSON.stringify(user));
+      localStorage.setItem('isabelTasks', JSON.stringify(tasks));
+      
       const savedZozo = localStorage.getItem('zozo');
+      const savedZozoTasks = localStorage.getItem('zozoTasks');
+      
       setUser(savedZozo ? JSON.parse(savedZozo) : alternateUser);
+      setTasks(savedZozoTasks ? JSON.parse(savedZozoTasks) : zozoTasks);
     } else {
+      // Switching to Isabel
       localStorage.setItem('zozo', JSON.stringify(user));
+      localStorage.setItem('zozoTasks', JSON.stringify(tasks));
+      
       const savedIsabel = localStorage.getItem('isabel');
+      const savedIsabelTasks = localStorage.getItem('isabelTasks');
+      
       setUser(savedIsabel ? JSON.parse(savedIsabel) : defaultUser);
+      setTasks(savedIsabelTasks ? JSON.parse(savedIsabelTasks) : isabelTasks);
     }
-    
-    const savedTasks = localStorage.getItem('tasks');
-    setTasks(savedTasks ? JSON.parse(savedTasks) : defaultTasks);
   };
 
   const taskEditHandler = (id: string) => {
@@ -174,12 +383,16 @@ const Index = () => {
     return task.category === filter;
   });
 
+  // Determine theme color based on user
+  const isIsabel = user.id === defaultUser.id;
+
   return (
     <div className="min-h-screen px-4 py-6 max-w-md mx-auto">
       <UserHeader 
         userName={user.name}
         onSwitchUser={handleSwitchUser}
         alternateUserName={user.id === defaultUser.id ? 'Zozo' : 'Isabel'}
+        userTheme={isIsabel ? 'pink' : 'blue'}
       />
       
       <UserCard 
@@ -188,11 +401,13 @@ const Index = () => {
         completedTasks={tasks.filter(t => t.completed).length}
         stars={user.stars}
         onEdit={() => setUserDialogOpen(true)}
+        userTheme={isIsabel ? 'pink' : 'blue'}
       />
       
       <SectionHeader 
         icon={<Calendar size={20} />} 
         title="Veckoöversikt"
+        userTheme={isIsabel ? 'pink' : 'blue'}
       >
         <div className="glass-card p-4">
           <p className="text-gray-400 text-center">Statistik kommer snart...</p>
@@ -203,6 +418,7 @@ const Index = () => {
         icon={<Trophy size={20} />} 
         title="Prestationer" 
         subtitle={`${user.stars}/5`}
+        userTheme={isIsabel ? 'pink' : 'blue'}
       >
         <div className="glass-card p-4">
           <p className="text-gray-400 text-center">Prestationer kommer snart...</p>
@@ -212,18 +428,20 @@ const Index = () => {
       <div className="mb-5">
         <h2 className="text-xl font-semibold mb-4">Mina uppgifter</h2>
         
-        <FilterBar filter={filter} setFilter={setFilter} />
+        <FilterBar filter={filter} setFilter={setFilter} userTheme={isIsabel ? 'pink' : 'blue'} />
         
         <TaskList 
           filter={filter}
           tasks={tasks}
           onComplete={handleCompleteTask}
           onEdit={taskEditHandler}
+          userTheme={isIsabel ? 'pink' : 'blue'}
         />
         
         <ActionButtons 
           onReset={handleResetTasks}
           onAddTask={handleAddTask}
+          userTheme={isIsabel ? 'pink' : 'blue'}
         />
       </div>
       
