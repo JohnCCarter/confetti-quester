@@ -1,0 +1,30 @@
+
+@layer base {
+  /* Default backgrounds - using even smoother gradients with more color stops */
+  body {
+    background: linear-gradient(135deg, 
+      #0f172a 0%, 
+      #121e34 10%, 
+      #152038 20%, 
+      #18223d 30%, 
+      #1b2542 40%, 
+      #1e2747 50%, 
+      #21294c 60%, 
+      #252c56 70%, 
+      #343471 85%, 
+      #4c1d95 100%) !important;
+  }
+  
+  /* Smooth light background with more subtle transitions */
+  html.light body {
+    background: linear-gradient(135deg, 
+      #f8fafc 0%, 
+      #f6f8fa 15%, 
+      #f4f6f9 30%, 
+      #f1f4f8 45%, 
+      #eef2f7 60%, 
+      #ebf0f6 75%, 
+      #e8eef5 90%, 
+      #e6ecf3 100%) !important;
+  }
+}
