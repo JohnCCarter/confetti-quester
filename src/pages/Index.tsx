@@ -1,13 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Calendar, Trophy, AlarmClock, Moon, Plus, RotateCcw, User as UserIcon } from 'lucide-react';
+
+import React, { useState, useEffect } from 'react';
+import { Calendar, Trophy, User as UserIcon } from 'lucide-react';
 import { toast } from 'sonner';
+
 import UserCard from '@/components/UserCard';
 import SectionHeader from '@/components/SectionHeader';
-import TaskItem from '@/components/TaskItem';
 import Confetti from '@/components/Confetti';
 import TaskDialog, { Task } from '@/components/TaskDialog';
 import UserDialog, { User } from '@/components/UserDialog';
-import ThemeToggle from '@/components/ThemeToggle';
+import FilterBar from '@/components/FilterBar';
+import TaskList from '@/components/TaskList';
+import ActionButtons from '@/components/ActionButtons';
+import UserHeader from '@/components/UserHeader';
+import { useTaskManagement } from '@/hooks/useTaskManagement';
 
 const defaultUser: User = {
   id: '1',
@@ -78,6 +83,7 @@ const Index = () => {
   const [currentTask, setCurrentTask] = useState<Task | undefined>(undefined);
   const [completedTaskId, setCompletedTaskId] = useState<string | null>(null);
 
+  // Load saved data on mount
   useEffect(() => {
     const savedTasks = localStorage.getItem('tasks');
     const savedUser = localStorage.getItem('user');
@@ -91,11 +97,13 @@ const Index = () => {
     }
   }, []);
 
+  // Save data when it changes
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
     localStorage.setItem('user', JSON.stringify(user));
   }, [tasks, user]);
 
+  // Check for completed category
   useEffect(() => {
     if (!completedTaskId) return;
     
@@ -117,56 +125,21 @@ const Index = () => {
     setCompletedTaskId(null);
   }, [tasks, completedTaskId]);
 
-  const handleCompleteTask = (id: string) => {
-    const taskToComplete = tasks.find(task => task.id === id);
-    if (!taskToComplete || taskToComplete.completed) return;
-    
-    const taskElement = document.getElementById(`task-${id}`);
-    if (taskElement) {
-      const rect = taskElement.getBoundingClientRect();
-      setConfettiPosition({
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2
-      });
-    }
-    
-    setShowConfetti(true);
-    
-    setTasks(prev => prev.map(task => 
-      task.id === id 
-        ? { ...task, completed: true } 
-        : task
-    ));
-    
-    setUser(prev => ({
-      ...prev,
-      points: prev.points + (taskToComplete?.points || 0)
-    }));
-    
-    setCompletedTaskId(id);
-    
-    toast.success(`Bra jobbat! +${taskToComplete?.points || 0} poäng`, {
-      duration: 2000
-    });
-  };
-
-  const handleEditTask = (id: string) => {
-    const taskToEdit = tasks.find(task => task.id === id);
-    if (taskToEdit) {
-      setCurrentTask(taskToEdit);
-      setTaskDialogOpen(true);
-    }
-  };
-
-  const handleSaveTask = (task: Task) => {
-    if (tasks.some(t => t.id === task.id)) {
-      setTasks(prev => prev.map(t => t.id === task.id ? task : t));
-      toast.success('Uppgift uppdaterad!');
-    } else {
-      setTasks(prev => [...prev, task]);
-      toast.success('Ny uppgift tillagd!');
-    }
-  };
+  // Task management functions
+  const { 
+    handleCompleteTask, 
+    handleEditTask, 
+    handleSaveTask, 
+    handleResetTasks 
+  } = useTaskManagement({
+    tasks,
+    setTasks,
+    setUser,
+    setShowConfetti,
+    setConfettiPosition,
+    setShowFullConfetti,
+    setCompletedTaskId
+  });
 
   const handleAddTask = () => {
     setCurrentTask(undefined);
@@ -192,10 +165,8 @@ const Index = () => {
     setTasks(savedTasks ? JSON.parse(savedTasks) : defaultTasks);
   };
 
-  const handleResetTasks = () => {
-    const updatedTasks = tasks.map(task => ({ ...task, completed: false }));
-    setTasks(updatedTasks);
-    toast.success('Uppgifter har återställts!');
+  const taskEditHandler = (id: string) => {
+    handleEditTask(id, setCurrentTask, setTaskDialogOpen);
   };
 
   const filteredTasks = tasks.filter(task => {
@@ -203,34 +174,13 @@ const Index = () => {
     return task.category === filter;
   });
 
-  const morningTasks = tasks.filter(task => task.category === 'morning');
-  const eveningTasks = tasks.filter(task => task.category === 'evening');
-  
-  const completedMorningTasks = morningTasks.filter(task => task.completed).length;
-  const completedEveningTasks = eveningTasks.filter(task => task.completed).length;
-
   return (
     <div className="min-h-screen px-4 py-6 max-w-md mx-auto">
-      <div className="glass-card mb-6 p-4 relative">
-        <div className="flex items-center">
-          <div className="w-10 h-10 rounded-full bg-app-pink flex items-center justify-center">
-            <UserIcon size={20} className="text-white" />
-          </div>
-          <div className="ml-3">
-            <h1 className="text-xl font-bold">{user.name}s Lista</h1>
-            <p className="text-sm text-gray-400">Slutför uppgifter och samla poäng!</p>
-          </div>
-          <div className="ml-auto flex items-center space-x-2">
-            <button 
-              className="bg-blue-600/20 text-white px-3 py-1 rounded-full text-sm"
-              onClick={handleSwitchUser}
-            >
-              Byt till {user.id === defaultUser.id ? 'Zozo' : 'Isabel'}
-            </button>
-            <ThemeToggle />
-          </div>
-        </div>
-      </div>
+      <UserHeader 
+        userName={user.name}
+        onSwitchUser={handleSwitchUser}
+        alternateUserName={user.id === defaultUser.id ? 'Zozo' : 'Isabel'}
+      />
       
       <UserCard 
         name={`Dina poäng`}
@@ -262,108 +212,19 @@ const Index = () => {
       <div className="mb-5">
         <h2 className="text-xl font-semibold mb-4">Mina uppgifter</h2>
         
-        <div className="glass-card flex mb-4 rounded-lg overflow-hidden">
-          <button 
-            className={`task-filter-button ${filter === 'all' ? 'active' : ''}`}
-            onClick={() => setFilter('all')}
-          >
-            Alla
-          </button>
-          <button 
-            className={`task-filter-button ${filter === 'morning' ? 'active' : ''}`}
-            onClick={() => setFilter('morning')}
-          >
-            <AlarmClock size={14} className="inline mr-1" />
-            Morgon
-          </button>
-          <button 
-            className={`task-filter-button ${filter === 'evening' ? 'active' : ''}`}
-            onClick={() => setFilter('evening')}
-          >
-            <Moon size={14} className="inline mr-1" />
-            Kväll
-          </button>
-        </div>
+        <FilterBar filter={filter} setFilter={setFilter} />
         
-        {(filter === 'all' || filter === 'morning') && morningTasks.length > 0 && (
-          <div className="mb-4">
-            <div className="section-header">
-              <AlarmClock size={16} className="mr-2" />
-              <h3 className="text-sm font-medium">Morgonrutiner</h3>
-              <span className="ml-2 text-xs text-gray-400">
-                {completedMorningTasks}/{morningTasks.length}
-              </span>
-            </div>
-            
-            <div>
-              {morningTasks.map(task => (
-                <div id={`task-${task.id}`} key={task.id}>
-                  <TaskItem
-                    id={task.id}
-                    title={task.title}
-                    icon={task.icon}
-                    points={task.points}
-                    completed={task.completed}
-                    onComplete={handleCompleteTask}
-                    onEdit={handleEditTask}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        <TaskList 
+          filter={filter}
+          tasks={tasks}
+          onComplete={handleCompleteTask}
+          onEdit={taskEditHandler}
+        />
         
-        {(filter === 'all' || filter === 'evening') && eveningTasks.length > 0 && (
-          <div className="mb-4">
-            <div className="section-header">
-              <Moon size={16} className="mr-2" />
-              <h3 className="text-sm font-medium">Kvällsrutiner</h3>
-              <span className="ml-2 text-xs text-gray-400">
-                {completedEveningTasks}/{eveningTasks.length}
-              </span>
-            </div>
-            
-            <div>
-              {eveningTasks.map(task => (
-                <div id={`task-${task.id}`} key={task.id}>
-                  <TaskItem
-                    id={task.id}
-                    title={task.title}
-                    icon={task.icon}
-                    points={task.points}
-                    completed={task.completed}
-                    onComplete={handleCompleteTask}
-                    onEdit={handleEditTask}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-        
-        {filteredTasks.length === 0 && (
-          <div className="glass-card p-4 text-center text-gray-400">
-            Inga uppgifter hittades
-          </div>
-        )}
-        
-        <div className="flex justify-between mt-4">
-          <button 
-            className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md flex items-center transition-colors"
-            onClick={handleResetTasks}
-          >
-            <RotateCcw size={16} className="mr-2" />
-            Återställ
-          </button>
-          
-          <button 
-            className="bg-app-pink hover:bg-pink-600 text-white px-4 py-2 rounded-md flex items-center transition-colors"
-            onClick={handleAddTask}
-          >
-            <Plus size={16} className="mr-2" />
-            Lägg till uppgift
-          </button>
-        </div>
+        <ActionButtons 
+          onReset={handleResetTasks}
+          onAddTask={handleAddTask}
+        />
       </div>
       
       {showConfetti && (
