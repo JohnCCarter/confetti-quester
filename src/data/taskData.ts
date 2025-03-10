@@ -22,7 +22,7 @@ export const isabelTasks: Task[] = [
   {
     id: '3',
     title: 'Borsta håret',
-    icon: 'coffee',
+    icon: 'scissors',
     points: 1,
     completed: false,
     category: 'morning'
@@ -30,7 +30,7 @@ export const isabelTasks: Task[] = [
   {
     id: '4',
     title: 'Äta frukost',
-    icon: 'coffee',
+    icon: 'utensils',
     points: 1,
     completed: false,
     category: 'morning'
@@ -38,7 +38,7 @@ export const isabelTasks: Task[] = [
   {
     id: '5',
     title: 'Borsta tänderna',
-    icon: 'coffee',
+    icon: 'smile',
     points: 1,
     completed: false,
     category: 'morning'
@@ -79,7 +79,7 @@ export const isabelTasks: Task[] = [
   {
     id: '10',
     title: 'Borsta tänderna',
-    icon: 'coffee',
+    icon: 'smile',
     points: 1,
     completed: false,
     category: 'evening'
@@ -147,7 +147,7 @@ export const zozoTasks: Task[] = [
   {
     id: '3',
     title: 'Borsta håret',
-    icon: 'coffee',
+    icon: 'scissors',
     points: 1,
     completed: false,
     category: 'morning'
@@ -155,7 +155,7 @@ export const zozoTasks: Task[] = [
   {
     id: '4',
     title: 'Borsta tänderna',
-    icon: 'coffee',
+    icon: 'smile',
     points: 1,
     completed: false,
     category: 'morning'
@@ -196,7 +196,7 @@ export const zozoTasks: Task[] = [
   {
     id: '9',
     title: 'Borsta tänderna',
-    icon: 'coffee',
+    icon: 'smile',
     points: 1,
     completed: false,
     category: 'evening'

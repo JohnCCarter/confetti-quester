@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { X, Shirt, Bed, Coffee } from 'lucide-react';
+import { X, Shirt, Bed, Coffee, Droplet, Home, Book, Heart, Pencil, Moon, Scissors, Utensils, Smile } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export interface Task {
@@ -65,7 +65,16 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
   const icons = [
     { id: 'coffee', component: <Coffee size={24} className="text-amber-400" /> },
     { id: 'shirt', component: <Shirt size={24} className="text-blue-400" /> },
-    { id: 'bed', component: <Bed size={24} className="text-indigo-400" /> }
+    { id: 'bed', component: <Bed size={24} className="text-indigo-400" /> },
+    { id: 'scissors', component: <Scissors size={24} className="text-purple-400" /> },
+    { id: 'smile', component: <Smile size={24} className="text-yellow-400" /> },
+    { id: 'utensils', component: <Utensils size={24} className="text-orange-400" /> },
+    { id: 'droplet', component: <Droplet size={24} className="text-blue-400" /> },
+    { id: 'home', component: <Home size={24} className="text-green-400" /> },
+    { id: 'book', component: <Book size={24} className="text-purple-400" /> },
+    { id: 'heart', component: <Heart size={24} className="text-red-400" /> },
+    { id: 'pencil', component: <Pencil size={24} className="text-yellow-400" /> },
+    { id: 'moon', component: <Moon size={24} className="text-indigo-400" /> }
   ];
 
   return (
@@ -97,7 +106,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
           
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-1">Ikon</label>
-            <div className="flex space-x-3">
+            <div className="flex flex-wrap gap-2">
               {icons.map((item) => (
                 <button
                   key={item.id}

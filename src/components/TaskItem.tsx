@@ -1,12 +1,12 @@
 
 import React, { useState } from 'react';
-import { Check, Edit2, Shirt, Bed, Coffee, Droplet, Home, Book, Heart, Pencil, Moon } from 'lucide-react';
+import { Check, Edit2, Shirt, Bed, Coffee, Droplet, Home, Book, Heart, Pencil, Moon, Scissors, Utensils, Smile } from 'lucide-react';
 import { toast } from 'sonner';
 
 export interface TaskProps {
   id: string;
   title: string;
-  icon: 'shirt' | 'bed' | 'coffee' | 'droplet' | 'home' | 'book' | 'heart' | 'pencil' | 'moon' | string;
+  icon: 'shirt' | 'bed' | 'coffee' | 'droplet' | 'home' | 'book' | 'heart' | 'pencil' | 'moon' | 'scissors' | 'utensils' | 'smile' | string;
   points: number;
   completed: boolean;
   onComplete: (id: string) => void;
@@ -56,6 +56,12 @@ const TaskItem: React.FC<TaskProps> = ({
         return <Pencil size={20} className="text-yellow-400" />;
       case 'moon':
         return <Moon size={20} className="text-indigo-400" />;
+      case 'scissors':
+        return <Scissors size={20} className="text-purple-400" />;
+      case 'utensils':
+        return <Utensils size={20} className="text-orange-400" />;
+      case 'smile':
+        return <Smile size={20} className="text-yellow-400" />;
       default:
         return <Coffee size={20} className="text-amber-400" />;
     }
