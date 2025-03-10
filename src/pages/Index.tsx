@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 
 import UserCard from '@/components/UserCard';
 import Confetti from '@/components/Confetti';
-import TaskDialog from '@/components/TaskDialog';
+import TaskDialog, { Task } from '@/components/TaskDialog';
 import UserDialog from '@/components/UserDialog';
 import UserHeader from '@/components/UserHeader';
 import StatisticsSection from '@/components/StatisticsSection';
