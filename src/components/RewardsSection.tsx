@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Gift, Plus } from 'lucide-react';
 import { Reward } from './RewardsDialog';
 import SectionHeader from './SectionHeader';
@@ -22,38 +22,51 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
   onEditReward,
   userTheme
 }) => {
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
   const buttonBgClass = userTheme === 'pink' ? 'bg-app-pink' : 'bg-app-blue';
 
   return (
     <div className="mb-8">
       <SectionHeader 
-        icon={<Gift size={20} />} 
+        icon={<Gift size={20} className="animate-pulse-scale" />} 
         title="Belöningar" 
         userTheme={userTheme}
       >
         <div className="space-y-2">
           {rewards.length > 0 ? (
-            rewards.map((reward) => (
-              <RewardItem 
-                key={reward.id} 
-                reward={reward} 
-                onRedeem={onRedeemReward}
-                onEdit={onEditReward}
-                userPoints={userPoints}
-                userTheme={userTheme}
-              />
+            rewards.map((reward, index) => (
+              <div 
+                key={reward.id}
+                className="transition-all duration-300"
+                style={{ 
+                  animationDelay: `${index * 100}ms`,
+                  animation: 'fade-in 0.5s ease-out forwards'
+                }}
+              >
+                <RewardItem 
+                  reward={reward} 
+                  onRedeem={onRedeemReward}
+                  onEdit={onEditReward}
+                  userPoints={userPoints}
+                  userTheme={userTheme}
+                />
+              </div>
             ))
           ) : (
-            <div className="glass-card p-4 text-center text-gray-400">
+            <div className="glass-card p-4 text-center text-gray-400 hover:shadow-lg transition-all duration-300">
               Inga belöningar än. Lägg till din första belöning!
             </div>
           )}
           
           <button
             onClick={onAddReward}
-            className={`w-full mt-4 ${buttonBgClass} text-white py-2 rounded-md flex items-center justify-center hover:opacity-90 transition-opacity`}
+            onMouseEnter={() => setIsButtonHovered(true)}
+            onMouseLeave={() => setIsButtonHovered(false)}
+            className={`w-full mt-4 ${buttonBgClass} text-white py-2 rounded-md flex items-center justify-center transition-all duration-300 ${
+              isButtonHovered ? 'transform scale-[1.02] shadow-md' : 'hover:opacity-90'
+            }`}
           >
-            <Plus size={18} className="mr-1" />
+            <Plus size={18} className={`mr-1 transition-transform duration-300 ${isButtonHovered ? 'rotate-90' : ''}`} />
             Lägg till belöning
           </button>
         </div>

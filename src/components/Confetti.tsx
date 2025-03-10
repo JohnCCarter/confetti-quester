@@ -33,6 +33,8 @@ const Confetti: React.FC<ConfettiProps> = ({
           y: Math.random() * 0.2 + 0.4 
         },
         particleCount: Math.floor(200 * particleRatio),
+        colors: ['#ff577f', '#ff884b', '#ffd384', '#fff9b0', '#a9def9', '#c3bef0', '#dfccfb'],
+        shapes: ['square', 'circle', 'star'],
       });
     }
   }, [position]);
@@ -42,20 +44,23 @@ const Confetti: React.FC<ConfettiProps> = ({
       if (type === 'small') {
         makeShot(0.25, {
           spread: 26,
-          startVelocity: 20,
-          decay: 0.94,
-          scalar: 0.8
+          startVelocity: 25,
+          decay: 0.92,
+          scalar: 0.9,
+          ticks: 100
         });
       } else {
         // Full screen celebration
         makeShot(0.25, {
           spread: 26,
-          startVelocity: 55
+          startVelocity: 55,
+          ticks: 150
         });
         
         setTimeout(() => {
           makeShot(0.2, {
-            spread: 60
+            spread: 60,
+            ticks: 150
           });
         }, 250);
         
@@ -63,23 +68,35 @@ const Confetti: React.FC<ConfettiProps> = ({
           makeShot(0.35, {
             spread: 100,
             decay: 0.91,
-            scalar: 0.8
+            scalar: 0.8,
+            ticks: 150
           });
         }, 400);
         
         setTimeout(() => {
           makeShot(0.1, {
             spread: 120,
-            startVelocity: 25,
+            startVelocity: 30,
             decay: 0.92,
-            scalar: 1.2
+            scalar: 1.2,
+            ticks: 150
           });
         }, 550);
+        
+        setTimeout(() => {
+          makeShot(0.25, {
+            spread: 50,
+            startVelocity: 45,
+            decay: 0.94,
+            scalar: 1.0,
+            ticks: 150
+          });
+        }, 700);
       }
       
       setTimeout(() => {
         if (onComplete) onComplete();
-      }, 1000);
+      }, 1500);
     }
   }, [active, makeShot, onComplete, type]);
 

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { AlarmClock, Moon } from 'lucide-react';
 import TaskItem from '@/components/TaskItem';
 import { Task } from '@/components/TaskDialog';
@@ -13,6 +13,8 @@ interface TaskListProps {
 }
 
 const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit, userTheme = 'pink' }) => {
+  const [hoveredSection, setHoveredSection] = useState<'morning' | 'evening' | null>(null);
+  
   const morningTasks = tasks.filter(task => task.category === 'morning');
   const eveningTasks = tasks.filter(task => task.category === 'evening');
   
@@ -24,9 +26,13 @@ const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit, 
   return (
     <>
       {(filter === 'all' || filter === 'morning') && morningTasks.length > 0 && (
-        <div className="mb-4">
+        <div 
+          className={`mb-4 transition-all duration-300 ${hoveredSection === 'morning' ? 'transform scale-[1.01]' : ''}`}
+          onMouseEnter={() => setHoveredSection('morning')}
+          onMouseLeave={() => setHoveredSection(null)}
+        >
           <div className="section-header">
-            <AlarmClock size={16} className={`mr-2 ${textColorClass}`} />
+            <AlarmClock size={16} className={`mr-2 ${textColorClass} transition-transform duration-300 ${hoveredSection === 'morning' ? 'scale-110' : ''}`} />
             <h3 className={`text-sm font-medium ${textColorClass}`}>Morgonrutiner</h3>
             <span className="ml-2 text-xs text-gray-400">
               {completedMorningTasks}/{morningTasks.length}
@@ -34,8 +40,16 @@ const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit, 
           </div>
           
           <div>
-            {morningTasks.map(task => (
-              <div id={`task-${task.id}`} key={task.id}>
+            {morningTasks.map((task, index) => (
+              <div 
+                id={`task-${task.id}`} 
+                key={task.id}
+                className="transition-all duration-300"
+                style={{ 
+                  animationDelay: `${index * 75}ms`,
+                  animation: 'fade-in 0.4s ease-out forwards'
+                }}
+              >
                 <TaskItem
                   id={task.id}
                   title={task.title}
@@ -53,9 +67,13 @@ const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit, 
       )}
       
       {(filter === 'all' || filter === 'evening') && eveningTasks.length > 0 && (
-        <div className="mb-4">
+        <div 
+          className={`mb-4 transition-all duration-300 ${hoveredSection === 'evening' ? 'transform scale-[1.01]' : ''}`}
+          onMouseEnter={() => setHoveredSection('evening')}
+          onMouseLeave={() => setHoveredSection(null)}
+        >
           <div className="section-header">
-            <Moon size={16} className={`mr-2 ${textColorClass}`} />
+            <Moon size={16} className={`mr-2 ${textColorClass} transition-transform duration-300 ${hoveredSection === 'evening' ? 'scale-110' : ''}`} />
             <h3 className={`text-sm font-medium ${textColorClass}`}>Kvällsrutiner</h3>
             <span className="ml-2 text-xs text-gray-400">
               {completedEveningTasks}/{eveningTasks.length}
@@ -63,8 +81,16 @@ const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit, 
           </div>
           
           <div>
-            {eveningTasks.map(task => (
-              <div id={`task-${task.id}`} key={task.id}>
+            {eveningTasks.map((task, index) => (
+              <div 
+                id={`task-${task.id}`} 
+                key={task.id}
+                className="transition-all duration-300"
+                style={{ 
+                  animationDelay: `${index * 75}ms`,
+                  animation: 'fade-in 0.4s ease-out forwards'
+                }}
+              >
                 <TaskItem
                   id={task.id}
                   title={task.title}
@@ -83,19 +109,19 @@ const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit, 
       
       {/* Show message when no tasks are found */}
       {filter === 'all' && tasks.length === 0 && (
-        <div className="glass-card p-4 text-center text-gray-400">
+        <div className="glass-card p-4 text-center text-gray-400 hover:shadow-lg transition-all duration-300 animate-fade-in">
           Inga uppgifter hittades
         </div>
       )}
       
       {filter === 'morning' && morningTasks.length === 0 && (
-        <div className="glass-card p-4 text-center text-gray-400">
+        <div className="glass-card p-4 text-center text-gray-400 hover:shadow-lg transition-all duration-300 animate-fade-in">
           Inga morgonuppgifter hittades
         </div>
       )}
       
       {filter === 'evening' && eveningTasks.length === 0 && (
-        <div className="glass-card p-4 text-center text-gray-400">
+        <div className="glass-card p-4 text-center text-gray-400 hover:shadow-lg transition-all duration-300 animate-fade-in">
           Inga kvällsuppgifter hittades
         </div>
       )}
