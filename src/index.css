@@ -90,7 +90,7 @@
   }
 
   .light .task-item {
-    @apply bg-white/90 hover:bg-gray-100 shadow-sm;
+    @apply bg-white/70 hover:bg-gray-100/80 shadow-sm;
   }
 
   .task-item.completed {
@@ -98,7 +98,7 @@
   }
 
   .light .task-item.completed {
-    @apply bg-gray-200;
+    @apply bg-gray-200/70;
   }
 
   .confetti-container {
@@ -120,7 +120,7 @@
   }
 
   .light .glass-card {
-    @apply bg-white/60 border-gray-200/60 shadow-sm;
+    @apply bg-white/40 border-gray-200/40 shadow-sm;
   }
 
   .section-header {
@@ -136,6 +136,6 @@
   }
 
   .light .task-filter-button.active {
-    @apply bg-blue-100 text-blue-800;
+    @apply bg-blue-100/70 text-blue-800;
   }
 }
