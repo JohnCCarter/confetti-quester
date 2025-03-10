@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -75,17 +76,17 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased min-h-screen transition-colors duration-300;
+    @apply bg-background text-foreground antialiased min-h-screen transition-colors duration-700;
   }
   
   /* Default backgrounds */
   body {
-    background: linear-gradient(to bottom, #0f172a, #1e1b4b, #4c1d95);
+    background: linear-gradient(to bottom, #0f172a, #1e1b4b, #4c1d95) !important;
   }
   
   /* In light mode, use a light background */
-  .light body {
-    background: linear-gradient(to bottom right, #f8fafc, #eef2ff, #f0f9ff);
+  html.light body {
+    background: linear-gradient(to bottom right, #f8fafc, #eef2ff, #f0f9ff) !important;
   }
 
   /* User-specific backgrounds - these should override the default backgrounds */
@@ -93,11 +94,11 @@
     background: none !important;
   }
   
-  body.user-isabel.dark {
+  html.dark body.user-isabel {
     background: linear-gradient(to bottom, #831843, #701a75, #831843) !important;
   }
 
-  body.user-isabel.light {
+  html.light body.user-isabel {
     background: linear-gradient(to bottom right, #fdf2f8, #fce7f3) !important;
   }
 
@@ -105,11 +106,11 @@
     background: none !important;
   }
   
-  body.user-zozo.dark {
+  html.dark body.user-zozo {
     background: linear-gradient(to bottom, #172554, #312e81, #172554) !important;
   }
 
-  body.user-zozo.light {
+  html.light body.user-zozo {
     background: linear-gradient(to bottom right, #eff6ff, #dbeafe) !important;
   }
 
