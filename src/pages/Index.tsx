@@ -9,6 +9,8 @@ import UserDialog from '@/components/UserDialog';
 import UserHeader from '@/components/UserHeader';
 import StatisticsSection from '@/components/StatisticsSection';
 import TasksSection from '@/components/TasksSection';
+import RewardsSection from '@/components/RewardsSection';
+import RewardsDialog, { Reward } from '@/components/RewardsDialog';
 import { useTaskManagement } from '@/hooks/useTaskManagement';
 import { useUserManagement } from '@/hooks/useUserManagement';
 
@@ -18,8 +20,11 @@ const Index = () => {
     setUser,
     tasks,
     setTasks,
+    rewards,
     handleSwitchUser,
     handleSaveUser,
+    handleSaveReward,
+    handleRedeemReward,
     isIsabel
   } = useUserManagement();
 
@@ -29,7 +34,9 @@ const Index = () => {
   const [showFullConfetti, setShowFullConfetti] = useState(false);
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
   const [userDialogOpen, setUserDialogOpen] = useState(false);
+  const [rewardDialogOpen, setRewardDialogOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState<Task | undefined>(undefined);
+  const [currentReward, setCurrentReward] = useState<Reward | undefined>(undefined);
   const [completedTaskId, setCompletedTaskId] = useState<string | null>(null);
 
   // Apply user-specific class to body for theme
@@ -88,8 +95,21 @@ const Index = () => {
     setTaskDialogOpen(true);
   };
 
+  const handleAddReward = () => {
+    setCurrentReward(undefined);
+    setRewardDialogOpen(true);
+  };
+
   const taskEditHandler = (id: string) => {
     handleEditTask(id, setCurrentTask, setTaskDialogOpen);
+  };
+
+  const rewardEditHandler = (id: string) => {
+    const rewardToEdit = rewards.find(reward => reward.id === id);
+    if (rewardToEdit) {
+      setCurrentReward(rewardToEdit);
+      setRewardDialogOpen(true);
+    }
   };
 
   const userTheme = isIsabel ? 'pink' : 'blue';
@@ -109,6 +129,15 @@ const Index = () => {
         completedTasks={tasks.filter(t => t.completed).length}
         stars={user.stars}
         onEdit={() => setUserDialogOpen(true)}
+        userTheme={userTheme}
+      />
+      
+      <RewardsSection 
+        rewards={rewards}
+        userPoints={user.points}
+        onAddReward={handleAddReward}
+        onRedeemReward={handleRedeemReward}
+        onEditReward={rewardEditHandler}
         userTheme={userTheme}
       />
       
@@ -166,6 +195,14 @@ const Index = () => {
         onClose={() => setUserDialogOpen(false)}
         onSave={handleSaveUser}
         user={user}
+      />
+      
+      <RewardsDialog
+        open={rewardDialogOpen}
+        onClose={() => setRewardDialogOpen(false)}
+        onSave={handleSaveReward}
+        reward={currentReward}
+        isEditing={!!currentReward}
       />
     </div>
   );
