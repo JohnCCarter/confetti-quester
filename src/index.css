@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,7 +98,7 @@
   }
 
   html.light body.user-isabel {
-    background: linear-gradient(to bottom right, #fdf2f8, #fce7f3) !important;
+    background: linear-gradient(to bottom, #f9a8d4, #fbcfe8, #fdf2f8) !important;
   }
 
   body.user-zozo {
@@ -111,7 +110,7 @@
   }
 
   html.light body.user-zozo {
-    background: linear-gradient(to bottom right, #eff6ff, #dbeafe) !important;
+    background: linear-gradient(to bottom, #3b82f6, #93c5fd, #dbeafe) !important;
   }
 
   .task-item {
