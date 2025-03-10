@@ -32,6 +32,16 @@ const Index = () => {
   const [currentTask, setCurrentTask] = useState<Task | undefined>(undefined);
   const [completedTaskId, setCompletedTaskId] = useState<string | null>(null);
 
+  // Apply user-specific class to body for theme
+  useEffect(() => {
+    document.body.classList.remove('user-isabel', 'user-zozo');
+    document.body.classList.add(isIsabel ? 'user-isabel' : 'user-zozo');
+    
+    return () => {
+      document.body.classList.remove('user-isabel', 'user-zozo');
+    };
+  }, [isIsabel]);
+
   // Check for completed category
   useEffect(() => {
     if (!completedTaskId) return;

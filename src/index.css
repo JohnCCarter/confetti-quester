@@ -85,6 +85,23 @@
     @apply bg-gradient-to-br from-gray-50 to-gray-100;
   }
 
+  /* User-specific backgrounds */
+  body.user-isabel.dark {
+    @apply bg-gradient-to-b from-pink-950 via-purple-950 to-pink-900;
+  }
+
+  body.user-isabel.light {
+    @apply bg-gradient-to-br from-pink-50 to-pink-100;
+  }
+
+  body.user-zozo.dark {
+    @apply bg-gradient-to-b from-blue-950 via-indigo-950 to-blue-900;
+  }
+
+  body.user-zozo.light {
+    @apply bg-gradient-to-br from-blue-50 to-blue-100;
+  }
+
   .task-item {
     @apply relative flex items-center p-4 mb-3 rounded-xl transition-all duration-300 hover:bg-task-hover dark:hover:bg-task-hover;
   }
