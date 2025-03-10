@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -78,27 +79,27 @@
     @apply bg-background text-foreground antialiased min-h-screen transition-colors duration-700;
   }
   
-  /* Default backgrounds */
+  /* Default backgrounds - using smooth gradients without hard lines */
   body {
-    background: linear-gradient(to bottom, #0f172a, #1e1b4b, #4c1d95) !important;
+    background: linear-gradient(135deg, #0f172a, #1e1b4b, #4c1d95) !important;
   }
   
-  /* In light mode, use a light background */
+  /* In light mode, use a smooth light background */
   html.light body {
-    background: linear-gradient(to bottom right, #f8fafc, #eef2ff, #f0f9ff) !important;
+    background: linear-gradient(135deg, #f8fafc, #eef2ff, #f0f9ff) !important;
   }
 
-  /* User-specific backgrounds - these should override the default backgrounds */
+  /* User-specific backgrounds - smooth gradient transitions */
   body.user-isabel {
     background: none !important;
   }
   
   html.dark body.user-isabel {
-    background: linear-gradient(to bottom, #831843, #701a75, #831843) !important;
+    background: radial-gradient(ellipse at center, #831843 0%, #701a75 50%, #831843 100%) !important;
   }
 
   html.light body.user-isabel {
-    background: linear-gradient(to bottom, #f9a8d4, #fbcfe8, #fdf2f8) !important;
+    background: linear-gradient(135deg, #f9a8d4 0%, #fbcfe8 50%, #fdf2f8 100%) !important;
   }
 
   body.user-zozo {
@@ -106,11 +107,11 @@
   }
   
   html.dark body.user-zozo {
-    background: linear-gradient(to bottom, #172554, #312e81, #172554) !important;
+    background: radial-gradient(ellipse at center, #172554 0%, #312e81 50%, #172554 100%) !important;
   }
 
   html.light body.user-zozo {
-    background: linear-gradient(to bottom, #3b82f6, #93c5fd, #dbeafe) !important;
+    background: linear-gradient(135deg, #3b82f6 0%, #93c5fd 50%, #dbeafe 100%) !important;
   }
 
   .task-item {
