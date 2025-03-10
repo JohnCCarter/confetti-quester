@@ -1,8 +1,10 @@
 
 import { useState, useEffect } from 'react';
+import { Sun } from 'lucide-react';
 import { User } from '@/components/UserDialog';
 import { Task } from '@/components/TaskDialog';
 import { Reward } from '@/components/RewardsDialog';
+import { Achievement } from '@/components/AchievementItem';
 import { isabelTasks, zozoTasks } from '@/data/tasks';
 import { toast } from 'sonner';
 
@@ -38,16 +40,52 @@ const defaultRewards: Reward[] = [
   }
 ];
 
+// Default achievements
+const defaultAchievements: Achievement[] = [
+  {
+    id: '1',
+    title: 'Morgonmästare',
+    description: 'Slutför alla morgonrutiner på en dag',
+    completed: false
+  },
+  {
+    id: '2',
+    title: 'Kvällsprinsessan',
+    description: 'Slutför alla kvällsrutiner på en dag',
+    completed: false
+  },
+  {
+    id: '3',
+    title: 'På gång!',
+    description: 'Använd appen 5 dagar i rad',
+    completed: false
+  },
+  {
+    id: '4',
+    title: 'Superstjärna',
+    description: 'Samla 25 poäng',
+    completed: false
+  },
+  {
+    id: '5',
+    title: 'Belönad',
+    description: 'Lös in din första belöning',
+    completed: false
+  }
+];
+
 export const useUserManagement = () => {
   const [user, setUser] = useState<User>(defaultUser);
   const [tasks, setTasks] = useState<Task[]>(isabelTasks);
   const [rewards, setRewards] = useState<Reward[]>(defaultRewards);
+  const [achievements, setAchievements] = useState<Achievement[]>(defaultAchievements);
 
   // Load saved data on mount
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     const savedTasks = localStorage.getItem('tasks');
     const savedRewards = localStorage.getItem('rewards');
+    const savedAchievements = localStorage.getItem('achievements');
     
     if (savedUser) {
       setUser(JSON.parse(savedUser));
@@ -60,6 +98,10 @@ export const useUserManagement = () => {
     if (savedRewards) {
       setRewards(JSON.parse(savedRewards));
     }
+    
+    if (savedAchievements) {
+      setAchievements(JSON.parse(savedAchievements));
+    }
   }, []);
 
   // Save data when it changes
@@ -67,7 +109,57 @@ export const useUserManagement = () => {
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('tasks', JSON.stringify(tasks));
     localStorage.setItem('rewards', JSON.stringify(rewards));
-  }, [tasks, user, rewards]);
+    localStorage.setItem('achievements', JSON.stringify(achievements));
+  }, [tasks, user, rewards, achievements]);
+
+  // Check achievements
+  useEffect(() => {
+    // Create a copy of achievements to track changes
+    let updatedAchievements = [...achievements];
+    let achievementsUnlocked = false;
+
+    // Check morning master achievement
+    const morningTasks = tasks.filter(task => task.category === 'morning');
+    const allMorningCompleted = morningTasks.length > 0 && morningTasks.every(task => task.completed);
+    
+    // Achievement 1: Complete all morning tasks
+    if (allMorningCompleted && !achievements[0].completed) {
+      updatedAchievements[0].completed = true;
+      achievementsUnlocked = true;
+    }
+
+    // Check evening princess achievement
+    const eveningTasks = tasks.filter(task => task.category === 'evening');
+    const allEveningCompleted = eveningTasks.length > 0 && eveningTasks.every(task => task.completed);
+    
+    // Achievement 2: Complete all evening tasks
+    if (allEveningCompleted && !achievements[1].completed) {
+      updatedAchievements[1].completed = true;
+      achievementsUnlocked = true;
+    }
+
+    // Achievement 4: Collect 25 points
+    if (user.points >= 25 && !achievements[3].completed) {
+      updatedAchievements[3].completed = true;
+      achievementsUnlocked = true;
+    }
+
+    // Update achievements if any were unlocked
+    if (achievementsUnlocked) {
+      setAchievements(updatedAchievements);
+      
+      // Update user stars count
+      const completedCount = updatedAchievements.filter(a => a.completed).length;
+      setUser(prev => ({
+        ...prev,
+        stars: completedCount
+      }));
+      
+      toast.success('Ny prestation upplåst!', {
+        duration: 3000
+      });
+    }
+  }, [tasks, user.points, achievements]);
 
   const handleSwitchUser = () => {
     if (user.id === defaultUser.id) {
@@ -75,27 +167,33 @@ export const useUserManagement = () => {
       localStorage.setItem('isabel', JSON.stringify(user));
       localStorage.setItem('isabelTasks', JSON.stringify(tasks));
       localStorage.setItem('isabelRewards', JSON.stringify(rewards));
+      localStorage.setItem('isabelAchievements', JSON.stringify(achievements));
       
       const savedZozo = localStorage.getItem('zozo');
       const savedZozoTasks = localStorage.getItem('zozoTasks');
       const savedZozoRewards = localStorage.getItem('zozoRewards');
+      const savedZozoAchievements = localStorage.getItem('zozoAchievements');
       
       setUser(savedZozo ? JSON.parse(savedZozo) : alternateUser);
       setTasks(savedZozoTasks ? JSON.parse(savedZozoTasks) : zozoTasks);
       setRewards(savedZozoRewards ? JSON.parse(savedZozoRewards) : defaultRewards);
+      setAchievements(savedZozoAchievements ? JSON.parse(savedZozoAchievements) : defaultAchievements);
     } else {
       // Switching to Isabel
       localStorage.setItem('zozo', JSON.stringify(user));
       localStorage.setItem('zozoTasks', JSON.stringify(tasks));
       localStorage.setItem('zozoRewards', JSON.stringify(rewards));
+      localStorage.setItem('zozoAchievements', JSON.stringify(achievements));
       
       const savedIsabel = localStorage.getItem('isabel');
       const savedIsabelTasks = localStorage.getItem('isabelTasks');
       const savedIsabelRewards = localStorage.getItem('isabelRewards');
+      const savedIsabelAchievements = localStorage.getItem('isabelAchievements');
       
       setUser(savedIsabel ? JSON.parse(savedIsabel) : defaultUser);
       setTasks(savedIsabelTasks ? JSON.parse(savedIsabelTasks) : isabelTasks);
       setRewards(savedIsabelRewards ? JSON.parse(savedIsabelRewards) : defaultRewards);
+      setAchievements(savedIsabelAchievements ? JSON.parse(savedIsabelAchievements) : defaultAchievements);
     }
   };
 
@@ -127,6 +225,24 @@ export const useUserManagement = () => {
       points: prev.points - rewardToRedeem.points
     }));
     
+    // Mark "Belönad" achievement as completed if it's the first time
+    if (!achievements[4].completed) {
+      const updatedAchievements = [...achievements];
+      updatedAchievements[4].completed = true;
+      setAchievements(updatedAchievements);
+      
+      // Update user stars count
+      const completedCount = updatedAchievements.filter(a => a.completed).length;
+      setUser(prev => ({
+        ...prev,
+        stars: completedCount
+      }));
+      
+      toast.success('Ny prestation upplåst!', {
+        duration: 3000
+      });
+    }
+    
     toast.success(`Du har löst in "${rewardToRedeem.title}"!`);
   };
 
@@ -137,10 +253,12 @@ export const useUserManagement = () => {
     setTasks,
     rewards,
     setRewards,
+    achievements,
     handleSwitchUser,
     handleSaveUser,
     handleSaveReward,
     handleRedeemReward,
-    isIsabel: user.id === defaultUser.id
+    isIsabel: user.id === defaultUser.id,
+    totalAchievements: defaultAchievements.length
   };
 };

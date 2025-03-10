@@ -2,13 +2,21 @@
 import React from 'react';
 import { Calendar, Trophy } from 'lucide-react';
 import SectionHeader from './SectionHeader';
+import AchievementItem, { Achievement } from './AchievementItem';
 
 interface StatisticsSectionProps {
   userStars: number;
   userTheme: 'pink' | 'blue';
+  achievements: Achievement[];
+  totalAchievements: number;
 }
 
-const StatisticsSection: React.FC<StatisticsSectionProps> = ({ userStars, userTheme }) => {
+const StatisticsSection: React.FC<StatisticsSectionProps> = ({ 
+  userStars, 
+  userTheme,
+  achievements,
+  totalAchievements
+}) => {
   return (
     <>
       <SectionHeader 
@@ -24,11 +32,23 @@ const StatisticsSection: React.FC<StatisticsSectionProps> = ({ userStars, userTh
       <SectionHeader 
         icon={<Trophy size={20} />} 
         title="Prestationer" 
-        subtitle={`${userStars}/5`}
+        subtitle={`${userStars}/${totalAchievements}`}
         userTheme={userTheme}
       >
-        <div className="glass-card p-4">
-          <p className="text-gray-400 text-center">Prestationer kommer snart...</p>
+        <div className="space-y-2">
+          {achievements.length > 0 ? (
+            achievements.map((achievement) => (
+              <AchievementItem 
+                key={achievement.id} 
+                achievement={achievement}
+                userTheme={userTheme}
+              />
+            ))
+          ) : (
+            <div className="glass-card p-4 text-center text-gray-400">
+              Inga prestationer än
+            </div>
+          )}
         </div>
       </SectionHeader>
     </>

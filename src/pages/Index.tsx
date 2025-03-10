@@ -21,6 +21,8 @@ const Index = () => {
     tasks,
     setTasks,
     rewards,
+    achievements,
+    totalAchievements,
     handleSwitchUser,
     handleSaveUser,
     handleSaveReward,
@@ -143,6 +145,8 @@ const Index = () => {
       
       <StatisticsSection 
         userStars={user.stars}
+        achievements={achievements}
+        totalAchievements={totalAchievements}
         userTheme={userTheme}
       />
       
