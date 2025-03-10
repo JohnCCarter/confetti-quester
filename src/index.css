@@ -81,12 +81,12 @@
   
   /* Default backgrounds - using smooth gradients without hard lines */
   body {
-    background: linear-gradient(135deg, #0f172a, #1e1b4b, #4c1d95) !important;
+    background: radial-gradient(circle at center, #0f172a, #1e1b4b, #4c1d95) !important;
   }
   
   /* In light mode, use a smooth light background */
   html.light body {
-    background: linear-gradient(135deg, #f8fafc, #eef2ff, #f0f9ff) !important;
+    background: radial-gradient(circle at center, #f8fafc, #eef2ff, #f0f9ff) !important;
   }
 
   /* User-specific backgrounds - smooth gradient transitions */
@@ -99,7 +99,7 @@
   }
 
   html.light body.user-isabel {
-    background: linear-gradient(135deg, #f9a8d4 0%, #fbcfe8 50%, #fdf2f8 100%) !important;
+    background: radial-gradient(ellipse at top, #f9a8d4 0%, #fbcfe8 60%, #fdf2f8 100%) !important;
   }
 
   body.user-zozo {
@@ -111,7 +111,7 @@
   }
 
   html.light body.user-zozo {
-    background: linear-gradient(135deg, #3b82f6 0%, #93c5fd 50%, #dbeafe 100%) !important;
+    background: radial-gradient(ellipse at top, #3b82f6 0%, #93c5fd 60%, #dbeafe 100%) !important;
   }
 
   .task-item {
