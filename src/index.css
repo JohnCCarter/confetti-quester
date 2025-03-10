@@ -70,7 +70,7 @@
   }
 
   .section-header {
-    @apply flex items-center text-app-pink font-semibold mb-4;
+    @apply flex items-center font-semibold mb-4;
   }
 
   .task-filter-button {

@@ -8,6 +8,7 @@ interface SectionHeaderProps {
   subtitle?: string;
   defaultExpanded?: boolean;
   children?: React.ReactNode;
+  userTheme?: 'pink' | 'blue';
 }
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({ 
@@ -15,9 +16,11 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
   title, 
   subtitle, 
   defaultExpanded = true, 
-  children 
+  children,
+  userTheme = 'pink'
 }) => {
   const [expanded, setExpanded] = useState(defaultExpanded);
+  const textColorClass = userTheme === 'pink' ? 'text-app-pink' : 'text-app-blue';
 
   return (
     <div className="mb-6 animate-fade-in">
@@ -26,7 +29,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({
         onClick={() => setExpanded(prev => !prev)}
       >
         <div className="mr-2">{icon}</div>
-        <h2 className="text-lg font-medium">{title}</h2>
+        <h2 className={`text-lg font-medium ${textColorClass}`}>{title}</h2>
         {subtitle && <span className="ml-2 text-sm text-gray-400">({subtitle})</span>}
         <div className="ml-auto">
           {expanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
