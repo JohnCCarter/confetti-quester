@@ -79,55 +79,67 @@
     @apply bg-background text-foreground antialiased min-h-screen transition-colors duration-700;
   }
   
-  /* Default backgrounds - using smoother gradients */
+  /* Default backgrounds - using even smoother gradients with more color stops */
   body {
-    background: radial-gradient(ellipse at top, 
+    background: linear-gradient(135deg, 
       #0f172a 0%, 
-      #131e36 15%, 
-      #172142 30%, 
-      #1b264e 45%, 
-      #1e1b4b 60%, 
-      #312069 75%, 
+      #121e34 10%, 
+      #152038 20%, 
+      #18223d 30%, 
+      #1b2542 40%, 
+      #1e2747 50%, 
+      #21294c 60%, 
+      #252c56 70%, 
+      #343471 85%, 
       #4c1d95 100%) !important;
   }
   
-  /* Smooth light background */
+  /* Smooth light background with more subtle transitions */
   html.light body {
-    background: radial-gradient(ellipse at top, 
+    background: linear-gradient(135deg, 
       #f8fafc 0%, 
-      #f3f6fd 25%, 
-      #eef2ff 50%, 
-      #ecf4fe 75%, 
-      #f0f9ff 100%) !important;
+      #f6f8fa 15%, 
+      #f4f6f9 30%, 
+      #f1f4f8 45%, 
+      #eef2f7 60%, 
+      #ebf0f6 75%, 
+      #e8eef5 90%, 
+      #e6ecf3 100%) !important;
   }
 
-  /* User-specific backgrounds - smooth gradient transitions */
+  /* User-specific backgrounds - creating ultra-smooth gradients */
   body.user-isabel {
     background: none !important;
   }
   
   html.dark body.user-isabel {
-    /* Ultra-smooth gradient for Isabel with many color stops */
-    background: radial-gradient(ellipse at top, 
+    /* Ultra-smooth gradient for Isabel with subtle transitions */
+    background: linear-gradient(135deg, 
       #1e1333 0%, 
-      #231538 12%, 
-      #28173e 24%, 
-      #2e1a42 36%, 
-      #341c47 48%, 
-      #3a1e4c 60%, 
-      #412152 72%, 
-      #4e2259 84%, 
-      #5d1a60 92%, 
+      #231438 8%, 
+      #27153d 16%, 
+      #2c1742 24%, 
+      #311947 32%, 
+      #361b4c 40%, 
+      #3b1d51 48%, 
+      #401f56 56%, 
+      #45215b 64%, 
+      #4a2260 72%, 
+      #4f2365 80%, 
+      #54256a 88%, 
       #701a75 100%) !important;
   }
 
   html.light body.user-isabel {
-    background: radial-gradient(ellipse at top, 
+    background: linear-gradient(135deg, 
       #f9a8d4 0%, 
-      #fab2d9 20%, 
-      #fbcce3 40%, 
-      #fcdaec 60%, 
-      #fde8f4 80%, 
+      #faafda 12.5%, 
+      #fbb5de 25%, 
+      #fbbce2 37.5%, 
+      #fcc3e6 50%, 
+      #fccaea 62.5%, 
+      #fdd1ee 75%, 
+      #fddff4 87.5%, 
       #fdf2f8 100%) !important;
   }
 
@@ -136,27 +148,33 @@
   }
   
   html.dark body.user-zozo {
-    /* Ultra-smooth blue gradient with many color stops */
-    background: radial-gradient(ellipse at top, 
+    /* Ultra-smooth blue gradient with many subtle color variations */
+    background: linear-gradient(135deg, 
       #0c1b44 0%, 
-      #0e1e4a 12%, 
-      #112150 24%, 
-      #142456 36%, 
-      #17285d 48%, 
-      #1a2c63 60%, 
-      #1d316a 72%, 
-      #1f3576 84%, 
-      #2145a8 92%, 
+      #0e1d48 8%, 
+      #101f4c 16%, 
+      #122150 24%, 
+      #142354 32%, 
+      #162558 40%, 
+      #18275c 48%, 
+      #1a2960 56%, 
+      #1c2b64 64%, 
+      #1e2d68 72%, 
+      #202f6c 80%, 
+      #223170 88%, 
       #2563eb 100%) !important;
   }
 
   html.light body.user-zozo {
-    background: radial-gradient(ellipse at top, 
+    background: linear-gradient(135deg, 
       #3b82f6 0%, 
-      #5593f7 20%, 
-      #6fa4f8 40%, 
-      #89b4f9 60%, 
-      #a3c5fa 80%, 
+      #4d8cf6 12.5%, 
+      #5f96f7 25%, 
+      #71a0f8 37.5%, 
+      #83aaf8 50%, 
+      #95b4f9 62.5%, 
+      #a7bef9 75%, 
+      #b9c8fa 87.5%, 
       #dbeafe 100%) !important;
   }
 
