@@ -6,22 +6,18 @@ interface TaskManagerProps {
   onSaveTask: (task: Task) => void;
 }
 
-// Static methods for opening dialogs from anywhere
-let openAddTaskDialogFn: () => void = () => {};
-let openEditTaskDialogFn: (id: string, tasks: Task[]) => void = () => {};
-
 const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask }) => {
   const [taskDialogOpen, setTaskDialogOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState<Task | undefined>(undefined);
   
   // Register the static methods
   useEffect(() => {
-    TaskManager.openAddTaskDialog = () => {
+    openAddTaskDialogFn = () => {
       setCurrentTask(undefined);
       setTaskDialogOpen(true);
     };
     
-    TaskManager.openEditTaskDialog = (id: string, tasks: Task[]) => {
+    openEditTaskDialogFn = (id: string, tasks: Task[]) => {
       const taskToEdit = tasks.find(task => task.id === id);
       if (taskToEdit) {
         setCurrentTask(taskToEdit);
@@ -30,8 +26,8 @@ const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask }) => {
     };
     
     return () => {
-      TaskManager.openAddTaskDialog = () => {};
-      TaskManager.openEditTaskDialog = () => {};
+      openAddTaskDialogFn = () => {};
+      openEditTaskDialogFn = () => {};
     };
   }, []);
   
@@ -46,7 +42,11 @@ const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask }) => {
   );
 };
 
-// Static methods
+// Static methods for opening dialogs from anywhere
+let openAddTaskDialogFn: () => void = () => {};
+let openEditTaskDialogFn: (id: string, tasks: Task[]) => void = () => {};
+
+// Static methods that can be called from anywhere
 TaskManager.openAddTaskDialog = () => openAddTaskDialogFn();
 TaskManager.openEditTaskDialog = (id: string, tasks: Task[]) => openEditTaskDialogFn(id, tasks);
 

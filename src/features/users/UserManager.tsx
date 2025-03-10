@@ -7,20 +7,17 @@ interface UserManagerProps {
   onSaveUser: (user: User) => void;
 }
 
-// Static methods for opening dialogs from anywhere
-let openUserDialogFn: () => void = () => {};
-
 const UserManager: React.FC<UserManagerProps> = ({ user, onSaveUser }) => {
   const [userDialogOpen, setUserDialogOpen] = useState(false);
   
-  // Register the static methods
+  // Register the static method
   useEffect(() => {
-    UserManager.openUserDialog = () => {
+    openUserDialogFn = () => {
       setUserDialogOpen(true);
     };
     
     return () => {
-      UserManager.openUserDialog = () => {};
+      openUserDialogFn = () => {};
     };
   }, []);
   
@@ -34,7 +31,10 @@ const UserManager: React.FC<UserManagerProps> = ({ user, onSaveUser }) => {
   );
 };
 
-// Static methods
+// Static methods for opening dialogs from anywhere
+let openUserDialogFn: () => void = () => {};
+
+// Static method that can be called from anywhere
 UserManager.openUserDialog = () => openUserDialogFn();
 
 export default UserManager;

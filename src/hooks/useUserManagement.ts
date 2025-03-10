@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Sun } from 'lucide-react';
 import { User } from '@/components/UserDialog';
@@ -40,8 +39,8 @@ const defaultRewards: Reward[] = [
   }
 ];
 
-// Default achievements
-const defaultAchievements: Achievement[] = [
+// Default achievements for Isabel
+const defaultIsabelAchievements: Achievement[] = [
   {
     id: '1',
     title: 'Morgonmästare',
@@ -74,11 +73,45 @@ const defaultAchievements: Achievement[] = [
   }
 ];
 
+// Default achievements for Zozo
+const defaultZozoAchievements: Achievement[] = [
+  {
+    id: '1',
+    title: 'Morgonmästare',
+    description: 'Slutför alla morgonrutiner på en dag',
+    completed: false
+  },
+  {
+    id: '2',
+    title: 'Kvällsprinsen',
+    description: 'Slutför alla kvällsrutiner på en dag',
+    completed: false
+  },
+  {
+    id: '3',
+    title: 'På gång!',
+    description: 'Använd appen 5 dagar i rad',
+    completed: false
+  },
+  {
+    id: '4',
+    title: 'Superstjärna',
+    description: 'Samla 25 poäng',
+    completed: false
+  },
+  {
+    id: '5',
+    title: 'Belönad',
+    description: 'Lös in din första belöning',
+    completed: false
+  }
+];
+
 export const useUserManagement = () => {
   const [user, setUser] = useState<User>(defaultUser);
   const [tasks, setTasks] = useState<Task[]>(isabelTasks);
   const [rewards, setRewards] = useState<Reward[]>(defaultRewards);
-  const [achievements, setAchievements] = useState<Achievement[]>(defaultAchievements);
+  const [achievements, setAchievements] = useState<Achievement[]>(defaultIsabelAchievements);
 
   // Load saved data on mount
   useEffect(() => {
@@ -177,7 +210,7 @@ export const useUserManagement = () => {
       setUser(savedZozo ? JSON.parse(savedZozo) : alternateUser);
       setTasks(savedZozoTasks ? JSON.parse(savedZozoTasks) : zozoTasks);
       setRewards(savedZozoRewards ? JSON.parse(savedZozoRewards) : defaultRewards);
-      setAchievements(savedZozoAchievements ? JSON.parse(savedZozoAchievements) : defaultAchievements);
+      setAchievements(savedZozoAchievements ? JSON.parse(savedZozoAchievements) : defaultZozoAchievements);
     } else {
       // Switching to Isabel
       localStorage.setItem('zozo', JSON.stringify(user));
@@ -193,7 +226,7 @@ export const useUserManagement = () => {
       setUser(savedIsabel ? JSON.parse(savedIsabel) : defaultUser);
       setTasks(savedIsabelTasks ? JSON.parse(savedIsabelTasks) : isabelTasks);
       setRewards(savedIsabelRewards ? JSON.parse(savedIsabelRewards) : defaultRewards);
-      setAchievements(savedIsabelAchievements ? JSON.parse(savedIsabelAchievements) : defaultAchievements);
+      setAchievements(savedIsabelAchievements ? JSON.parse(savedIsabelAchievements) : defaultIsabelAchievements);
     }
   };
 
@@ -259,6 +292,6 @@ export const useUserManagement = () => {
     handleSaveReward,
     handleRedeemReward,
     isIsabel: user.id === defaultUser.id,
-    totalAchievements: defaultAchievements.length
+    totalAchievements: defaultIsabelAchievements.length
   };
 };
