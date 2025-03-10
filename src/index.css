@@ -95,22 +95,12 @@
   }
   
   html.dark body.user-isabel {
-    /* Super smooth gradient for Isabel's dark mode theme with many color stops */
-    background: radial-gradient(circle at top center, 
-      #1e1333 0%, 
-      #24163a 15%, 
-      #2a1940 30%, 
-      #321944 40%, 
-      #3a1845 50%, 
-      #441a4d 60%, 
-      #4b1553 70%, 
-      #541858 80%, 
-      #5d1a60 90%, 
-      #701a75 100%) !important;
+    /* Creating a smoother gradient with more color stops and a single hue transition */
+    background: linear-gradient(180deg, #1e1333 0%, #2a1940 20%, #3a1845 40%, #4b1553 60%, #5d1a60 80%, #701a75 100%) !important;
   }
 
   html.light body.user-isabel {
-    background: radial-gradient(ellipse at top, #f9a8d4 0%, #fbb5dd 30%, #fccdeb 60%, #fdf2f8 100%) !important;
+    background: radial-gradient(ellipse at top, #f9a8d4 0%, #fbcfe8 60%, #fdf2f8 100%) !important;
   }
 
   body.user-zozo {
@@ -118,23 +108,65 @@
   }
   
   html.dark body.user-zozo {
-    /* Super smooth gradient for Zozo's dark mode theme with many color stops */
-    background: radial-gradient(circle at top center, 
-      #0c1b44 0%, 
-      #0f1d48 15%, 
-      #122048 30%, 
-      #14234d 40%, 
-      #172554 50%, 
-      #182c62 60%, 
-      #1a2f70 70%, 
-      #1c347d 80%, 
-      #1e3a8a 90%, 
-      #2563eb 100%) !important;
+    /* Creating a smoother blue gradient with more color stops */
+    background: linear-gradient(180deg, #0c1b44 0%, #122048 20%, #172554 40%, #1a2f70 60%, #1e3a8a 80%, #2563eb 100%) !important;
   }
 
   html.light body.user-zozo {
-    background: radial-gradient(ellipse at top, #3b82f6 0%, #60a5fa 30%, #93c5fd 60%, #dbeafe 100%) !important;
+    background: radial-gradient(ellipse at top, #3b82f6 0%, #93c5fd 60%, #dbeafe 100%) !important;
   }
 
-  /* ... keep existing code (task-item styles, light mode task item styles, completed task styles, confetti container, badge point, glass card, section header, task filter button styles) */
+  .task-item {
+    @apply relative flex items-center p-4 mb-3 rounded-xl transition-all duration-300 hover:bg-task-hover dark:hover:bg-task-hover;
+  }
+
+  .light .task-item {
+    @apply bg-white/60 hover:bg-gray-100/60 shadow-sm;
+  }
+
+  .task-item.completed {
+    @apply bg-task-complete;
+  }
+
+  .light .task-item.completed {
+    @apply bg-gray-100/60;
+  }
+
+  .confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .badge-point {
+    @apply w-7 h-7 flex items-center justify-center rounded-full bg-app-pink text-white font-bold;
+  }
+
+  .glass-card {
+    @apply backdrop-blur-md bg-black/20 dark:bg-black/20 rounded-2xl border border-white/10 transition-all duration-200;
+  }
+
+  .light .glass-card {
+    @apply bg-white/30 border-gray-100/30 shadow-sm;
+  }
+
+  .section-header {
+    @apply flex items-center font-semibold mb-4;
+  }
+
+  .task-filter-button {
+    @apply flex-1 py-3 text-center text-sm font-medium transition-all duration-200;
+  }
+
+  .task-filter-button.active {
+    @apply bg-blue-600/20 text-foreground;
+  }
+
+  .light .task-filter-button.active {
+    @apply bg-blue-50/70 text-blue-700;
+  }
 }
