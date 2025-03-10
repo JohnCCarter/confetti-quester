@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { User } from '@/components/UserDialog';
 import { Task } from '@/components/TaskDialog';
-import { isabelTasks, zozoTasks } from '@/data/taskData';
+import { isabelTasks, zozoTasks } from '@/data/tasks';
 import { toast } from 'sonner';
 
 export const defaultUser: User = {
