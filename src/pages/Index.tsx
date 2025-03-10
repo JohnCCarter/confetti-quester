@@ -4,15 +4,15 @@ import { toast } from 'sonner';
 
 import UserCard from '@/components/UserCard';
 import Confetti from '@/components/Confetti';
-import TaskDialog, { Task } from '@/components/TaskDialog';
-import UserDialog from '@/components/UserDialog';
 import UserHeader from '@/components/UserHeader';
 import StatisticsSection from '@/components/StatisticsSection';
 import TasksSection from '@/components/TasksSection';
 import RewardsSection from '@/components/RewardsSection';
-import RewardsDialog, { Reward } from '@/components/RewardsDialog';
 import { useTaskManagement } from '@/hooks/useTaskManagement';
 import { useUserManagement } from '@/hooks/useUserManagement';
+import TaskManager from '@/features/tasks/TaskManager';
+import RewardManager from '@/features/rewards/RewardManager';
+import UserManager from '@/features/users/UserManager';
 
 const Index = () => {
   const {
@@ -34,11 +34,6 @@ const Index = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [confettiPosition, setConfettiPosition] = useState<{x: number, y: number} | null>(null);
   const [showFullConfetti, setShowFullConfetti] = useState(false);
-  const [taskDialogOpen, setTaskDialogOpen] = useState(false);
-  const [userDialogOpen, setUserDialogOpen] = useState(false);
-  const [rewardDialogOpen, setRewardDialogOpen] = useState(false);
-  const [currentTask, setCurrentTask] = useState<Task | undefined>(undefined);
-  const [currentReward, setCurrentReward] = useState<Reward | undefined>(undefined);
   const [completedTaskId, setCompletedTaskId] = useState<string | null>(null);
 
   // Apply user-specific class to body for theme
@@ -92,28 +87,6 @@ const Index = () => {
     setCompletedTaskId
   });
 
-  const handleAddTask = () => {
-    setCurrentTask(undefined);
-    setTaskDialogOpen(true);
-  };
-
-  const handleAddReward = () => {
-    setCurrentReward(undefined);
-    setRewardDialogOpen(true);
-  };
-
-  const taskEditHandler = (id: string) => {
-    handleEditTask(id, setCurrentTask, setTaskDialogOpen);
-  };
-
-  const rewardEditHandler = (id: string) => {
-    const rewardToEdit = rewards.find(reward => reward.id === id);
-    if (rewardToEdit) {
-      setCurrentReward(rewardToEdit);
-      setRewardDialogOpen(true);
-    }
-  };
-
   const userTheme = isIsabel ? 'pink' : 'blue';
 
   return (
@@ -130,16 +103,16 @@ const Index = () => {
         points={user.points}
         completedTasks={tasks.filter(t => t.completed).length}
         stars={user.stars}
-        onEdit={() => setUserDialogOpen(true)}
+        onEdit={() => UserManager.openUserDialog()}
         userTheme={userTheme}
       />
       
       <RewardsSection 
         rewards={rewards}
         userPoints={user.points}
-        onAddReward={handleAddReward}
+        onAddReward={() => RewardManager.openAddRewardDialog()}
         onRedeemReward={handleRedeemReward}
-        onEditReward={rewardEditHandler}
+        onEditReward={(id) => RewardManager.openEditRewardDialog(id, rewards)}
         userTheme={userTheme}
       />
       
@@ -155,9 +128,9 @@ const Index = () => {
         setFilter={setFilter}
         tasks={tasks}
         onComplete={handleCompleteTask}
-        onEdit={taskEditHandler}
+        onEdit={(id) => TaskManager.openEditTaskDialog(id, tasks)}
         onReset={handleResetTasks}
-        onAddTask={handleAddTask}
+        onAddTask={() => TaskManager.openAddTaskDialog()}
         userTheme={userTheme}
       />
       
@@ -186,27 +159,18 @@ const Index = () => {
         )}
       </div>
       
-      <TaskDialog
-        open={taskDialogOpen}
-        onClose={() => setTaskDialogOpen(false)}
-        onSave={handleSaveTask}
-        task={currentTask}
-        isEditing={!!currentTask}
+      {/* Dialog Managers */}
+      <TaskManager 
+        onSaveTask={handleSaveTask}
       />
       
-      <UserDialog
-        open={userDialogOpen}
-        onClose={() => setUserDialogOpen(false)}
-        onSave={handleSaveUser}
+      <UserManager 
         user={user}
+        onSaveUser={handleSaveUser}
       />
       
-      <RewardsDialog
-        open={rewardDialogOpen}
-        onClose={() => setRewardDialogOpen(false)}
-        onSave={handleSaveReward}
-        reward={currentReward}
-        isEditing={!!currentReward}
+      <RewardManager
+        onSaveReward={handleSaveReward}
       />
     </div>
   );
