@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -94,7 +95,8 @@
   }
   
   html.dark body.user-isabel {
-    background: linear-gradient(to bottom, #1e1333 0%, #3a1845 30%, #701a75 60%, #831843 100%) !important;
+    /* Creating a smoother gradient with more color stops and a single hue transition */
+    background: linear-gradient(180deg, #1e1333 0%, #2a1940 20%, #3a1845 40%, #4b1553 60%, #5d1a60 80%, #701a75 100%) !important;
   }
 
   html.light body.user-isabel {
@@ -106,7 +108,8 @@
   }
   
   html.dark body.user-zozo {
-    background: linear-gradient(to bottom, #0c1b44 0%, #172554 40%, #1e3a8a 70%, #2563eb 100%) !important;
+    /* Creating a smoother blue gradient with more color stops */
+    background: linear-gradient(180deg, #0c1b44 0%, #122048 20%, #172554 40%, #1a2f70 60%, #1e3a8a 80%, #2563eb 100%) !important;
   }
 
   html.light body.user-zozo {
