@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Lock, Check } from 'lucide-react';
+import CustomTaskIcon from './CustomTaskIcon';
 
 export interface Achievement {
   id: string;
@@ -8,6 +9,7 @@ export interface Achievement {
   description: string;
   completed: boolean;
   icon?: React.ReactNode;
+  iconType?: string;
 }
 
 interface AchievementItemProps {
@@ -25,6 +27,28 @@ const AchievementItem: React.FC<AchievementItemProps> = ({
     ? userTheme === 'pink' ? 'bg-app-pink' : 'bg-app-blue' 
     : 'bg-gray-700';
   
+  // Determine which icon to show based on the achievement title
+  const getAchievementIcon = (title: string) => {
+    switch (title.toLowerCase()) {
+      case 'morgonmästare':
+        return 'morning-master';
+      case 'kvällsprinsessan':
+        return 'evening-princess';
+      case 'kvällsprinsen':
+        return 'evening-prince';
+      case 'på gång!':
+        return 'on-track';
+      case 'superstjärna':
+        return 'superstar';
+      case 'belönad':
+        return 'rewarded';
+      default:
+        return achievement.iconType || 'morning-master';
+    }
+  };
+
+  const iconType = getAchievementIcon(achievement.title);
+  
   return (
     <div 
       className={`glass-card p-4 mb-3 relative transition-all duration-300 ${
@@ -36,7 +60,7 @@ const AchievementItem: React.FC<AchievementItemProps> = ({
       <div className="flex items-start">
         <div className={`w-10 h-10 rounded-full ${bgColor} flex items-center justify-center mr-3 flex-shrink-0 transition-transform duration-300 ${isHovered ? 'scale-110' : ''}`}>
           {achievement.completed ? (
-            achievement.icon || <Check size={20} className="text-white" />
+            achievement.icon || <CustomTaskIcon icon={iconType} size={20} isHovered={isHovered} />
           ) : (
             <Lock size={20} className={`text-white opacity-50 ${isHovered ? 'animate-pulse' : ''}`} />
           )}

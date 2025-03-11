@@ -31,19 +31,54 @@ const RewardItem: React.FC<RewardItemProps> = ({
     
     switch (reward.icon) {
       case 'gift':
-        return <Gift {...iconProps} />;
+        return (
+          <div className="relative">
+            <Gift {...iconProps} />
+            <span className="absolute -top-1 -right-1 text-[8px]">🎁</span>
+          </div>
+        );
       case 'trophy':
-        return <Trophy {...iconProps} />;
+        return (
+          <div className="relative">
+            <Trophy {...iconProps} />
+            <span className="absolute -top-1 -right-1 text-[8px]">🏆</span>
+          </div>
+        );
       case 'star':
-        return <Star {...iconProps} />;
+        return (
+          <div className="relative">
+            <Star {...iconProps} />
+            <span className="absolute -top-1 -right-1 text-yellow-400 text-xs">✨</span>
+          </div>
+        );
       case 'award':
-        return <Award {...iconProps} />;
+        return (
+          <div className="relative">
+            <Award {...iconProps} />
+            <span className="absolute -bottom-1 -right-1 text-[8px]">🍦</span>
+          </div>
+        );
       case 'gem':
-        return <Gem {...iconProps} />;
+        return (
+          <div className="relative">
+            <Gem {...iconProps} />
+            <span className="absolute -top-1 -right-1 text-[8px]">💎</span>
+          </div>
+        );
       case 'ribbon':
-        return <Ribbon {...iconProps} />;
+        return (
+          <div className="relative">
+            <Ribbon {...iconProps} />
+            <span className="absolute -top-1 -right-1 text-[8px]">🎀</span>
+          </div>
+        );
       default:
-        return <Gift {...iconProps} />;
+        return (
+          <div className="relative">
+            <Gift {...iconProps} />
+            <span className="absolute -top-1 -right-1 text-[8px]">🎁</span>
+          </div>
+        );
     }
   };
 

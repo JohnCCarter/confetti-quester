@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { X, Shirt, Bed, Coffee, Droplet, Home, Book, Heart, Pencil, Moon, Scissors, Utensils, Smile } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import CustomTaskIcon, { CustomIconType } from './CustomTaskIcon';
 
 export interface Task {
   id: string;
@@ -62,20 +63,28 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
     onClose();
   };
 
-  const icons = [
-    { id: 'coffee', component: <Coffee size={24} className="text-amber-400" /> },
-    { id: 'shirt', component: <Shirt size={24} className="text-blue-400" /> },
-    { id: 'bed', component: <Bed size={24} className="text-indigo-400" /> },
-    { id: 'scissors', component: <Scissors size={24} className="text-purple-400" /> },
-    { id: 'smile', component: <Smile size={24} className="text-yellow-400" /> },
-    { id: 'utensils', component: <Utensils size={24} className="text-orange-400" /> },
-    { id: 'droplet', component: <Droplet size={24} className="text-blue-400" /> },
-    { id: 'home', component: <Home size={24} className="text-green-400" /> },
-    { id: 'book', component: <Book size={24} className="text-purple-400" /> },
-    { id: 'heart', component: <Heart size={24} className="text-red-400" /> },
-    { id: 'pencil', component: <Pencil size={24} className="text-yellow-400" /> },
-    { id: 'moon', component: <Moon size={24} className="text-indigo-400" /> }
+  // Morning icons
+  const morningIcons: CustomIconType[] = [
+    'bed', 'shirt', 'hairbrush', 'breakfast', 'toothbrush', 'jacket', 'heart'
   ];
+
+  // Evening icons
+  const eveningIcons: CustomIconType[] = [
+    'tidybox', 'shower', 'eveningtoothbrush', 'clothes', 'homework', 'readwrite', 'sleep', 'eveningheart'
+  ];
+
+  // Standard icons (for backward compatibility)
+  const standardIcons: CustomIconType[] = [
+    'coffee', 'shirt', 'bed', 'scissors', 'smile', 'utensils', 'droplet', 
+    'home', 'book', 'heart', 'pencil', 'moon'
+  ];
+
+  const icons = category === 'morning' 
+    ? [...morningIcons, ...standardIcons] 
+    : [...eveningIcons, ...standardIcons];
+
+  // Remove duplicates
+  const uniqueIcons = Array.from(new Set(icons));
 
   return (
     <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
@@ -107,15 +116,15 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-1">Ikon</label>
             <div className="flex flex-wrap gap-2">
-              {icons.map((item) => (
+              {uniqueIcons.map((iconType) => (
                 <button
-                  key={item.id}
+                  key={iconType}
                   className={`w-12 h-12 rounded-md flex items-center justify-center transition-colors ${
-                    icon === item.id ? 'bg-gray-700 ring-2 ring-app-pink' : 'bg-gray-800 hover:bg-gray-700'
+                    icon === iconType ? 'bg-gray-700 ring-2 ring-app-pink' : 'bg-gray-800 hover:bg-gray-700'
                   }`}
-                  onClick={() => setIcon(item.id)}
+                  onClick={() => setIcon(iconType)}
                 >
-                  {item.component}
+                  <CustomTaskIcon icon={iconType} size={24} />
                 </button>
               ))}
             </div>

@@ -45,31 +45,36 @@ const defaultIsabelAchievements: Achievement[] = [
     id: '1',
     title: 'Morgonmästare',
     description: 'Slutför alla morgonrutiner på en dag',
-    completed: false
+    completed: false,
+    iconType: 'morning-master'
   },
   {
     id: '2',
     title: 'Kvällsprinsessan',
     description: 'Slutför alla kvällsrutiner på en dag',
-    completed: false
+    completed: false,
+    iconType: 'evening-princess'
   },
   {
     id: '3',
     title: 'På gång!',
     description: 'Använd appen 5 dagar i rad',
-    completed: false
+    completed: false,
+    iconType: 'on-track'
   },
   {
     id: '4',
     title: 'Superstjärna',
     description: 'Samla 25 poäng',
-    completed: false
+    completed: false,
+    iconType: 'superstar'
   },
   {
     id: '5',
     title: 'Belönad',
     description: 'Lös in din första belöning',
-    completed: false
+    completed: false,
+    iconType: 'rewarded'
   }
 ];
 
@@ -79,31 +84,36 @@ const defaultZozoAchievements: Achievement[] = [
     id: '1',
     title: 'Morgonmästare',
     description: 'Slutför alla morgonrutiner på en dag',
-    completed: false
+    completed: false,
+    iconType: 'morning-master'
   },
   {
     id: '2',
     title: 'Kvällsprinsen',
     description: 'Slutför alla kvällsrutiner på en dag',
-    completed: false
+    completed: false,
+    iconType: 'evening-prince'
   },
   {
     id: '3',
     title: 'På gång!',
     description: 'Använd appen 5 dagar i rad',
-    completed: false
+    completed: false,
+    iconType: 'on-track'
   },
   {
     id: '4',
     title: 'Superstjärna',
     description: 'Samla 25 poäng',
-    completed: false
+    completed: false,
+    iconType: 'superstar'
   },
   {
     id: '5',
     title: 'Belönad',
     description: 'Lös in din första belöning',
-    completed: false
+    completed: false,
+    iconType: 'rewarded'
   }
 ];
 
