@@ -1,12 +1,18 @@
 
 @layer base {
-  /* Default backgrounds - using smooth gradients */
+  /* Default backgrounds - using smooth color transitions */
   body {
-    background: linear-gradient(to bottom, #0f172a, #1e1b4b, #4c1d95) !important;
+    background-color: #0f172a !important;
+    background-image: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 70%, #4c1d95 100%) !important;
+    background-size: 200% 200% !important;
+    background-position: center !important;
   }
   
-  /* Smooth light background with gradient */
+  /* Smooth light background with soft gradient */
   html.light body {
-    background: linear-gradient(to bottom, #f8fafc, #eef2ff, #f0f9ff) !important;
+    background-color: #f8fafc !important;
+    background-image: radial-gradient(circle at center, #eef2ff 0%, #f8fafc 70%, #f0f9ff 100%) !important;
+    background-size: 200% 200% !important;
+    background-position: center !important;
   }
 }
