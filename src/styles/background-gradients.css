@@ -1,12 +1,12 @@
 
 @layer base {
-  /* Default backgrounds - solid color instead of gradient */
+  /* Default backgrounds - using smooth gradients */
   body {
-    background: #0f172a !important;
+    background: linear-gradient(to bottom, #0f172a, #1e1b4b, #4c1d95) !important;
   }
   
-  /* Smooth light background with solid color */
+  /* Smooth light background with gradient */
   html.light body {
-    background: #f8fafc !important;
+    background: linear-gradient(to bottom, #f8fafc, #eef2ff, #f0f9ff) !important;
   }
 }

@@ -1,17 +1,17 @@
 
 @layer base {
-  /* User-specific backgrounds - solid colors instead of gradients */
+  /* User-specific backgrounds - with gradients */
   body.user-isabel {
     background: none !important;
   }
   
   html.dark body.user-isabel {
-    /* Solid color for Isabel in dark mode */
-    background: #3b1d51 !important;
+    /* Gradient for Isabel in dark mode */
+    background: linear-gradient(to bottom, #3b1d51, #4a2260, #701a75) !important;
   }
 
   html.light body.user-isabel {
-    background: #f9a8d4 !important;
+    background: linear-gradient(to bottom, #f9a8d4, #fbcfe8, #fdf2f8) !important;
   }
 
   body.user-zozo {
@@ -19,11 +19,11 @@
   }
   
   html.dark body.user-zozo {
-    /* Solid color for Zozo in dark mode */
-    background: #142354 !important;
+    /* Gradient for Zozo in dark mode */
+    background: linear-gradient(to bottom, #142354, #1e3a8a, #2563eb) !important;
   }
 
   html.light body.user-zozo {
-    background: #3b82f6 !important;
+    background: linear-gradient(to bottom, #3b82f6, #93c5fd, #dbeafe) !important;
   }
 }
