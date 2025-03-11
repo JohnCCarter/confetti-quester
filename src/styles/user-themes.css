@@ -1,39 +1,17 @@
 
 @layer base {
-  /* User-specific backgrounds - creating ultra-smooth gradients */
+  /* User-specific backgrounds - solid colors instead of gradients */
   body.user-isabel {
     background: none !important;
   }
   
   html.dark body.user-isabel {
-    /* Ultra-smooth gradient for Isabel with subtle transitions */
-    background: linear-gradient(135deg, 
-      #1e1333 0%, 
-      #231438 8%, 
-      #27153d 16%, 
-      #2c1742 24%, 
-      #311947 32%, 
-      #361b4c 40%, 
-      #3b1d51 48%, 
-      #401f56 56%, 
-      #45215b 64%, 
-      #4a2260 72%, 
-      #4f2365 80%, 
-      #54256a 88%, 
-      #701a75 100%) !important;
+    /* Solid color for Isabel in dark mode */
+    background: #3b1d51 !important;
   }
 
   html.light body.user-isabel {
-    background: linear-gradient(135deg, 
-      #f9a8d4 0%, 
-      #faafda 12.5%, 
-      #fbb5de 25%, 
-      #fbbce2 37.5%, 
-      #fcc3e6 50%, 
-      #fccaea 62.5%, 
-      #fdd1ee 75%, 
-      #fddff4 87.5%, 
-      #fdf2f8 100%) !important;
+    background: #f9a8d4 !important;
   }
 
   body.user-zozo {
@@ -41,33 +19,11 @@
   }
   
   html.dark body.user-zozo {
-    /* Ultra-smooth blue gradient with many subtle color variations */
-    background: linear-gradient(135deg, 
-      #0c1b44 0%, 
-      #0e1d48 8%, 
-      #101f4c 16%, 
-      #122150 24%, 
-      #142354 32%, 
-      #162558 40%, 
-      #18275c 48%, 
-      #1a2960 56%, 
-      #1c2b64 64%, 
-      #1e2d68 72%, 
-      #202f6c 80%, 
-      #223170 88%, 
-      #2563eb 100%) !important;
+    /* Solid color for Zozo in dark mode */
+    background: #142354 !important;
   }
 
   html.light body.user-zozo {
-    background: linear-gradient(135deg, 
-      #3b82f6 0%, 
-      #4d8cf6 12.5%, 
-      #5f96f7 25%, 
-      #71a0f8 37.5%, 
-      #83aaf8 50%, 
-      #95b4f9 62.5%, 
-      #a7bef9 75%, 
-      #b9c8fa 87.5%, 
-      #dbeafe 100%) !important;
+    background: #3b82f6 !important;
   }
 }
