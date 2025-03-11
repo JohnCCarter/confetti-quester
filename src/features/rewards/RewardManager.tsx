@@ -6,6 +6,12 @@ interface RewardManagerProps {
   onSaveReward: (reward: Reward) => void;
 }
 
+// Skapa en typ som inkluderar statiska egenskaper
+interface RewardManagerComponent extends React.FC<RewardManagerProps> {
+  openAddRewardDialog: () => void;
+  openEditRewardDialog: (id: string, rewards: Reward[]) => void;
+}
+
 // Static methods for opening dialogs from anywhere
 let openAddRewardDialogFn: () => void = () => {};
 let openEditRewardDialogFn: (id: string, rewards: Reward[]) => void = () => {};
@@ -16,12 +22,12 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward }) => {
   
   // Register the static methods
   useEffect(() => {
-    RewardManager.openAddRewardDialog = () => {
+    openAddRewardDialogFn = () => {
       setCurrentReward(undefined);
       setRewardDialogOpen(true);
     };
     
-    RewardManager.openEditRewardDialog = (id: string, rewards: Reward[]) => {
+    openEditRewardDialogFn = (id: string, rewards: Reward[]) => {
       const rewardToEdit = rewards.find(reward => reward.id === id);
       if (rewardToEdit) {
         setCurrentReward(rewardToEdit);
@@ -30,8 +36,8 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward }) => {
     };
     
     return () => {
-      RewardManager.openAddRewardDialog = () => {};
-      RewardManager.openEditRewardDialog = () => {};
+      openAddRewardDialogFn = () => {};
+      openEditRewardDialogFn = () => {};
     };
   }, []);
   
@@ -46,8 +52,8 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward }) => {
   );
 };
 
-// Static methods
-RewardManager.openAddRewardDialog = () => openAddRewardDialogFn();
-RewardManager.openEditRewardDialog = (id: string, rewards: Reward[]) => openEditRewardDialogFn(id, rewards);
+// Definiera statiska metoder
+(RewardManager as RewardManagerComponent).openAddRewardDialog = () => openAddRewardDialogFn();
+(RewardManager as RewardManagerComponent).openEditRewardDialog = (id: string, rewards: Reward[]) => openEditRewardDialogFn(id, rewards);
 
-export default RewardManager;
+export default RewardManager as RewardManagerComponent;

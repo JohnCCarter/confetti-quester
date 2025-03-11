@@ -7,6 +7,14 @@ interface UserManagerProps {
   onSaveUser: (user: User) => void;
 }
 
+// Skapa en typ som inkluderar statiska egenskaper
+interface UserManagerComponent extends React.FC<UserManagerProps> {
+  openUserDialog: () => void;
+}
+
+// Static methods for opening dialogs from anywhere
+let openUserDialogFn: () => void = () => {};
+
 const UserManager: React.FC<UserManagerProps> = ({ user, onSaveUser }) => {
   const [userDialogOpen, setUserDialogOpen] = useState(false);
   
@@ -31,10 +39,7 @@ const UserManager: React.FC<UserManagerProps> = ({ user, onSaveUser }) => {
   );
 };
 
-// Static methods for opening dialogs from anywhere
-let openUserDialogFn: () => void = () => {};
+// Definiera statisk metod
+(UserManager as UserManagerComponent).openUserDialog = () => openUserDialogFn();
 
-// Static method that can be called from anywhere
-UserManager.openUserDialog = () => openUserDialogFn();
-
-export default UserManager;
+export default UserManager as UserManagerComponent;
