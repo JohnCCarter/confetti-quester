@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { Lock, Check } from 'lucide-react';
-import CustomTaskIcon from './CustomTaskIcon';
+import { Lock } from 'lucide-react';
+import { CustomTaskIcon } from './icons';
 
 export interface Achievement {
   id: string;
