@@ -52,25 +52,35 @@ const AchievementItem: React.FC<AchievementItemProps> = ({
   return (
     <div 
       className={`glass-card p-4 mb-3 relative transition-all duration-300 ${
-        isHovered ? 'shadow-lg transform translate-y-[-2px]' : 'shadow hover:shadow-lg'
+        isHovered ? 'shadow-lg transform translate-y-[-4px] scale-[1.02]' : 'shadow hover:shadow-lg'
       } animate-fade-in`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="flex items-start">
-        <div className={`w-10 h-10 rounded-full ${bgColor} flex items-center justify-center mr-3 flex-shrink-0 transition-transform duration-300 ${isHovered ? 'scale-110' : ''}`}>
+        <div className={`w-10 h-10 rounded-full ${bgColor} flex items-center justify-center mr-3 flex-shrink-0 transition-all duration-300 ${
+          isHovered ? 'scale-110 rotate-3' : ''
+        }`}>
           {achievement.completed ? (
             achievement.icon || <CustomTaskIcon icon={iconType} size={20} isHovered={isHovered} />
           ) : (
-            <Lock size={20} className={`text-white opacity-50 ${isHovered ? 'animate-pulse' : ''}`} />
+            <Lock size={20} className={`text-white opacity-50 ${
+              isHovered ? 'animate-[pulse_1.5s_ease-in-out_infinite]' : ''
+            }`} />
           )}
         </div>
         
         <div className="flex-1">
-          <h3 className={`font-semibold text-base ${achievement.completed ? userTheme === 'pink' ? 'text-app-pink' : 'text-app-blue' : ''}`}>
+          <h3 className={`font-semibold text-base transition-all duration-300 ${
+            achievement.completed ? (
+              userTheme === 'pink' ? 'text-app-pink' : 'text-app-blue'
+            ) : ''
+          } ${isHovered ? 'transform scale-105' : ''}`}>
             {achievement.title}
           </h3>
-          <p className="text-sm text-gray-400 mt-1">{achievement.description}</p>
+          <p className={`text-sm text-gray-400 mt-1 transition-all duration-300 ${
+            isHovered ? 'text-gray-300' : ''
+          }`}>{achievement.description}</p>
         </div>
       </div>
     </div>

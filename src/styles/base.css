@@ -69,4 +69,13 @@
   .light .task-filter-button.active {
     @apply bg-blue-50/70 text-blue-700;
   }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  .shake {
+    animation: wiggle 0.5s ease-in-out;
+  }
 }
