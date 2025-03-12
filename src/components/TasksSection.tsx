@@ -28,17 +28,19 @@ const TasksSection: React.FC<TasksSectionProps> = ({
 }) => {
   return (
     <div className="mb-5">
-      <h2 className="text-xl font-semibold mb-4">Mina uppgifter</h2>
+      <h2 className="text-xl font-semibold mb-4 md:text-2xl">Mina uppgifter</h2>
       
       <FilterBar filter={filter} setFilter={setFilter} userTheme={userTheme} />
       
-      <TaskList 
-        filter={filter}
-        tasks={tasks}
-        onComplete={onComplete}
-        onEdit={onEdit}
-        userTheme={userTheme}
-      />
+      <div className="md:max-h-[calc(100vh-300px)] md:overflow-y-auto md:pr-2">
+        <TaskList 
+          filter={filter}
+          tasks={tasks}
+          onComplete={onComplete}
+          onEdit={onEdit}
+          userTheme={userTheme}
+        />
+      </div>
       
       <ActionButtons 
         onReset={onReset}

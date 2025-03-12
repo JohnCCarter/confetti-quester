@@ -12,25 +12,25 @@ const FilterBar: React.FC<FilterBarProps> = ({ filter, setFilter, userTheme = 'p
   const activeColorClass = userTheme === 'pink' ? 'bg-pink-600/20' : 'bg-blue-600/20';
 
   return (
-    <div className="glass-card flex mb-4 rounded-lg overflow-hidden">
+    <div className="glass-card flex mb-4 rounded-lg overflow-hidden md:max-w-md md:mx-auto lg:max-w-lg">
       <button 
-        className={`task-filter-button ${filter === 'all' ? 'active' : ''}`}
+        className={`task-filter-button ${filter === 'all' ? 'active' : ''} md:py-3 md:text-base`}
         onClick={() => setFilter('all')}
       >
         Alla
       </button>
       <button 
-        className={`task-filter-button ${filter === 'morning' ? activeColorClass : ''} ${filter === 'morning' ? 'text-white' : ''}`}
+        className={`task-filter-button ${filter === 'morning' ? activeColorClass : ''} ${filter === 'morning' ? 'text-white' : ''} md:py-3 md:text-base`}
         onClick={() => setFilter('morning')}
       >
-        <AlarmClock size={14} className="inline mr-1" />
+        <AlarmClock size={14} className="inline mr-1 md:size-5" />
         Morgon
       </button>
       <button 
-        className={`task-filter-button ${filter === 'evening' ? activeColorClass : ''} ${filter === 'evening' ? 'text-white' : ''}`}
+        className={`task-filter-button ${filter === 'evening' ? activeColorClass : ''} ${filter === 'evening' ? 'text-white' : ''} md:py-3 md:text-base`}
         onClick={() => setFilter('evening')}
       >
-        <Moon size={14} className="inline mr-1" />
+        <Moon size={14} className="inline mr-1 md:size-5" />
         Kväll
       </button>
     </div>

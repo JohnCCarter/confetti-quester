@@ -90,49 +90,57 @@ const Index = () => {
   const userTheme = isIsabel ? 'pink' : 'blue';
 
   return (
-    <div className="min-h-screen px-4 py-6 max-w-md mx-auto">
-      <UserHeader 
-        userName={user.name}
-        onSwitchUser={handleSwitchUser}
-        alternateUserName={isIsabel ? 'Zozo' : 'Isabel'}
-        userTheme={userTheme}
-      />
-      
-      <UserCard 
-        name={`Dina poäng`}
-        points={user.points}
-        completedTasks={tasks.filter(t => t.completed).length}
-        stars={user.stars}
-        onEdit={() => UserManager.openUserDialog()}
-        userTheme={userTheme}
-      />
-      
-      <RewardsSection 
-        rewards={rewards}
-        userPoints={user.points}
-        onAddReward={() => RewardManager.openAddRewardDialog()}
-        onRedeemReward={handleRedeemReward}
-        onEditReward={(id) => RewardManager.openEditRewardDialog(id, rewards)}
-        userTheme={userTheme}
-      />
-      
-      <StatisticsSection 
-        userStars={user.stars}
-        achievements={achievements}
-        totalAchievements={totalAchievements}
-        userTheme={userTheme}
-      />
-      
-      <TasksSection 
-        filter={filter}
-        setFilter={setFilter}
-        tasks={tasks}
-        onComplete={handleCompleteTask}
-        onEdit={(id) => TaskManager.openEditTaskDialog(id, tasks)}
-        onReset={handleResetTasks}
-        onAddTask={() => TaskManager.openAddTaskDialog()}
-        userTheme={userTheme}
-      />
+    <div className="min-h-screen px-4 py-6 md:px-6 md:py-8 lg:px-8 lg:py-10">
+      <div className="max-w-md mx-auto md:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
+        <UserHeader 
+          userName={user.name}
+          onSwitchUser={handleSwitchUser}
+          alternateUserName={isIsabel ? 'Zozo' : 'Isabel'}
+          userTheme={userTheme}
+        />
+        
+        <div className="md:grid md:grid-cols-12 md:gap-6 lg:gap-8">
+          <div className="md:col-span-6 xl:col-span-5">
+            <UserCard 
+              name={`Dina poäng`}
+              points={user.points}
+              completedTasks={tasks.filter(t => t.completed).length}
+              stars={user.stars}
+              onEdit={() => UserManager.openUserDialog()}
+              userTheme={userTheme}
+            />
+            
+            <RewardsSection 
+              rewards={rewards}
+              userPoints={user.points}
+              onAddReward={() => RewardManager.openAddRewardDialog()}
+              onRedeemReward={handleRedeemReward}
+              onEditReward={(id) => RewardManager.openEditRewardDialog(id, rewards)}
+              userTheme={userTheme}
+            />
+          </div>
+          
+          <div className="md:col-span-6 xl:col-span-7">
+            <StatisticsSection 
+              userStars={user.stars}
+              achievements={achievements}
+              totalAchievements={totalAchievements}
+              userTheme={userTheme}
+            />
+            
+            <TasksSection 
+              filter={filter}
+              setFilter={setFilter}
+              tasks={tasks}
+              onComplete={handleCompleteTask}
+              onEdit={(id) => TaskManager.openEditTaskDialog(id, tasks)}
+              onReset={handleResetTasks}
+              onAddTask={() => TaskManager.openAddTaskDialog()}
+              userTheme={userTheme}
+            />
+          </div>
+        </div>
+      </div>
       
       {showConfetti && (
         <Confetti 

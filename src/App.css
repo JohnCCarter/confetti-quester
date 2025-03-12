@@ -1,4 +1,3 @@
-
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -13,6 +12,26 @@
     padding-right: max(2rem, env(safe-area-inset-right));
     padding-top: max(2rem, env(safe-area-inset-top));
     padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* iPad optimization - wider container on larger screens */
+@media (min-width: 768px) {
+  #root {
+    max-width: 90%;
+  }
+}
+
+@media (min-width: 1024px) {
+  #root {
+    max-width: 80%;
+  }
+}
+
+/* For very large iPad Pro screens */
+@media (min-width: 1280px) {
+  #root {
+    max-width: 1024px;
   }
 }
 

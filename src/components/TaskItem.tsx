@@ -40,14 +40,13 @@ const TaskItem: React.FC<TaskProps> = ({
 
   return (
     <div 
-      className={`task-item ${completed ? 'completed' : ''} transform transition-all duration-300 ${
-        isHovered ? 'scale-[1.02] shadow-md' : ''
-      }`}
+      className={`task-item ${completed ? 'completed' : ''} transform transition-all duration-300 md:p-4 md:rounded-xl
+        ${isHovered ? 'scale-[1.02] shadow-md' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div 
-        className={`w-8 h-8 rounded-full border-2 flex items-center justify-center mr-3 cursor-pointer transition-all duration-300 
+        className={`w-8 h-8 rounded-full border-2 flex items-center justify-center mr-3 cursor-pointer transition-all duration-300 md:w-10 md:h-10 md:mr-4
           ${completed 
             ? 'border-app-green bg-app-green' 
             : isChecking 
@@ -58,15 +57,15 @@ const TaskItem: React.FC<TaskProps> = ({
         onClick={handleComplete}
       >
         {completed && (
-          <Check size={16} className="text-white animate-fade-in animate-[bounce_0.5s_ease-in-out]" />
+          <Check size={16} className="text-white animate-fade-in animate-[bounce_0.5s_ease-in-out] md:size-5" />
         )}
       </div>
       
       <div className="flex items-center">
-        <div className={`mr-2 transition-all duration-300 ${isHovered ? 'scale-110' : ''}`}>
+        <div className={`mr-2 transition-all duration-300 md:mr-3 md:scale-125 ${isHovered ? 'scale-110' : ''}`}>
           <CustomTaskIcon icon={icon} isHovered={isHovered} />
         </div>
-        <span className={`font-medium transition-all duration-300 ${
+        <span className={`font-medium transition-all duration-300 md:text-lg ${
           completed 
             ? 'line-through text-gray-500' 
             : isHovered 
@@ -77,21 +76,21 @@ const TaskItem: React.FC<TaskProps> = ({
       
       <div className="ml-auto flex items-center space-x-3">
         <div className={`flex items-center transition-all duration-300 ${isHovered ? 'scale-110 rotate-3' : ''}`}>
-          <span className={`text-sm text-amber-400 mr-1 ${isHovered ? 'animate-pulse' : ''}`}>★</span>
-          <span className={`text-sm transition-colors duration-300 ${isHovered ? 'text-amber-300' : 'text-gray-400'}`}>
+          <span className={`text-sm text-amber-400 mr-1 md:text-base ${isHovered ? 'animate-pulse' : ''}`}>★</span>
+          <span className={`text-sm transition-colors duration-300 md:text-base ${isHovered ? 'text-amber-300' : 'text-gray-400'}`}>
             {points} poäng
           </span>
         </div>
         
         <button 
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 ${
             isHovered 
               ? 'text-white bg-gray-700 scale-110' 
               : 'text-gray-400 hover:text-white hover:bg-gray-700'
           }`}
           onClick={() => onEdit(id)}
         >
-          <Edit2 size={16} className={`transition-all duration-300 ${isHovered ? 'animate-pulse' : ''}`} />
+          <Edit2 size={16} className={`transition-all duration-300 md:size-5 ${isHovered ? 'animate-pulse' : ''}`} />
         </button>
       </div>
     </div>
