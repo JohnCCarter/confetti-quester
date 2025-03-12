@@ -6,7 +6,7 @@ interface RewardManagerProps {
   onSaveReward: (reward: Reward) => void;
 }
 
-// Skapa en typ som inkluderar statiska egenskaper
+// Create a type that includes static properties
 interface RewardManagerComponent extends React.FC<RewardManagerProps> {
   openAddRewardDialog: () => void;
   openEditRewardDialog: (id: string, rewards: Reward[]) => void;
@@ -30,7 +30,7 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward }) => {
     openEditRewardDialogFn = (id: string, rewards: Reward[]) => {
       const rewardToEdit = rewards.find(reward => reward.id === id);
       if (rewardToEdit) {
-        setCurrentReward(rewardToEdit);
+        setCurrentReward({ ...rewardToEdit });
         setRewardDialogOpen(true);
       }
     };
@@ -45,15 +45,19 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward }) => {
     <RewardsDialog
       open={rewardDialogOpen}
       onClose={() => setRewardDialogOpen(false)}
-      onSave={onSaveReward}
+      onSave={(updatedReward) => {
+        onSaveReward(updatedReward);
+        setRewardDialogOpen(false);
+      }}
       reward={currentReward}
       isEditing={!!currentReward}
     />
   );
 };
 
-// Definiera statiska metoder
+// Define static methods
 (RewardManager as RewardManagerComponent).openAddRewardDialog = () => openAddRewardDialogFn();
-(RewardManager as RewardManagerComponent).openEditRewardDialog = (id: string, rewards: Reward[]) => openEditRewardDialogFn(id, rewards);
+(RewardManager as RewardManagerComponent).openEditRewardDialog = (id: string, rewards: Reward[]) => 
+  openEditRewardDialogFn(id, rewards);
 
 export default RewardManager as RewardManagerComponent;
