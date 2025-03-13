@@ -32,7 +32,7 @@ const TasksSection: React.FC<TasksSectionProps> = ({
       
       <FilterBar filter={filter} setFilter={setFilter} userTheme={userTheme} />
       
-      <div className="md:max-h-[calc(100vh-300px)] md:overflow-y-auto md:pr-2">
+      <div className="md:max-h-[calc(100vh-300px)] md:overflow-y-auto md:pr-2 overflow-x-hidden">
         <TaskList 
           filter={filter}
           tasks={tasks}

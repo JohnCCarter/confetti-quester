@@ -1,3 +1,4 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -12,6 +13,14 @@
     padding-right: max(2rem, env(safe-area-inset-right));
     padding-top: max(2rem, env(safe-area-inset-top));
     padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* iPhone optimization - adjust padding on smaller screens */
+@media (max-width: 640px) {
+  #root {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
   }
 }
 
