@@ -17,7 +17,7 @@ export const renderAchievementIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Trophy 
             size={size} 
-            className={`text-amber-400 ${isHovered ? 'animate-bounce' : ''}`}
+            className={`text-amber-400 transition-all duration-300 ${isHovered ? 'animate-bounce scale-125' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-yellow-400 text-xs`}>☀️</span>
         </IconContainer>
@@ -27,7 +27,7 @@ export const renderAchievementIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Award 
             size={size} 
-            className={`text-pink-400 ${isHovered ? 'animate-pulse' : ''}`}
+            className={`text-pink-400 transition-all duration-300 ${isHovered ? 'animate-[spin_2s_linear_infinite] scale-110' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-[8px]`}>👑</span>
         </IconContainer>
@@ -37,7 +37,7 @@ export const renderAchievementIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Award 
             size={size} 
-            className={`text-blue-400 ${isHovered ? 'animate-pulse' : ''}`}
+            className={`text-blue-400 transition-all duration-300 ${isHovered ? 'animate-[spin_2s_linear_infinite] scale-110' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-[8px]`}>👑</span>
         </IconContainer>
@@ -47,7 +47,7 @@ export const renderAchievementIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Trophy 
             size={size} 
-            className={`text-emerald-400 transition-transform ${isHovered ? 'rotate-6' : ''}`}
+            className={`text-emerald-400 transition-all duration-300 ${isHovered ? 'rotate-12 scale-125' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-yellow-400 text-xs`}>★</span>
         </IconContainer>
@@ -57,7 +57,7 @@ export const renderAchievementIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Trophy 
             size={size} 
-            className={`text-yellow-400 ${isHovered ? 'animate-pulse' : ''}`}
+            className={`text-yellow-400 transition-all duration-300 ${isHovered ? 'animate-[pulse_0.8s_ease-in-out_infinite] scale-125' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-[8px]`}>🏆</span>
         </IconContainer>
@@ -67,7 +67,7 @@ export const renderAchievementIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Award 
             size={size} 
-            className={`text-purple-400 ${isHovered ? 'animate-bounce' : ''}`}
+            className={`text-purple-400 transition-all duration-300 ${isHovered ? 'animate-[bounce_1s_ease_infinite] scale-125' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-[8px]`}>🎁</span>
         </IconContainer>

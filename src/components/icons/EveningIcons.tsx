@@ -17,7 +17,7 @@ export const renderEveningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Package 
             size={size} 
-            className={`text-amber-400 transition-transform ${isHovered ? 'rotate-3' : ''}`}
+            className={`text-amber-400 transition-all duration-300 ${isHovered ? 'rotate-12 scale-110' : ''}`}
           />
           <span className={`${emojiClass} -bottom-1 -right-1 text-[8px]`}>😊</span>
         </IconContainer>
@@ -27,7 +27,7 @@ export const renderEveningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Droplet 
             size={size} 
-            className={`text-blue-400 ${isHovered ? 'animate-bounce' : ''}`}
+            className={`text-blue-400 transition-all duration-300 ${isHovered ? 'animate-bounce scale-110' : ''}`}
           />
           <span className={`${emojiClass} -bottom-1 -right-1 text-[8px]`}>😊</span>
         </IconContainer>
@@ -37,7 +37,7 @@ export const renderEveningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Smile 
             size={size} 
-            className={`text-yellow-400 transition-transform ${isHovered ? 'scale-110' : ''}`}
+            className={`text-yellow-400 transition-all duration-300 ${isHovered ? 'scale-125 animate-pulse' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-[8px]`}>⭐</span>
         </IconContainer>
@@ -47,7 +47,7 @@ export const renderEveningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Shirt 
             size={size} 
-            className={`text-purple-400 transition-transform ${isHovered ? 'rotate-6' : ''}`}
+            className={`text-purple-400 transition-all duration-300 ${isHovered ? 'rotate-45 scale-110' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-[8px]`}>🎨</span>
         </IconContainer>
@@ -57,7 +57,7 @@ export const renderEveningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Book 
             size={size} 
-            className={`text-blue-400 transition-transform ${isHovered ? 'rotate-6' : ''}`}
+            className={`text-blue-400 transition-all duration-300 ${isHovered ? 'rotate-12 scale-125' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-yellow-400 text-xs`}>★</span>
         </IconContainer>
@@ -67,7 +67,7 @@ export const renderEveningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Pencil 
             size={size} 
-            className={`text-emerald-400 transition-transform ${isHovered ? 'rotate-12' : ''}`}
+            className={`text-emerald-400 transition-all duration-300 ${isHovered ? 'rotate-45 scale-110' : ''}`}
           />
           <span className={`${emojiClass} -bottom-1 -right-1 text-[8px]`}>📝</span>
         </IconContainer>
@@ -77,7 +77,7 @@ export const renderEveningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Moon 
             size={size} 
-            className={`text-indigo-400 ${isHovered ? 'animate-pulse' : ''}`}
+            className={`text-indigo-400 transition-all duration-300 ${isHovered ? 'animate-pulse scale-125' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-[8px]`}>✨</span>
         </IconContainer>
@@ -87,7 +87,7 @@ export const renderEveningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Heart 
             size={size} 
-            className={`text-pink-400 transition-transform ${isHovered ? 'scale-125 animate-pulse' : ''}`}
+            className={`text-pink-400 transition-all duration-300 ${isHovered ? 'scale-125 animate-[beat_1s_ease-in-out_infinite]' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-[8px]`}>🤗</span>
         </IconContainer>

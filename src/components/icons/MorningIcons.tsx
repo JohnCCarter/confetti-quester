@@ -11,18 +11,26 @@ export const renderMorningIcon = (icon: string, props: CustomIconProps) => {
     isHovered ? 'scale-125 animate-bounce' : ''
   }`;
   
+  const iconAnimationClass = isHovered ? 'transition-all duration-300 ' : '';
+  
   switch (icon) {
     case 'bed':
       return (
         <IconContainer isHovered={isHovered}>
-          <Bed size={size} className={`text-indigo-400 ${isHovered ? 'animate-pulse' : ''}`} />
+          <Bed 
+            size={size} 
+            className={`text-indigo-400 ${iconAnimationClass} ${isHovered ? 'animate-pulse transform scale-110' : ''}`} 
+          />
           <span className={`${emojiClass} -top-1 -right-1 text-yellow-400 text-xs`}>★</span>
         </IconContainer>
       );
     case 'shirt':
       return (
         <IconContainer isHovered={isHovered}>
-          <Shirt size={size} className={`text-blue-400 ${isHovered ? 'rotate-6' : ''}`} />
+          <Shirt 
+            size={size} 
+            className={`text-blue-400 transition-transform duration-300 ${isHovered ? 'rotate-12 scale-110' : ''}`} 
+          />
           <span className={`${emojiClass} -bottom-1 -right-1 text-[8px]`}>😊</span>
         </IconContainer>
       );
@@ -31,7 +39,7 @@ export const renderMorningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Scissors 
             size={size} 
-            className={`text-purple-400 transition-transform ${isHovered ? 'rotate-12' : ''}`} 
+            className={`text-purple-400 transition-all duration-300 ${isHovered ? 'rotate-45 scale-110' : ''}`} 
           />
           <span className={`${emojiClass} -top-1 -right-1 text-[8px]`}>😊</span>
         </IconContainer>
@@ -41,7 +49,7 @@ export const renderMorningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Utensils 
             size={size} 
-            className={`text-orange-400 ${isHovered ? 'animate-[wiggle_1s_ease-in-out_infinite]' : ''}`}
+            className={`text-orange-400 transition-all duration-300 ${isHovered ? 'animate-[wiggle_1s_ease-in-out_infinite] scale-110' : ''}`}
           />
           <span className={`${emojiClass} -bottom-1 -right-1 text-[8px]`}>🍽️</span>
         </IconContainer>
@@ -51,7 +59,7 @@ export const renderMorningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Smile 
             size={size} 
-            className={`text-teal-400 transition-transform ${isHovered ? 'scale-110' : ''}`}
+            className={`text-teal-400 transition-transform duration-300 ${isHovered ? 'scale-125 animate-pulse' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-yellow-400 text-xs`}>✨</span>
         </IconContainer>
@@ -61,7 +69,7 @@ export const renderMorningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Shirt 
             size={size} 
-            className={`text-teal-400 transition-transform ${isHovered ? 'rotate-6' : ''}`}
+            className={`text-teal-400 transition-all duration-300 ${isHovered ? 'rotate-12 scale-110' : ''}`}
           />
           <span className={`${emojiClass} -bottom-1 -right-1 text-[8px]`}>😊</span>
         </IconContainer>
@@ -71,7 +79,7 @@ export const renderMorningIcon = (icon: string, props: CustomIconProps) => {
         <IconContainer isHovered={isHovered}>
           <Heart 
             size={size} 
-            className={`text-red-400 transition-transform ${isHovered ? 'scale-125 animate-pulse' : ''}`}
+            className={`text-red-400 transition-all duration-300 ${isHovered ? 'scale-125 animate-pulse' : ''}`}
           />
           <span className={`${emojiClass} -top-1 -right-1 text-[8px]`}>🤗</span>
         </IconContainer>
