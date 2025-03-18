@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -38,20 +37,14 @@ const Index = () => {
   const [showFullConfetti, setShowFullConfetti] = useState(false);
   const [completedTaskId, setCompletedTaskId] = useState<string | null>(null);
 
-  // Apply user-specific class to body for theme
   useEffect(() => {
-    // Remove any existing user classes
     document.body.classList.remove('user-isabel', 'user-zozo');
-    
-    // Add the appropriate user class
     document.body.classList.add(isIsabel ? 'user-isabel' : 'user-zozo');
-    
     return () => {
       document.body.classList.remove('user-isabel', 'user-zozo');
     };
   }, [isIsabel]);
 
-  // Check for completed category
   useEffect(() => {
     if (!completedTaskId) return;
     
@@ -73,7 +66,6 @@ const Index = () => {
     setCompletedTaskId(null);
   }, [tasks, completedTaskId]);
 
-  // Task management functions
   const { 
     handleCompleteTask, 
     handleEditTask, 
@@ -105,7 +97,7 @@ const Index = () => {
         />
         
         <div className="md:grid md:grid-cols-12 md:gap-6 lg:gap-8">
-          <div className="md:col-span-6 xl:col-span-5">
+          <div className="md:col-span-6 xl:col-span-6">
             <UserCard 
               name={`Dina poäng`}
               points={user.points}
@@ -115,22 +107,12 @@ const Index = () => {
               userTheme={userTheme}
             />
             
-            <RewardsSection 
-              rewards={rewards}
-              userPoints={user.points}
-              onAddReward={() => RewardManager.openAddRewardDialog()}
-              onRedeemReward={handleRedeemReward}
-              onEditReward={(id) => RewardManager.openEditRewardDialog(id, rewards)}
-              userTheme={userTheme}
-            />
-          </div>
-          
-          <div className="md:col-span-6 xl:col-span-7">
             <StatisticsSection 
               userStars={user.stars}
               achievements={achievements}
               totalAchievements={totalAchievements}
               userTheme={userTheme}
+              showWeekOverview={false}
             />
             
             <TasksSection 
@@ -141,6 +123,26 @@ const Index = () => {
               onEdit={(id) => TaskManager.openEditTaskDialog(id, tasks)}
               onReset={handleResetTasks}
               onAddTask={() => TaskManager.openAddTaskDialog()}
+              userTheme={userTheme}
+            />
+          </div>
+          
+          <div className="md:col-span-6 xl:col-span-6">
+            <StatisticsSection 
+              userStars={user.stars}
+              achievements={[]}
+              totalAchievements={0}
+              userTheme={userTheme}
+              showWeekOverview={true}
+              hideAchievements={true}
+            />
+            
+            <RewardsSection 
+              rewards={rewards}
+              userPoints={user.points}
+              onAddReward={() => RewardManager.openAddRewardDialog()}
+              onRedeemReward={handleRedeemReward}
+              onEditReward={(id) => RewardManager.openEditRewardDialog(id, rewards)}
               userTheme={userTheme}
             />
           </div>
@@ -172,7 +174,6 @@ const Index = () => {
         )}
       </div>
       
-      {/* Dialog Managers */}
       <TaskManager 
         onSaveTask={handleSaveTask}
       />
