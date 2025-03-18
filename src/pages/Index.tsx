@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 
@@ -87,64 +88,79 @@ const Index = () => {
   const userTheme = isIsabel ? 'pink' : 'blue';
 
   return (
-    <div className="min-h-screen px-4 py-6 md:px-6 md:py-8 lg:px-8 lg:py-10">
-      <div className="max-w-md mx-auto md:max-w-3xl lg:max-w-4xl xl:max-w-6xl">
-        <UserHeader 
-          userName={user.name}
-          onSwitchUser={handleSwitchUser}
-          alternateUserName={isIsabel ? 'Zozo' : 'Isabel'}
-          userTheme={userTheme}
-        />
+    <div className="min-h-screen px-4 py-6 md:px-6 md:py-8 lg:px-8 lg:py-10 flex justify-center">
+      <div className="w-full max-w-md mx-auto md:max-w-3xl lg:max-w-4xl xl:max-w-5xl">
+        {/* UserHeader - Top of the page */}
+        <div className="mb-6 text-center">
+          <UserHeader 
+            userName={user.name}
+            onSwitchUser={handleSwitchUser}
+            alternateUserName={isIsabel ? 'Zozo' : 'Isabel'}
+            userTheme={userTheme}
+          />
+        </div>
         
         <div className="md:grid md:grid-cols-12 md:gap-6 lg:gap-8">
-          <div className="md:col-span-6 xl:col-span-6">
-            <UserCard 
-              name={`Dina poäng`}
-              points={user.points}
-              completedTasks={tasks.filter(t => t.completed).length}
-              stars={user.stars}
-              onEdit={() => UserManager.openUserDialog()}
-              userTheme={userTheme}
-            />
+          {/* Left column for UserCard, Achievements and Tasks */}
+          <div className="md:col-span-7 xl:col-span-7">
+            <div className="mb-6">
+              <UserCard 
+                name={`Dina poäng`}
+                points={user.points}
+                completedTasks={tasks.filter(t => t.completed).length}
+                stars={user.stars}
+                onEdit={() => UserManager.openUserDialog()}
+                userTheme={userTheme}
+              />
+            </div>
             
-            <StatisticsSection 
-              userStars={user.stars}
-              achievements={achievements}
-              totalAchievements={totalAchievements}
-              userTheme={userTheme}
-              showWeekOverview={false}
-            />
+            <div className="mb-6">
+              <StatisticsSection 
+                userStars={user.stars}
+                achievements={achievements}
+                totalAchievements={totalAchievements}
+                userTheme={userTheme}
+                showWeekOverview={false}
+              />
+            </div>
             
-            <TasksSection 
-              filter={filter}
-              setFilter={setFilter}
-              tasks={tasks}
-              onComplete={handleCompleteTask}
-              onEdit={(id) => TaskManager.openEditTaskDialog(id, tasks)}
-              onReset={handleResetTasks}
-              onAddTask={() => TaskManager.openAddTaskDialog()}
-              userTheme={userTheme}
-            />
+            <div className="mb-6">
+              <TasksSection 
+                filter={filter}
+                setFilter={setFilter}
+                tasks={tasks}
+                onComplete={handleCompleteTask}
+                onEdit={(id) => TaskManager.openEditTaskDialog(id, tasks)}
+                onReset={handleResetTasks}
+                onAddTask={() => TaskManager.openAddTaskDialog()}
+                userTheme={userTheme}
+              />
+            </div>
           </div>
           
-          <div className="md:col-span-6 xl:col-span-6">
-            <StatisticsSection 
-              userStars={user.stars}
-              achievements={[]}
-              totalAchievements={0}
-              userTheme={userTheme}
-              showWeekOverview={true}
-              hideAchievements={true}
-            />
+          {/* Right column for WeekOverview and Rewards */}
+          <div className="md:col-span-5 xl:col-span-5">
+            <div className="mb-6">
+              <StatisticsSection 
+                userStars={user.stars}
+                achievements={[]}
+                totalAchievements={0}
+                userTheme={userTheme}
+                showWeekOverview={true}
+                hideAchievements={true}
+              />
+            </div>
             
-            <RewardsSection 
-              rewards={rewards}
-              userPoints={user.points}
-              onAddReward={() => RewardManager.openAddRewardDialog()}
-              onRedeemReward={handleRedeemReward}
-              onEditReward={(id) => RewardManager.openEditRewardDialog(id, rewards)}
-              userTheme={userTheme}
-            />
+            <div className="mb-6">
+              <RewardsSection 
+                rewards={rewards}
+                userPoints={user.points}
+                onAddReward={() => RewardManager.openAddRewardDialog()}
+                onRedeemReward={handleRedeemReward}
+                onEditReward={(id) => RewardManager.openEditRewardDialog(id, rewards)}
+                userTheme={userTheme}
+              />
+            </div>
           </div>
         </div>
       </div>
