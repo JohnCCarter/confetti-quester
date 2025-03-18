@@ -21,7 +21,9 @@ const Index = () => {
     tasks,
     setTasks,
     rewards,
+    setRewards,
     achievements,
+    setAchievements,
     totalAchievements,
     handleSwitchUser,
     handleSaveUser,
@@ -84,7 +86,10 @@ const Index = () => {
     setShowConfetti,
     setConfettiPosition,
     setShowFullConfetti,
-    setCompletedTaskId
+    setCompletedTaskId,
+    setAchievements,
+    setRewards,
+    isIsabel
   });
 
   const userTheme = isIsabel ? 'pink' : 'blue';

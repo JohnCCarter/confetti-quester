@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Sun } from 'lucide-react';
 import { User } from '@/components/UserDialog';
@@ -40,7 +41,7 @@ const defaultRewards: Reward[] = [
 ];
 
 // Default achievements for Isabel
-const defaultIsabelAchievements: Achievement[] = [
+export const defaultIsabelAchievements: Achievement[] = [
   {
     id: '1',
     title: 'Morgonmästare',
@@ -79,7 +80,7 @@ const defaultIsabelAchievements: Achievement[] = [
 ];
 
 // Default achievements for Zozo
-const defaultZozoAchievements: Achievement[] = [
+export const defaultZozoAchievements: Achievement[] = [
   {
     id: '1',
     title: 'Morgonmästare',
@@ -297,6 +298,7 @@ export const useUserManagement = () => {
     rewards,
     setRewards,
     achievements,
+    setAchievements,
     handleSwitchUser,
     handleSaveUser,
     handleSaveReward,

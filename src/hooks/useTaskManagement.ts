@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { Task } from '@/components/TaskDialog';
 import { toast } from 'sonner';
+import { isabelTasks, zozoTasks } from '@/data/tasks';
+import { defaultUser, alternateUser, defaultIsabelAchievements, defaultZozoAchievements } from '@/hooks/useUserManagement';
 
 interface UseTaskManagementProps {
   tasks: Task[];
@@ -11,6 +13,9 @@ interface UseTaskManagementProps {
   setConfettiPosition: React.Dispatch<React.SetStateAction<{x: number, y: number} | null>>;
   setShowFullConfetti: React.Dispatch<React.SetStateAction<boolean>>;
   setCompletedTaskId: React.Dispatch<React.SetStateAction<string | null>>;
+  setAchievements: React.Dispatch<React.SetStateAction<any[]>>;
+  setRewards: React.Dispatch<React.SetStateAction<any[]>>;
+  isIsabel: boolean;
 }
 
 export const useTaskManagement = ({
@@ -20,7 +25,10 @@ export const useTaskManagement = ({
   setShowConfetti,
   setConfettiPosition,
   setShowFullConfetti,
-  setCompletedTaskId
+  setCompletedTaskId,
+  setAchievements,
+  setRewards,
+  isIsabel
 }: UseTaskManagementProps) => {
   
   const handleCompleteTask = (id: string) => {
@@ -75,9 +83,57 @@ export const useTaskManagement = ({
   };
 
   const handleResetTasks = () => {
-    const updatedTasks = tasks.map(task => ({ ...task, completed: false }));
-    setTasks(updatedTasks);
-    toast.success('Uppgifter har återställts!');
+    // Reset tasks based on current user
+    const defaultTasks = isIsabel ? isabelTasks : zozoTasks;
+    setTasks(JSON.parse(JSON.stringify(defaultTasks))); // Deep clone to ensure we get fresh objects
+    
+    // Reset user points and stars
+    setUser(isIsabel ? { ...defaultUser } : { ...alternateUser });
+    
+    // Reset achievements
+    const defaultAchievements = isIsabel ? defaultIsabelAchievements : defaultZozoAchievements;
+    setAchievements(JSON.parse(JSON.stringify(defaultAchievements)));
+    
+    // Reset rewards to default
+    const defaultRewards = [
+      {
+        id: '1',
+        title: 'Extra skärmtid',
+        description: '30 minuter extra skärmtid',
+        points: 50,
+        icon: 'gift'
+      },
+      {
+        id: '2',
+        title: 'Glass',
+        description: 'En glass av valfri sort',
+        points: 100,
+        icon: 'award'
+      }
+    ];
+    
+    setRewards(defaultRewards);
+    
+    // Clear local storage for current user
+    if (isIsabel) {
+      localStorage.removeItem('isabel');
+      localStorage.removeItem('isabelTasks');
+      localStorage.removeItem('isabelRewards');
+      localStorage.removeItem('isabelAchievements');
+    } else {
+      localStorage.removeItem('zozo');
+      localStorage.removeItem('zozoTasks');
+      localStorage.removeItem('zozoRewards');
+      localStorage.removeItem('zozoAchievements');
+    }
+    
+    // Clear global local storage
+    localStorage.removeItem('user');
+    localStorage.removeItem('tasks');
+    localStorage.removeItem('rewards');
+    localStorage.removeItem('achievements');
+    
+    toast.success('Allt har återställts!');
   };
 
   return {
