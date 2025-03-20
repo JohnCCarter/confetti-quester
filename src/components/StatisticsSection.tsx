@@ -3,6 +3,16 @@ import React from 'react';
 import { Calendar, Trophy } from 'lucide-react';
 import SectionHeader from './SectionHeader';
 import AchievementItem, { Achievement } from './AchievementItem';
+import { Task } from './TaskDialog';
+
+interface WeekStatistics {
+  completedToday: number;
+  totalToday: number;
+  completedThisWeek: number;
+  totalThisWeek: number;
+  completedByDay: Record<string, number>;
+  tasksPerDay: Record<string, number>;
+}
 
 interface StatisticsSectionProps {
   userStars: number;
@@ -11,6 +21,7 @@ interface StatisticsSectionProps {
   totalAchievements: number;
   showWeekOverview?: boolean;
   hideAchievements?: boolean;
+  weekStatistics?: WeekStatistics;
 }
 
 const StatisticsSection: React.FC<StatisticsSectionProps> = ({ 
@@ -19,8 +30,12 @@ const StatisticsSection: React.FC<StatisticsSectionProps> = ({
   achievements,
   totalAchievements,
   showWeekOverview = true,
-  hideAchievements = false
+  hideAchievements = false,
+  weekStatistics
 }) => {
+  // Get day names for current locale
+  const dayNames = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'];
+  
   return (
     <>
       {showWeekOverview && (
@@ -29,9 +44,48 @@ const StatisticsSection: React.FC<StatisticsSectionProps> = ({
           title="Veckoöversikt"
           userTheme={userTheme}
         >
-          <div className="glass-card p-4 hover:shadow-lg transition-all duration-300">
-            <p className="text-gray-400 text-center">Statistik kommer snart...</p>
-          </div>
+          {weekStatistics ? (
+            <div className="space-y-3">
+              <div className="glass-card p-4 hover:shadow-lg transition-all duration-300">
+                <h3 className="text-sm font-medium mb-2">Idag</h3>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400">Slutförda uppgifter</span>
+                  <span className={`font-medium ${userTheme === 'pink' ? 'text-app-pink' : 'text-app-blue'}`}>
+                    {weekStatistics.completedToday}/{weekStatistics.totalToday}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="glass-card p-4 hover:shadow-lg transition-all duration-300">
+                <h3 className="text-sm font-medium mb-2">Denna vecka</h3>
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-gray-400">Slutförda uppgifter</span>
+                  <span className={`font-medium ${userTheme === 'pink' ? 'text-app-pink' : 'text-app-blue'}`}>
+                    {weekStatistics.completedThisWeek}/{weekStatistics.totalThisWeek}
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-7 gap-1 text-center">
+                  {dayNames.map((day, index) => (
+                    <div key={day} className="flex flex-col items-center">
+                      <span className="text-xs text-gray-400">{day}</span>
+                      <div className={`mt-1 w-6 h-6 rounded-full flex items-center justify-center text-xs ${
+                        weekStatistics.completedByDay[index.toString()] > 0 
+                          ? userTheme === 'pink' ? 'bg-app-pink text-white' : 'bg-app-blue text-white' 
+                          : 'bg-gray-800 text-gray-400'
+                      }`}>
+                        {weekStatistics.completedByDay[index.toString()] || 0}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="glass-card p-4 hover:shadow-lg transition-all duration-300">
+              <p className="text-gray-400 text-center">Statistik kommer snart...</p>
+            </div>
+          )}
         </SectionHeader>
       )}
       

@@ -83,57 +83,46 @@ export const useTaskManagement = ({
   };
 
   const handleResetTasks = () => {
-    // Reset tasks based on current user
+    // Istället för att återställa allt, återställer vi bara slutförda uppgifter, men behåller personliga ändringar
+    
+    // Hämta de initiala uppgifterna baserat på vilken användare
     const defaultTasks = isIsabel ? isabelTasks : zozoTasks;
-    setTasks(JSON.parse(JSON.stringify(defaultTasks))); // Deep clone to ensure we get fresh objects
     
-    // Reset user points and stars
-    setUser(isIsabel ? { ...defaultUser } : { ...alternateUser });
+    // Skapa en kopia av de aktuella uppgifterna
+    const updatedTasks = [...tasks];
     
-    // Reset achievements
-    const defaultAchievements = isIsabel ? defaultIsabelAchievements : defaultZozoAchievements;
-    setAchievements(JSON.parse(JSON.stringify(defaultAchievements)));
+    // Återställ endast completed-status för varje uppgift
+    updatedTasks.forEach(task => {
+      task.completed = false;
+    });
     
-    // Reset rewards to default
-    const defaultRewards = [
-      {
-        id: '1',
-        title: 'Extra skärmtid',
-        description: '30 minuter extra skärmtid',
-        points: 50,
-        icon: 'gift'
-      },
-      {
-        id: '2',
-        title: 'Glass',
-        description: 'En glass av valfri sort',
-        points: 100,
-        icon: 'award'
+    // Återställ alla uppgifter som saknas från defaultTasks (för att säkerställa att standarduppgifter inte saknas)
+    defaultTasks.forEach(defaultTask => {
+      if (!updatedTasks.some(task => task.id === defaultTask.id)) {
+        updatedTasks.push({...defaultTask});
       }
-    ];
+    });
     
-    setRewards(defaultRewards);
+    setTasks(updatedTasks);
     
-    // Clear local storage for current user
-    if (isIsabel) {
-      localStorage.removeItem('isabel');
-      localStorage.removeItem('isabelTasks');
-      localStorage.removeItem('isabelRewards');
-      localStorage.removeItem('isabelAchievements');
-    } else {
-      localStorage.removeItem('zozo');
-      localStorage.removeItem('zozoTasks');
-      localStorage.removeItem('zozoRewards');
-      localStorage.removeItem('zozoAchievements');
-    }
+    // Återställ användarens poäng till 0, men behåll andra användarinställningar
+    setUser(prev => ({
+      ...prev,
+      points: 0
+    }));
     
-    // Clear global local storage
-    localStorage.removeItem('user');
-    localStorage.removeItem('tasks');
-    localStorage.removeItem('rewards');
-    localStorage.removeItem('achievements');
+    // Återställ achievments (prestationer) till ej slutförda
+    const currentAchievements = isIsabel ? defaultIsabelAchievements : defaultZozoAchievements;
+    const updatedAchievements = currentAchievements.map(achievement => ({
+      ...achievement,
+      completed: false
+    }));
     
-    toast.success('Allt har återställts!');
+    setAchievements(updatedAchievements);
+    
+    // Behåll belöningar oförändrade, återställer inte dessa
+    
+    toast.success('Uppgifter och poäng har återställts!');
   };
 
   return {

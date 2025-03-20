@@ -37,6 +37,39 @@ const Index = () => {
   const [confettiPosition, setConfettiPosition] = useState<{x: number, y: number} | null>(null);
   const [showFullConfetti, setShowFullConfetti] = useState(false);
   const [completedTaskId, setCompletedTaskId] = useState<string | null>(null);
+  
+  // Beräkna veckostatistik
+  const calculateWeekStatistics = () => {
+    const today = new Date();
+    const dayOfWeek = today.getDay(); // 0 för söndag, 1 för måndag, osv.
+    
+    // Uppgifter slutförda idag
+    const completedToday = tasks.filter(task => task.completed).length;
+    const totalToday = tasks.length;
+    
+    // Uppgifter slutförda denna vecka (vi antar att hela listan innehåller veckans uppgifter)
+    const completedThisWeek = completedToday; // Förenklar för nu
+    const totalThisWeek = totalToday;
+    
+    // Skapa uppgifter per dag (i denna enkla version visar vi bara dagens uppgifter)
+    const completedByDay: Record<string, number> = {};
+    const tasksPerDay: Record<string, number> = {};
+    
+    // Lägg in dagens värden
+    completedByDay[dayOfWeek.toString()] = completedToday;
+    tasksPerDay[dayOfWeek.toString()] = totalToday;
+    
+    return {
+      completedToday,
+      totalToday,
+      completedThisWeek,
+      totalThisWeek,
+      completedByDay,
+      tasksPerDay
+    };
+  };
+  
+  const weekStatistics = calculateWeekStatistics();
 
   useEffect(() => {
     document.body.classList.remove('user-isabel', 'user-zozo');
@@ -148,6 +181,7 @@ const Index = () => {
                 userTheme={userTheme}
                 showWeekOverview={true}
                 hideAchievements={true}
+                weekStatistics={weekStatistics}
               />
             </div>
             
