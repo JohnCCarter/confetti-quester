@@ -7,18 +7,24 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "localhost", // Restrict to localhost only instead of ::
+    host: "localhost", // Begränsa till endast localhost
     port: 8080,
     hmr: {
-      // Add security for HMR connections
+      // Lägg till säkerhet för HMR-anslutningar
       protocol: 'ws',
       host: 'localhost',
     },
-    // Add CORS headers for development
+    // Lägg till CORS-huvuden för utveckling
     cors: {
       origin: ["http://localhost:8080"],
       methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
       credentials: true,
+    },
+    // Lägg till striktare säkerhetsinställningar
+    headers: {
+      'Content-Security-Policy': "default-src 'self'; connect-src 'self' ws://localhost:*;",
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
     },
   },
   plugins: [
