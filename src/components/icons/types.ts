@@ -24,7 +24,6 @@ export type CustomIconType =
   | 'superstar' 
   | 'rewarded'
   | 'lovable'
-  // Additional standard icons used in the app
   | 'coffee'
   | 'scissors'
   | 'smile'
