@@ -22,6 +22,7 @@ const Index = () => {
     handleSaveUser,
     handleSaveReward,
     handleRedeemReward,
+    handleDeleteReward,
     isIsabel
   } = useUserManagement();
 
@@ -77,6 +78,7 @@ const Index = () => {
         handleSaveUser={handleSaveUser}
         handleSaveReward={handleSaveReward}
         handleRedeemReward={handleRedeemReward}
+        handleDeleteReward={handleDeleteReward}
         isIsabel={isIsabel}
         setShowConfetti={setShowConfetti}
         setConfettiPosition={setConfettiPosition}

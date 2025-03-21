@@ -72,6 +72,11 @@ export const useTaskManagement = ({
     }
   };
 
+  const handleDeleteTask = (id: string) => {
+    setTasks(prev => prev.filter(task => task.id !== id));
+    toast.success('Uppgift borttagen!');
+  };
+
   const handleSaveTask = (task: Task) => {
     if (tasks.some(t => t.id === task.id)) {
       setTasks(prev => prev.map(t => t.id === task.id ? task : t));
@@ -129,6 +134,7 @@ export const useTaskManagement = ({
     handleCompleteTask,
     handleEditTask,
     handleSaveTask,
-    handleResetTasks
+    handleResetTasks,
+    handleDeleteTask
   };
 };

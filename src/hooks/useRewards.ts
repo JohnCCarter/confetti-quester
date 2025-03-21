@@ -22,6 +22,11 @@ export const useRewards = (
     }
   };
 
+  const handleDeleteReward = (id: string) => {
+    setRewards(prev => prev.filter(reward => reward.id !== id));
+    toast.success('Belöning borttagen!');
+  };
+
   const handleRedeemReward = (id: string) => {
     const rewardToRedeem = rewards.find(reward => reward.id === id);
     
@@ -58,6 +63,7 @@ export const useRewards = (
 
   return {
     handleSaveReward,
-    handleRedeemReward
+    handleRedeemReward,
+    handleDeleteReward
   };
 };

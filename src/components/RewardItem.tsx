@@ -1,12 +1,13 @@
 
 import React, { useState } from 'react';
-import { Award, Gift, Gem, Ribbon, Star, Trophy, Edit2 } from 'lucide-react';
+import { Award, Gift, Gem, Ribbon, Star, Trophy, Edit2, Trash2 } from 'lucide-react';
 import { Reward } from './RewardsDialog';
 
 interface RewardItemProps {
   reward: Reward;
   onRedeem: (id: string) => void;
   onEdit: (id: string) => void;
+  onDelete: (id: string, title: string) => void;
   userPoints: number;
   userTheme: 'pink' | 'blue';
 }
@@ -15,6 +16,7 @@ const RewardItem: React.FC<RewardItemProps> = ({
   reward, 
   onRedeem, 
   onEdit,
+  onDelete,
   userPoints,
   userTheme
 }) => {
@@ -91,13 +93,25 @@ const RewardItem: React.FC<RewardItemProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div 
-        className={`absolute right-3 top-3 cursor-pointer transition-all duration-300 ${
-          isHovered ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'
-        }`} 
-        onClick={() => onEdit(reward.id)}
-      >
-        <Edit2 size={18} className={`text-gray-400 transition-all duration-300 ${isHovered ? 'animate-pulse' : ''}`} />
+      <div className="absolute right-3 top-3 flex gap-2">
+        <button 
+          className={`cursor-pointer transition-all duration-300 ${
+            isHovered ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'
+          }`} 
+          onClick={() => onEdit(reward.id)}
+          aria-label="Redigera belöning"
+        >
+          <Edit2 size={18} className={`text-gray-400 transition-all duration-300 ${isHovered ? 'animate-pulse' : ''}`} />
+        </button>
+        <button 
+          className={`cursor-pointer transition-all duration-300 ${
+            isHovered ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'
+          }`} 
+          onClick={() => onDelete(reward.id, reward.title)}
+          aria-label="Radera belöning"
+        >
+          <Trash2 size={18} className="text-red-500 hover:text-red-600 transition-all duration-300" />
+        </button>
       </div>
       
       <div className="flex items-start">

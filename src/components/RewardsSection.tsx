@@ -11,6 +11,7 @@ interface RewardsSectionProps {
   onAddReward: () => void;
   onRedeemReward: (id: string) => void;
   onEditReward: (id: string) => void;
+  onDeleteReward: (id: string, title: string) => void;
   userTheme: 'pink' | 'blue';
 }
 
@@ -20,6 +21,7 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
   onAddReward,
   onRedeemReward,
   onEditReward,
+  onDeleteReward,
   userTheme
 }) => {
   const [isButtonHovered, setIsButtonHovered] = useState(false);
@@ -47,6 +49,7 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
                   reward={reward} 
                   onRedeem={onRedeemReward}
                   onEdit={onEditReward}
+                  onDelete={onDeleteReward}
                   userPoints={userPoints}
                   userTheme={userTheme}
                 />

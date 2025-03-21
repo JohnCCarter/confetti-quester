@@ -9,10 +9,18 @@ interface TaskListProps {
   tasks: Task[];
   onComplete: (id: string) => void;
   onEdit: (id: string) => void;
+  onDelete: (id: string, title: string) => void;
   userTheme?: 'pink' | 'blue';
 }
 
-const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit, userTheme = 'pink' }) => {
+const TaskList: React.FC<TaskListProps> = ({ 
+  filter, 
+  tasks, 
+  onComplete, 
+  onEdit, 
+  onDelete,
+  userTheme = 'pink' 
+}) => {
   const [hoveredSection, setHoveredSection] = useState<'morning' | 'evening' | null>(null);
   
   const morningTasks = tasks.filter(task => task.category === 'morning');
@@ -58,6 +66,7 @@ const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit, 
                   completed={task.completed}
                   onComplete={onComplete}
                   onEdit={onEdit}
+                  onDelete={onDelete}
                   userTheme={userTheme}
                 />
               </div>
@@ -99,6 +108,7 @@ const TaskList: React.FC<TaskListProps> = ({ filter, tasks, onComplete, onEdit, 
                   completed={task.completed}
                   onComplete={onComplete}
                   onEdit={onEdit}
+                  onDelete={onDelete}
                   userTheme={userTheme}
                 />
               </div>

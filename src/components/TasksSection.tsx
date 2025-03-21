@@ -11,6 +11,7 @@ interface TasksSectionProps {
   tasks: Task[];
   onComplete: (id: string) => void;
   onEdit: (id: string) => void;
+  onDelete: (id: string, title: string) => void;
   onReset: () => void;
   onAddTask: () => void;
   userTheme: 'pink' | 'blue';
@@ -22,6 +23,7 @@ const TasksSection: React.FC<TasksSectionProps> = ({
   tasks,
   onComplete,
   onEdit,
+  onDelete,
   onReset,
   onAddTask,
   userTheme
@@ -38,6 +40,7 @@ const TasksSection: React.FC<TasksSectionProps> = ({
           tasks={tasks}
           onComplete={onComplete}
           onEdit={onEdit}
+          onDelete={onDelete}
           userTheme={userTheme}
         />
       </div>

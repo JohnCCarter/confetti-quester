@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Check, Edit2 } from 'lucide-react';
+import { Check, Edit2, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import CustomTaskIcon from './CustomTaskIcon';
 
@@ -12,6 +12,7 @@ export interface TaskProps {
   completed: boolean;
   onComplete: (id: string) => void;
   onEdit: (id: string) => void;
+  onDelete: (id: string, title: string) => void;
   userTheme?: 'pink' | 'blue';
 }
 
@@ -23,6 +24,7 @@ const TaskItem: React.FC<TaskProps> = ({
   completed, 
   onComplete,
   onEdit,
+  onDelete,
   userTheme = 'pink'
 }) => {
   const [isChecking, setIsChecking] = useState(false);
@@ -74,7 +76,7 @@ const TaskItem: React.FC<TaskProps> = ({
         }`}>{title}</span>
       </div>
       
-      <div className="ml-auto flex items-center space-x-3">
+      <div className="ml-auto flex items-center space-x-2">
         <div className={`flex items-center transition-all duration-300 ${isHovered ? 'scale-110 rotate-3' : ''}`}>
           <span className={`text-sm text-amber-400 mr-1 md:text-base ${isHovered ? 'animate-pulse' : ''}`}>★</span>
           <span className={`text-sm transition-colors duration-300 md:text-base ${isHovered ? 'text-amber-300' : 'text-gray-400'}`}>
@@ -89,8 +91,21 @@ const TaskItem: React.FC<TaskProps> = ({
               : 'text-gray-400 hover:text-white hover:bg-gray-700'
           }`}
           onClick={() => onEdit(id)}
+          aria-label="Redigera uppgift"
         >
           <Edit2 size={16} className={`transition-all duration-300 md:size-5 ${isHovered ? 'animate-pulse' : ''}`} />
+        </button>
+        
+        <button 
+          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 ${
+            isHovered 
+              ? 'text-white bg-red-700 scale-110' 
+              : 'text-red-500 hover:text-white hover:bg-red-700'
+          }`}
+          onClick={() => onDelete(id, title)}
+          aria-label="Radera uppgift"
+        >
+          <Trash2 size={16} className="transition-all duration-300 md:size-5" />
         </button>
       </div>
     </div>

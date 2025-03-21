@@ -23,6 +23,7 @@ interface MainContentProps {
   handleSaveUser: (user: any) => void;
   handleSaveReward: (reward: any) => void;
   handleRedeemReward: (id: string) => void;
+  handleDeleteReward: (id: string) => void;
   isIsabel: boolean;
   setShowConfetti: React.Dispatch<React.SetStateAction<boolean>>;
   setConfettiPosition: React.Dispatch<React.SetStateAction<{x: number, y: number} | null>>;
@@ -44,6 +45,7 @@ const MainContent: React.FC<MainContentProps> = ({
   handleSaveUser,
   handleSaveReward,
   handleRedeemReward,
+  handleDeleteReward,
   isIsabel,
   setShowConfetti,
   setConfettiPosition,
@@ -89,7 +91,8 @@ const MainContent: React.FC<MainContentProps> = ({
     handleCompleteTask, 
     handleEditTask, 
     handleSaveTask, 
-    handleResetTasks 
+    handleResetTasks,
+    handleDeleteTask
   } = useTaskManagement({
     tasks,
     setTasks,
@@ -138,6 +141,7 @@ const MainContent: React.FC<MainContentProps> = ({
               tasks={tasks}
               onComplete={handleCompleteTask}
               onEdit={(id) => TaskManager.openEditTaskDialog(id, tasks)}
+              onDelete={(id, title) => TaskManager.openDeleteTaskDialog(id, title)}
               onReset={handleResetTasks}
               onAddTask={() => TaskManager.openAddTaskDialog()}
               userTheme={userTheme}
@@ -166,6 +170,7 @@ const MainContent: React.FC<MainContentProps> = ({
               onAddReward={() => RewardManager.openAddRewardDialog()}
               onRedeemReward={handleRedeemReward}
               onEditReward={(id) => RewardManager.openEditRewardDialog(id, rewards)}
+              onDeleteReward={(id, title) => RewardManager.openDeleteRewardDialog(id, title)}
               userTheme={userTheme}
             />
           </div>
@@ -174,6 +179,7 @@ const MainContent: React.FC<MainContentProps> = ({
       
       <TaskManager 
         onSaveTask={handleSaveTask}
+        onDeleteTask={handleDeleteTask}
       />
       
       <UserManager 
@@ -183,6 +189,7 @@ const MainContent: React.FC<MainContentProps> = ({
       
       <RewardManager
         onSaveReward={handleSaveReward}
+        onDeleteReward={handleDeleteReward}
       />
     </>
   );
