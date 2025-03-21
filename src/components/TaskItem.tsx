@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { Check, Edit2, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import CustomTaskIcon from './CustomTaskIcon';
+import { CustomIconType } from './icons/types';
 
 export interface TaskProps {
   id: string;
   title: string;
-  icon: string;
+  icon: CustomIconType;
   points: number;
   completed: boolean;
   onComplete: (id: string) => void;

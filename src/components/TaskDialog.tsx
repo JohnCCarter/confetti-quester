@@ -1,13 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import CustomTaskIcon, { CustomIconType } from './CustomTaskIcon';
+import CustomTaskIcon from './CustomTaskIcon';
+import { CustomIconType } from './icons/types';
 
 export interface Task {
   id: string;
   title: string;
-  icon: string;
+  icon: CustomIconType;
   points: number;
   completed: boolean;
   category: 'morning' | 'evening';
@@ -30,7 +30,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
 }) => {
   const [title, setTitle] = useState('');
   const [points, setPoints] = useState(1);
-  const [icon, setIcon] = useState<string>('coffee');
+  const [icon, setIcon] = useState<CustomIconType>('coffee');
   const [category, setCategory] = useState<'morning' | 'evening'>('morning');
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
 
   // Standard icons (for backward compatibility)
   const standardIcons: CustomIconType[] = [
-    'coffee', 'shirt', 'bed', 'scissors', 'smile', 'utensils', 'droplet', 
+    'coffee', 'scissors', 'smile', 'utensils', 'droplet', 
     'home', 'book', 'heart', 'pencil', 'moon'
   ];
 
