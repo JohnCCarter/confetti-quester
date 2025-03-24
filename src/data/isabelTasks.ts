@@ -1,13 +1,12 @@
 
 import { Task } from '@/components/TaskDialog';
-import { CustomIconType } from '@/components/icons/types';
 
 export const isabelTasks: Task[] = [
   // Morning tasks
   {
     id: '1',
     title: 'Bädda sängen',
-    icon: 'bed' as CustomIconType,
+    icon: 'bed',
     points: 1,
     completed: false,
     category: 'morning'
@@ -15,7 +14,7 @@ export const isabelTasks: Task[] = [
   {
     id: '2',
     title: 'Klä på sig',
-    icon: 'shirt' as CustomIconType,
+    icon: 'shirt',
     points: 1,
     completed: false,
     category: 'morning'
@@ -23,7 +22,7 @@ export const isabelTasks: Task[] = [
   {
     id: '3',
     title: 'Borsta håret',
-    icon: 'scissors' as CustomIconType,
+    icon: 'scissors',
     points: 1,
     completed: false,
     category: 'morning'
@@ -31,7 +30,7 @@ export const isabelTasks: Task[] = [
   {
     id: '4',
     title: 'Äta frukost',
-    icon: 'utensils' as CustomIconType,
+    icon: 'utensils',
     points: 1,
     completed: false,
     category: 'morning'
@@ -39,7 +38,7 @@ export const isabelTasks: Task[] = [
   {
     id: '5',
     title: 'Borsta tänderna',
-    icon: 'smile' as CustomIconType,
+    icon: 'smile',
     points: 1,
     completed: false,
     category: 'morning'
@@ -47,7 +46,7 @@ export const isabelTasks: Task[] = [
   {
     id: '6',
     title: 'Klä på sig ytterkläder',
-    icon: 'shirt' as CustomIconType,
+    icon: 'shirt',
     points: 1,
     completed: false,
     category: 'morning'
@@ -55,7 +54,7 @@ export const isabelTasks: Task[] = [
   {
     id: '7',
     title: 'Pussa mamma och pappa och säg att du älskar dem',
-    icon: 'heart' as CustomIconType,
+    icon: 'heart',
     points: 2,
     completed: false,
     category: 'morning'
@@ -64,7 +63,7 @@ export const isabelTasks: Task[] = [
   {
     id: '8',
     title: 'Plocka sina saker',
-    icon: 'home' as CustomIconType,
+    icon: 'home',
     points: 1,
     completed: false,
     category: 'evening'
@@ -72,7 +71,7 @@ export const isabelTasks: Task[] = [
   {
     id: '9',
     title: 'Duscha',
-    icon: 'droplet' as CustomIconType,
+    icon: 'droplet',
     points: 1,
     completed: false,
     category: 'evening'
@@ -80,7 +79,7 @@ export const isabelTasks: Task[] = [
   {
     id: '10',
     title: 'Borsta tänderna',
-    icon: 'smile' as CustomIconType,
+    icon: 'smile',
     points: 1,
     completed: false,
     category: 'evening'
@@ -88,7 +87,7 @@ export const isabelTasks: Task[] = [
   {
     id: '11',
     title: 'Förbereda kläder',
-    icon: 'shirt' as CustomIconType,
+    icon: 'shirt',
     points: 1,
     completed: false,
     category: 'evening'
@@ -96,7 +95,7 @@ export const isabelTasks: Task[] = [
   {
     id: '12',
     title: 'Göra hemläxa',
-    icon: 'pencil' as CustomIconType,
+    icon: 'pencil',
     points: 2,
     completed: false,
     category: 'evening'
@@ -104,7 +103,7 @@ export const isabelTasks: Task[] = [
   {
     id: '13',
     title: 'Läsa och skriva',
-    icon: 'book' as CustomIconType,
+    icon: 'book',
     points: 2,
     completed: false,
     category: 'evening'
@@ -112,7 +111,7 @@ export const isabelTasks: Task[] = [
   {
     id: '14',
     title: 'Sova kl. 19:00',
-    icon: 'moon' as CustomIconType,
+    icon: 'moon',
     points: 2,
     completed: false,
     category: 'evening'
@@ -120,7 +119,7 @@ export const isabelTasks: Task[] = [
   {
     id: '15',
     title: 'Pussa mamma och pappa och säg att du älskar dem',
-    icon: 'heart' as CustomIconType,
+    icon: 'heart',
     points: 2,
     completed: false,
     category: 'evening'

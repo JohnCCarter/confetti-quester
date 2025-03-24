@@ -1,4 +1,3 @@
-
 import { ReactNode } from 'react';
 
 export type CustomIconType = 
@@ -23,17 +22,7 @@ export type CustomIconType =
   | 'on-track' 
   | 'superstar' 
   | 'rewarded'
-  | 'lovable'
-  // Additional standard icons used in the app
-  | 'coffee'
-  | 'scissors'
-  | 'smile'
-  | 'utensils'
-  | 'droplet'
-  | 'home'
-  | 'book'
-  | 'pencil'
-  | 'moon';
+  | 'lovable';
 
 export interface IconContainerProps {
   children: ReactNode;
