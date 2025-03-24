@@ -1,107 +1,131 @@
+
 import React from 'react';
-import { Package, Droplet, Smile, Shirt, Book, Pencil, Moon, Heart } from 'lucide-react';
+import { Shirt, Bed, Utensils, Droplet, Home, Book, Heart, Pencil, Moon, Scissors, Smile, Package } from 'lucide-react';
 import IconContainer from './IconContainer';
 import { CustomIconProps } from './types';
 
 export const renderStandardIcon = (icon: string, props: CustomIconProps) => {
-  const { size = 20, className = "", isHovered = false } = props;
+  const { size = 20, isHovered = false, className = "" } = props;
   
-  const animationClass = isHovered ? 'animate-pulse' : '';
+  const iconClass = className;
   
   switch (icon) {
-    case 'tidybox':
-      return (
-        <IconContainer isHovered={isHovered}>
-          <Package 
-            size={size} 
-            className={`text-amber-400 transition-all duration-300 ${isHovered ? 'rotate-12 scale-110' : ''}`}
-          />
-          <span className={`absolute -bottom-1 -right-1 text-[8px] transition-all duration-300 ${isHovered ? 'scale-125 animate-bounce' : ''}`}>😊</span>
-        </IconContainer>
-      );
-    case 'shower':
-      return (
-        <IconContainer isHovered={isHovered}>
-          <Droplet 
-            size={size} 
-            className={`text-blue-400 transition-all duration-300 ${isHovered ? 'animate-bounce scale-110' : ''}`}
-          />
-          <span className={`absolute -bottom-1 -right-1 text-[8px] transition-all duration-300 ${isHovered ? 'scale-125 animate-bounce' : ''}`}>😊</span>
-        </IconContainer>
-      );
-    case 'eveningtoothbrush':
-      return (
-        <IconContainer isHovered={isHovered}>
-          <Smile 
-            size={size} 
-            className={`text-yellow-400 transition-all duration-300 ${isHovered ? 'scale-125 animate-pulse' : ''}`}
-          />
-          <span className={`absolute -top-1 -right-1 text-[8px] transition-all duration-300 ${isHovered ? 'scale-125 animate-bounce' : ''}`}>⭐</span>
-        </IconContainer>
-      );
-    case 'clothes':
+    case 'shirt':
       return (
         <IconContainer isHovered={isHovered}>
           <Shirt 
             size={size} 
-            className={`text-purple-400 transition-all duration-300 ${isHovered ? 'rotate-45 scale-110' : ''}`}
+            className={`text-blue-400 ${iconClass} transition-all duration-300 ${isHovered ? 'rotate-12 scale-110' : ''}`} 
           />
-          <span className={`absolute -top-1 -right-1 text-[8px] transition-all duration-300 ${isHovered ? 'scale-125 animate-bounce' : ''}`}>🎨</span>
         </IconContainer>
       );
-    case 'homework':
+    case 'bed':
+      return (
+        <IconContainer isHovered={isHovered}>
+          <Bed 
+            size={size} 
+            className={`text-indigo-400 ${iconClass} transition-all duration-300 ${isHovered ? 'animate-pulse scale-110' : ''}`} 
+          />
+        </IconContainer>
+      );
+    case 'coffee':
+      return (
+        <IconContainer isHovered={isHovered}>
+          <Utensils 
+            size={size} 
+            className={`text-amber-400 ${iconClass} transition-all duration-300 ${isHovered ? 'rotate-12 scale-110' : ''}`} 
+          />
+        </IconContainer>
+      );
+    case 'droplet':
+      return (
+        <IconContainer isHovered={isHovered}>
+          <Droplet 
+            size={size} 
+            className={`text-blue-400 ${iconClass} transition-all duration-300 ${isHovered ? 'animate-bounce scale-110' : ''}`} 
+          />
+        </IconContainer>
+      );
+    case 'home':
+      return (
+        <IconContainer isHovered={isHovered}>
+          <Home 
+            size={size} 
+            className={`text-green-400 ${iconClass} transition-all duration-300 ${isHovered ? 'scale-125 animate-pulse' : ''}`} 
+          />
+        </IconContainer>
+      );
+    case 'book':
       return (
         <IconContainer isHovered={isHovered}>
           <Book 
             size={size} 
-            className={`text-blue-400 transition-all duration-300 ${isHovered ? 'rotate-12 scale-125' : ''}`}
+            className={`text-purple-400 ${iconClass} transition-all duration-300 ${isHovered ? 'rotate-12 scale-110' : ''}`} 
           />
-          <span className={`absolute -top-1 -right-1 text-yellow-400 text-xs transition-all duration-300 ${isHovered ? 'scale-125 animate-bounce' : ''}`}>★</span>
         </IconContainer>
       );
-    case 'readwrite':
+    case 'heart':
+      return (
+        <IconContainer isHovered={isHovered}>
+          <Heart 
+            size={size} 
+            className={`text-red-400 ${iconClass} transition-all duration-300 ${isHovered ? 'scale-125 animate-[beat_1s_ease-in-out_infinite]' : ''}`} 
+          />
+        </IconContainer>
+      );
+    case 'pencil':
       return (
         <IconContainer isHovered={isHovered}>
           <Pencil 
             size={size} 
-            className={`text-emerald-400 transition-all duration-300 ${isHovered ? 'rotate-45 scale-110' : ''}`}
+            className={`text-yellow-400 ${iconClass} transition-all duration-300 ${isHovered ? 'rotate-45 scale-110' : ''}`} 
           />
-          <span className={`absolute -bottom-1 -right-1 text-[8px] transition-all duration-300 ${isHovered ? 'scale-125 animate-bounce' : ''}`}>📝</span>
         </IconContainer>
       );
-    case 'sleep':
+    case 'moon':
       return (
         <IconContainer isHovered={isHovered}>
           <Moon 
             size={size} 
-            className={`text-indigo-400 transition-all duration-300 ${isHovered ? 'animate-pulse scale-125' : ''}`}
+            className={`text-indigo-400 ${iconClass} transition-all duration-300 ${isHovered ? 'animate-pulse scale-125' : ''}`} 
           />
-          <span className={`absolute -top-1 -right-1 text-[8px] transition-all duration-300 ${isHovered ? 'scale-125 animate-bounce' : ''}`}>✨</span>
         </IconContainer>
       );
-    case 'eveningheart':
+    case 'scissors':
       return (
         <IconContainer isHovered={isHovered}>
-          <Heart 
+          <Scissors 
             size={size} 
-            className={`text-pink-400 transition-all duration-300 ${isHovered ? 'scale-125 animate-[beat_1s_ease-in-out_infinite]' : ''}`}
+            className={`text-purple-400 ${iconClass} transition-all duration-300 ${isHovered ? 'rotate-45 scale-110' : ''}`} 
           />
-          <span className={`absolute -top-1 -right-1 text-[8px] transition-all duration-300 ${isHovered ? 'scale-125 animate-bounce' : ''}`}>🤗</span>
         </IconContainer>
       );
-    
-    case 'lovable':
+    case 'utensils':
       return (
         <IconContainer isHovered={isHovered}>
-          <Heart 
+          <Utensils 
             size={size} 
-            className={`text-pink-500 transition-all duration-300 ${isHovered ? 'scale-125 animate-pulse' : ''}`}
+            className={`text-orange-400 ${iconClass} transition-all duration-300 ${isHovered ? 'rotate-12 scale-110' : ''}`} 
           />
-          <span className={`absolute -top-1 -right-1 text-[8px] transition-all duration-300 ${isHovered ? 'scale-125 animate-bounce' : ''}`}>✨</span>
         </IconContainer>
       );
-      
+    case 'smile':
+      return (
+        <IconContainer isHovered={isHovered}>
+          <Smile 
+            size={size} 
+            className={`text-yellow-400 ${iconClass} transition-all duration-300 ${isHovered ? 'scale-125 animate-pulse' : ''}`} 
+          />
+        </IconContainer>
+      );
     default:
-      return <div className={`w-${size} h-${size} ${className}`} />;
+      return (
+        <IconContainer isHovered={isHovered}>
+          <Package 
+            size={size} 
+            className={`text-gray-400 ${iconClass} transition-all duration-300 ${isHovered ? 'rotate-12 scale-110' : ''}`} 
+          />
+        </IconContainer>
+      );
   }
 };
