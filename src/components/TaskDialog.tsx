@@ -1,13 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
-import { X, Trash2 } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import CustomTaskIcon, { CustomIconType } from './CustomTaskIcon';
+import CustomTaskIcon from './CustomTaskIcon';
+import { CustomIconType } from './icons/types';
 
 export interface Task {
   id: string;
   title: string;
-  icon: string;
+  icon: CustomIconType;
   points: number;
   completed: boolean;
   category: 'morning' | 'evening';
@@ -17,7 +17,6 @@ interface TaskDialogProps {
   open: boolean;
   onClose: () => void;
   onSave: (task: Task) => void;
-  onDelete?: (id: string, title: string) => void;
   task?: Task;
   isEditing?: boolean;
 }
@@ -26,13 +25,12 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
   open, 
   onClose, 
   onSave, 
-  onDelete,
   task, 
   isEditing = false 
 }) => {
   const [title, setTitle] = useState('');
   const [points, setPoints] = useState(1);
-  const [icon, setIcon] = useState<string>('coffee');
+  const [icon, setIcon] = useState<CustomIconType>('coffee');
   const [category, setCategory] = useState<'morning' | 'evening'>('morning');
 
   useEffect(() => {
@@ -65,13 +63,6 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
     onClose();
   };
 
-  const handleDelete = () => {
-    if (task && onDelete) {
-      onDelete(task.id, task.title);
-      onClose();
-    }
-  };
-
   // Morning icons
   const morningIcons: CustomIconType[] = [
     'bed', 'shirt', 'hairbrush', 'breakfast', 'toothbrush', 'jacket', 'heart'
@@ -84,7 +75,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
 
   // Standard icons (for backward compatibility)
   const standardIcons: CustomIconType[] = [
-    'coffee', 'shirt', 'bed', 'scissors', 'smile', 'utensils', 'droplet', 
+    'coffee', 'scissors', 'smile', 'utensils', 'droplet', 
     'home', 'book', 'heart', 'pencil', 'moon'
   ];
 
@@ -172,24 +163,12 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
             />
           </div>
           
-          <div className="flex gap-2">
-            <button
-              className="flex-1 bg-app-pink hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
-              onClick={handleSave}
-            >
-              {isEditing ? 'Spara ändringar' : 'Lägg till'}
-            </button>
-            
-            {isEditing && onDelete && (
-              <button
-                className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md transition-colors flex items-center justify-center"
-                onClick={handleDelete}
-              >
-                <Trash2 size={18} className="mr-1" />
-                Radera
-              </button>
-            )}
-          </div>
+          <button
+            className="w-full bg-app-pink hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
+            onClick={handleSave}
+          >
+            {isEditing ? 'Spara ändringar' : 'Lägg till'}
+          </button>
         </div>
       </DialogContent>
     </Dialog>

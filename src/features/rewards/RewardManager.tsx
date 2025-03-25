@@ -69,12 +69,6 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
       setRewardToDelete(null);
     }
   };
-
-  const handleDeleteFromDialog = (id: string, title: string) => {
-    setRewardToDelete({id, title});
-    setDeleteDialogOpen(true);
-    setRewardDialogOpen(false); // Close the reward dialog when opening delete confirmation
-  };
   
   return (
     <>
@@ -85,15 +79,11 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
           onSaveReward(updatedReward);
           setRewardDialogOpen(false);
         }}
-        onDelete={handleDeleteFromDialog}
         reward={currentReward}
         isEditing={!!currentReward}
       />
       
-      <AlertDialog open={deleteDialogOpen} onOpenChange={(open) => {
-        setDeleteDialogOpen(open);
-        if (!open) setRewardToDelete(null);
-      }}>
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Radera belöning</AlertDialogTitle>
@@ -103,7 +93,7 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Avbryt</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setRewardToDelete(null)}>Avbryt</AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleConfirmDelete}
               className="bg-red-600 hover:bg-red-700"

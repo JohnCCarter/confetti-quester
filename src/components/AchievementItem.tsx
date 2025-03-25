@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Lock } from 'lucide-react';
 import { CustomTaskIcon } from './icons';
+import { CustomIconType } from './icons/types';
 
 export interface Achievement {
   id: string;
@@ -9,7 +10,7 @@ export interface Achievement {
   description: string;
   completed: boolean;
   icon?: React.ReactNode;
-  iconType?: string;
+  iconType?: CustomIconType;
 }
 
 interface AchievementItemProps {
@@ -28,7 +29,7 @@ const AchievementItem: React.FC<AchievementItemProps> = ({
     : 'bg-gray-700';
   
   // Determine which icon to show based on the achievement title
-  const getAchievementIcon = (title: string) => {
+  const getAchievementIcon = (title: string): CustomIconType => {
     switch (title.toLowerCase()) {
       case 'morgonmästare':
         return 'morning-master';
@@ -43,7 +44,7 @@ const AchievementItem: React.FC<AchievementItemProps> = ({
       case 'belönad':
         return 'rewarded';
       default:
-        return achievement.iconType || 'morning-master';
+        return (achievement.iconType as CustomIconType) || 'morning-master';
     }
   };
 
