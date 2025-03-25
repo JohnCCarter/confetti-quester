@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Award, Gift, Gem, Ribbon, Star, Trophy } from 'lucide-react';
 import { Reward } from './RewardsDialog';
@@ -24,6 +23,10 @@ const RewardItem: React.FC<RewardItemProps> = ({
   const canRedeem = userPoints >= reward.points;
   const textColorClass = userTheme === 'pink' ? 'text-app-pink' : 'text-app-blue';
   const bgColorClass = userTheme === 'pink' ? 'bg-app-pink' : 'bg-app-blue';
+
+  const handleEdit = () => {
+    onEdit(reward.id);
+  };
 
   const renderIcon = () => {
     const iconProps = { 
@@ -98,7 +101,7 @@ const RewardItem: React.FC<RewardItemProps> = ({
           className={`cursor-pointer transition-all duration-300 w-8 h-8 rounded-full flex items-center justify-center ${
             isHovered ? 'opacity-100 scale-110 bg-gray-700 text-white' : 'opacity-60 hover:opacity-100 text-gray-400'
           }`} 
-          onClick={() => onEdit(reward.id)}
+          onClick={handleEdit}
           aria-label="Redigera belöning"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-all duration-300 ${isHovered ? 'animate-pulse' : ''}`}>

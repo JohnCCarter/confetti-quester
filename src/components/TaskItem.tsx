@@ -40,6 +40,10 @@ const TaskItem: React.FC<TaskProps> = ({
     }, 300);
   };
 
+  const handleEdit = () => {
+    onEdit(id);
+  };
+
   return (
     <div 
       className={`task-item ${completed ? 'completed' : ''} transform transition-all duration-300 md:p-4 md:rounded-xl
@@ -91,7 +95,7 @@ const TaskItem: React.FC<TaskProps> = ({
               ? 'text-white bg-gray-700 scale-110' 
               : 'text-gray-400 hover:text-white hover:bg-gray-700'
           }`}
-          onClick={() => onEdit(id)}
+          onClick={handleEdit}
           aria-label="Redigera uppgift"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="md:size-5">
