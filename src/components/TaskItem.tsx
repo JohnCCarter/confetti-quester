@@ -1,8 +1,14 @@
 
 import React, { useState } from 'react';
-import { Check, Edit2, Trash2 } from 'lucide-react';
+import { Check, MoreVertical } from 'lucide-react';
 import { toast } from 'sonner';
 import CustomTaskIcon from './CustomTaskIcon';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export interface TaskProps {
   id: string;
@@ -46,6 +52,7 @@ const TaskItem: React.FC<TaskProps> = ({
         ${isHovered ? 'scale-[1.02] shadow-md' : ''}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      id={`task-${id}`}
     >
       <div 
         className={`w-8 h-8 rounded-full border-2 flex items-center justify-center mr-3 cursor-pointer transition-all duration-300 md:w-10 md:h-10 md:mr-4
@@ -84,29 +91,34 @@ const TaskItem: React.FC<TaskProps> = ({
           </span>
         </div>
         
-        <button 
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 ${
-            isHovered 
-              ? 'text-white bg-gray-700 scale-110' 
-              : 'text-gray-400 hover:text-white hover:bg-gray-700'
-          }`}
-          onClick={() => onEdit(id)}
-          aria-label="Redigera uppgift"
-        >
-          <Edit2 size={16} className={`transition-all duration-300 md:size-5 ${isHovered ? 'animate-pulse' : ''}`} />
-        </button>
-        
-        <button 
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 ${
-            isHovered 
-              ? 'text-white bg-red-700 scale-110' 
-              : 'text-red-500 hover:text-white hover:bg-red-700'
-          }`}
-          onClick={() => onDelete(id, title)}
-          aria-label="Radera uppgift"
-        >
-          <Trash2 size={16} className="transition-all duration-300 md:size-5" />
-        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button 
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 ${
+                isHovered 
+                  ? 'text-white bg-gray-700 scale-110' 
+                  : 'text-gray-400 hover:text-white hover:bg-gray-700'
+              }`}
+              aria-label="Hantera uppgift"
+            >
+              <MoreVertical size={16} className={`transition-all duration-300 md:size-5 ${isHovered ? 'animate-pulse' : ''}`} />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="bg-background border-border w-48">
+            <DropdownMenuItem 
+              className="cursor-pointer"
+              onClick={() => onEdit(id)}
+            >
+              Redigera
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              className="cursor-pointer text-red-500 focus:text-red-500 focus:bg-red-100/10 data-[highlighted]:text-red-500"
+              onClick={() => onDelete(id, title)}
+            >
+              Radera
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

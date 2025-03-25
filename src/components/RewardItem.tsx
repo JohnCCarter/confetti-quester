@@ -1,7 +1,13 @@
 
 import React, { useState } from 'react';
-import { Award, Gift, Gem, Ribbon, Star, Trophy, Edit2, Trash2 } from 'lucide-react';
+import { Award, Gift, Gem, Ribbon, Star, Trophy, MoreVertical } from 'lucide-react';
 import { Reward } from './RewardsDialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface RewardItemProps {
   reward: Reward;
@@ -93,25 +99,33 @@ const RewardItem: React.FC<RewardItemProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="absolute right-3 top-3 flex gap-2">
-        <button 
-          className={`cursor-pointer transition-all duration-300 ${
-            isHovered ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'
-          }`} 
-          onClick={() => onEdit(reward.id)}
-          aria-label="Redigera belöning"
-        >
-          <Edit2 size={18} className={`text-gray-400 transition-all duration-300 ${isHovered ? 'animate-pulse' : ''}`} />
-        </button>
-        <button 
-          className={`cursor-pointer transition-all duration-300 ${
-            isHovered ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'
-          }`} 
-          onClick={() => onDelete(reward.id, reward.title)}
-          aria-label="Radera belöning"
-        >
-          <Trash2 size={18} className="text-red-500 hover:text-red-600 transition-all duration-300" />
-        </button>
+      <div className="absolute right-3 top-3">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button 
+              className={`cursor-pointer transition-all duration-300 w-8 h-8 rounded-full flex items-center justify-center ${
+                isHovered ? 'opacity-100 scale-110 bg-gray-700 text-white' : 'opacity-60 hover:opacity-100 text-gray-400'
+              }`} 
+              aria-label="Hantera belöning"
+            >
+              <MoreVertical size={18} className={`transition-all duration-300 ${isHovered ? 'animate-pulse' : ''}`} />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="bg-background border-border w-48">
+            <DropdownMenuItem 
+              className="cursor-pointer"
+              onClick={() => onEdit(reward.id)}
+            >
+              Redigera
+            </DropdownMenuItem>
+            <DropdownMenuItem 
+              className="cursor-pointer text-red-500 focus:text-red-500 focus:bg-red-100/10 data-[highlighted]:text-red-500"
+              onClick={() => onDelete(reward.id, reward.title)}
+            >
+              Radera
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       
       <div className="flex items-start">
