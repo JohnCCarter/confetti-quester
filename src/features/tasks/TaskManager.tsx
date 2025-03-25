@@ -69,6 +69,11 @@ const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask, onDeleteTask }) =
       setTaskToDelete(null);
     }
   };
+
+  const handleDeleteFromDialog = (id: string, title: string) => {
+    setTaskToDelete({id, title});
+    setDeleteDialogOpen(true);
+  };
   
   return (
     <>
@@ -76,6 +81,7 @@ const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask, onDeleteTask }) =
         open={taskDialogOpen}
         onClose={() => setTaskDialogOpen(false)}
         onSave={onSaveTask}
+        onDelete={handleDeleteFromDialog}
         task={currentTask}
         isEditing={!!currentTask}
       />

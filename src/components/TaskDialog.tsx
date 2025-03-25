@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
+import { X, Trash2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import CustomTaskIcon, { CustomIconType } from './CustomTaskIcon';
 
@@ -17,6 +17,7 @@ interface TaskDialogProps {
   open: boolean;
   onClose: () => void;
   onSave: (task: Task) => void;
+  onDelete?: (id: string, title: string) => void;
   task?: Task;
   isEditing?: boolean;
 }
@@ -25,6 +26,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
   open, 
   onClose, 
   onSave, 
+  onDelete,
   task, 
   isEditing = false 
 }) => {
@@ -61,6 +63,13 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
     
     onSave(newTask);
     onClose();
+  };
+
+  const handleDelete = () => {
+    if (task && onDelete) {
+      onDelete(task.id, task.title);
+      onClose();
+    }
   };
 
   // Morning icons
@@ -163,12 +172,24 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
             />
           </div>
           
-          <button
-            className="w-full bg-app-pink hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
-            onClick={handleSave}
-          >
-            {isEditing ? 'Spara ändringar' : 'Lägg till'}
-          </button>
+          <div className="flex gap-2">
+            <button
+              className="flex-1 bg-app-pink hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
+              onClick={handleSave}
+            >
+              {isEditing ? 'Spara ändringar' : 'Lägg till'}
+            </button>
+            
+            {isEditing && onDelete && (
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md transition-colors flex items-center justify-center"
+                onClick={handleDelete}
+              >
+                <Trash2 size={18} className="mr-1" />
+                Radera
+              </button>
+            )}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -1,14 +1,8 @@
 
 import React, { useState } from 'react';
-import { Check, MoreVertical } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { toast } from 'sonner';
 import CustomTaskIcon from './CustomTaskIcon';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 export interface TaskProps {
   id: string;
@@ -91,34 +85,20 @@ const TaskItem: React.FC<TaskProps> = ({
           </span>
         </div>
         
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button 
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 ${
-                isHovered 
-                  ? 'text-white bg-gray-700 scale-110' 
-                  : 'text-gray-400 hover:text-white hover:bg-gray-700'
-              }`}
-              aria-label="Hantera uppgift"
-            >
-              <MoreVertical size={16} className={`transition-all duration-300 md:size-5 ${isHovered ? 'animate-pulse' : ''}`} />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-background border-border w-48">
-            <DropdownMenuItem 
-              className="cursor-pointer"
-              onClick={() => onEdit(id)}
-            >
-              Redigera
-            </DropdownMenuItem>
-            <DropdownMenuItem 
-              className="cursor-pointer text-red-500 focus:text-red-500 focus:bg-red-100/10 data-[highlighted]:text-red-500"
-              onClick={() => onDelete(id, title)}
-            >
-              Radera
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <button 
+          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 ${
+            isHovered 
+              ? 'text-white bg-gray-700 scale-110' 
+              : 'text-gray-400 hover:text-white hover:bg-gray-700'
+          }`}
+          onClick={() => onEdit(id)}
+          aria-label="Redigera uppgift"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="md:size-5">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+          </svg>
+        </button>
       </div>
     </div>
   );

@@ -69,6 +69,11 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
       setRewardToDelete(null);
     }
   };
+
+  const handleDeleteFromDialog = (id: string, title: string) => {
+    setRewardToDelete({id, title});
+    setDeleteDialogOpen(true);
+  };
   
   return (
     <>
@@ -79,6 +84,7 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
           onSaveReward(updatedReward);
           setRewardDialogOpen(false);
         }}
+        onDelete={handleDeleteFromDialog}
         reward={currentReward}
         isEditing={!!currentReward}
       />

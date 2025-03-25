@@ -1,13 +1,7 @@
 
 import React, { useState } from 'react';
-import { Award, Gift, Gem, Ribbon, Star, Trophy, MoreVertical } from 'lucide-react';
+import { Award, Gift, Gem, Ribbon, Star, Trophy } from 'lucide-react';
 import { Reward } from './RewardsDialog';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 interface RewardItemProps {
   reward: Reward;
@@ -100,32 +94,18 @@ const RewardItem: React.FC<RewardItemProps> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="absolute right-3 top-3">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button 
-              className={`cursor-pointer transition-all duration-300 w-8 h-8 rounded-full flex items-center justify-center ${
-                isHovered ? 'opacity-100 scale-110 bg-gray-700 text-white' : 'opacity-60 hover:opacity-100 text-gray-400'
-              }`} 
-              aria-label="Hantera belöning"
-            >
-              <MoreVertical size={18} className={`transition-all duration-300 ${isHovered ? 'animate-pulse' : ''}`} />
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-background border-border w-48">
-            <DropdownMenuItem 
-              className="cursor-pointer"
-              onClick={() => onEdit(reward.id)}
-            >
-              Redigera
-            </DropdownMenuItem>
-            <DropdownMenuItem 
-              className="cursor-pointer text-red-500 focus:text-red-500 focus:bg-red-100/10 data-[highlighted]:text-red-500"
-              onClick={() => onDelete(reward.id, reward.title)}
-            >
-              Radera
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <button 
+          className={`cursor-pointer transition-all duration-300 w-8 h-8 rounded-full flex items-center justify-center ${
+            isHovered ? 'opacity-100 scale-110 bg-gray-700 text-white' : 'opacity-60 hover:opacity-100 text-gray-400'
+          }`} 
+          onClick={() => onEdit(reward.id)}
+          aria-label="Redigera belöning"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-all duration-300 ${isHovered ? 'animate-pulse' : ''}`}>
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+          </svg>
+        </button>
       </div>
       
       <div className="flex items-start">
