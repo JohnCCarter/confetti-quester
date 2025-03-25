@@ -11,6 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { toast } from 'sonner';
 
 interface RewardManagerProps {
   onSaveReward: (reward: Reward) => void;
@@ -43,16 +44,28 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
     };
     
     openEditRewardDialogFn = (id: string, rewards: Reward[]) => {
-      const rewardToEdit = rewards.find(reward => reward.id === id);
-      if (rewardToEdit) {
-        setCurrentReward({ ...rewardToEdit });
-        setRewardDialogOpen(true);
+      try {
+        const rewardToEdit = rewards.find(reward => reward.id === id);
+        if (rewardToEdit) {
+          setCurrentReward({ ...rewardToEdit });
+          setRewardDialogOpen(true);
+        } else {
+          console.warn(`No reward found with id: ${id}`);
+        }
+      } catch (error) {
+        console.error('Error in openEditRewardDialog:', error);
+        toast.error('Ett fel uppstod när belöningen skulle redigeras');
       }
     };
     
     openDeleteRewardDialogFn = (id: string, title: string) => {
-      setRewardToDelete({id, title});
-      setDeleteDialogOpen(true);
+      try {
+        setRewardToDelete({id, title});
+        setDeleteDialogOpen(true);
+      } catch (error) {
+        console.error('Error in openDeleteRewardDialog:', error);
+        toast.error('Ett fel uppstod när belöningen skulle raderas');
+      }
     };
     
     return () => {
@@ -63,10 +76,15 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
   }, []);
   
   const handleConfirmDelete = () => {
-    if (rewardToDelete && onDeleteReward) {
-      onDeleteReward(rewardToDelete.id);
-      setDeleteDialogOpen(false);
-      setRewardToDelete(null);
+    try {
+      if (rewardToDelete && onDeleteReward) {
+        onDeleteReward(rewardToDelete.id);
+        handleCancelDelete();
+      }
+    } catch (error) {
+      console.error('Error in handleConfirmDelete:', error);
+      toast.error('Ett fel uppstod när belöningen skulle raderas');
+      handleCancelDelete();
     }
   };
   
@@ -75,11 +93,19 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
     setRewardToDelete(null);
   };
   
+  const handleCloseRewardDialog = () => {
+    setRewardDialogOpen(false);
+    // Reset current reward after dialog is closed to prevent stale state
+    setTimeout(() => {
+      setCurrentReward(undefined);
+    }, 100);
+  };
+  
   return (
     <>
       <RewardsDialog
         open={rewardDialogOpen}
-        onClose={() => setRewardDialogOpen(false)}
+        onClose={handleCloseRewardDialog}
         onSave={(updatedReward) => {
           onSaveReward(updatedReward);
           setRewardDialogOpen(false);

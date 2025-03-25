@@ -11,6 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { toast } from 'sonner';
 
 interface TaskManagerProps {
   onSaveTask: (task: Task) => void;
@@ -43,16 +44,28 @@ const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask, onDeleteTask }) =
     };
     
     openEditTaskDialogFn = (id: string, tasks: Task[]) => {
-      const taskToEdit = tasks.find(task => task.id === id);
-      if (taskToEdit) {
-        setCurrentTask(taskToEdit);
-        setTaskDialogOpen(true);
+      try {
+        const taskToEdit = tasks.find(task => task.id === id);
+        if (taskToEdit) {
+          setCurrentTask(taskToEdit);
+          setTaskDialogOpen(true);
+        } else {
+          console.warn(`No task found with id: ${id}`);
+        }
+      } catch (error) {
+        console.error('Error in openEditTaskDialog:', error);
+        toast.error('Ett fel uppstod när uppgiften skulle redigeras');
       }
     };
     
     openDeleteTaskDialogFn = (id: string, title: string) => {
-      setTaskToDelete({id, title});
-      setDeleteDialogOpen(true);
+      try {
+        setTaskToDelete({id, title});
+        setDeleteDialogOpen(true);
+      } catch (error) {
+        console.error('Error in openDeleteTaskDialog:', error);
+        toast.error('Ett fel uppstod när uppgiften skulle raderas');
+      }
     };
     
     return () => {
@@ -63,10 +76,15 @@ const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask, onDeleteTask }) =
   }, []);
   
   const handleConfirmDelete = () => {
-    if (taskToDelete && onDeleteTask) {
-      onDeleteTask(taskToDelete.id);
-      setDeleteDialogOpen(false);
-      setTaskToDelete(null);
+    try {
+      if (taskToDelete && onDeleteTask) {
+        onDeleteTask(taskToDelete.id);
+        handleCancelDelete();
+      }
+    } catch (error) {
+      console.error('Error in handleConfirmDelete:', error);
+      toast.error('Ett fel uppstod när uppgiften skulle raderas');
+      handleCancelDelete();
     }
   };
   
@@ -75,11 +93,19 @@ const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask, onDeleteTask }) =
     setTaskToDelete(null);
   };
   
+  const handleCloseTaskDialog = () => {
+    setTaskDialogOpen(false);
+    // Reset current task after dialog is closed to prevent stale state
+    setTimeout(() => {
+      setCurrentTask(undefined);
+    }, 100);
+  };
+  
   return (
     <>
       <TaskDialog
         open={taskDialogOpen}
-        onClose={() => setTaskDialogOpen(false)}
+        onClose={handleCloseTaskDialog}
         onSave={onSaveTask}
         task={currentTask}
         isEditing={!!currentTask}
