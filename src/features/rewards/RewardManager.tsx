@@ -70,6 +70,11 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
     }
   };
   
+  const handleCancelDelete = () => {
+    setDeleteDialogOpen(false);
+    setRewardToDelete(null);
+  };
+  
   return (
     <>
       <RewardsDialog
@@ -83,7 +88,11 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
         isEditing={!!currentReward}
       />
       
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <AlertDialog open={deleteDialogOpen} onOpenChange={(open) => {
+        if (!open) {
+          handleCancelDelete();
+        }
+      }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Radera belöning</AlertDialogTitle>
@@ -93,7 +102,7 @@ const RewardManager: React.FC<RewardManagerProps> = ({ onSaveReward, onDeleteRew
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setRewardToDelete(null)}>Avbryt</AlertDialogCancel>
+            <AlertDialogCancel onClick={handleCancelDelete}>Avbryt</AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleConfirmDelete}
               className="bg-red-600 hover:bg-red-700"

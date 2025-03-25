@@ -70,6 +70,11 @@ const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask, onDeleteTask }) =
     }
   };
   
+  const handleCancelDelete = () => {
+    setDeleteDialogOpen(false);
+    setTaskToDelete(null);
+  };
+  
   return (
     <>
       <TaskDialog
@@ -80,7 +85,11 @@ const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask, onDeleteTask }) =
         isEditing={!!currentTask}
       />
       
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+      <AlertDialog open={deleteDialogOpen} onOpenChange={(open) => {
+        if (!open) {
+          handleCancelDelete();
+        }
+      }}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Radera uppgift</AlertDialogTitle>
@@ -90,7 +99,7 @@ const TaskManager: React.FC<TaskManagerProps> = ({ onSaveTask, onDeleteTask }) =
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setTaskToDelete(null)}>Avbryt</AlertDialogCancel>
+            <AlertDialogCancel onClick={handleCancelDelete}>Avbryt</AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleConfirmDelete}
               className="bg-red-600 hover:bg-red-700"
