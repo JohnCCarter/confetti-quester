@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Award, Gift, Gem, Ribbon, Star, Trophy, Edit2, Trash2 } from 'lucide-react';
+import { Award, Gift, Gem, Ribbon, Star, Trophy } from 'lucide-react';
 import { Reward } from './RewardsDialog';
 
 interface RewardItemProps {
@@ -24,6 +23,10 @@ const RewardItem: React.FC<RewardItemProps> = ({
   const canRedeem = userPoints >= reward.points;
   const textColorClass = userTheme === 'pink' ? 'text-app-pink' : 'text-app-blue';
   const bgColorClass = userTheme === 'pink' ? 'bg-app-pink' : 'bg-app-blue';
+
+  const handleEdit = () => {
+    onEdit(reward.id);
+  };
 
   const renderIcon = () => {
     const iconProps = { 
@@ -93,24 +96,18 @@ const RewardItem: React.FC<RewardItemProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="absolute right-3 top-3 flex gap-2">
+      <div className="absolute right-3 top-3">
         <button 
-          className={`cursor-pointer transition-all duration-300 ${
-            isHovered ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'
+          className={`cursor-pointer transition-all duration-300 w-8 h-8 rounded-full flex items-center justify-center ${
+            isHovered ? 'opacity-100 scale-110 bg-gray-700 text-white' : 'opacity-60 hover:opacity-100 text-gray-400'
           }`} 
-          onClick={() => onEdit(reward.id)}
+          onClick={handleEdit}
           aria-label="Redigera belöning"
         >
-          <Edit2 size={18} className={`text-gray-400 transition-all duration-300 ${isHovered ? 'animate-pulse' : ''}`} />
-        </button>
-        <button 
-          className={`cursor-pointer transition-all duration-300 ${
-            isHovered ? 'opacity-100 scale-110' : 'opacity-60 hover:opacity-100'
-          }`} 
-          onClick={() => onDelete(reward.id, reward.title)}
-          aria-label="Radera belöning"
-        >
-          <Trash2 size={18} className="text-red-500 hover:text-red-600 transition-all duration-300" />
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`transition-all duration-300 ${isHovered ? 'animate-pulse' : ''}`}>
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+          </svg>
         </button>
       </div>
       
