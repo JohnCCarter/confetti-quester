@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { X, Gift, Trophy, Star, Award, Gem, Ribbon, Trash2 } from 'lucide-react';
+import { X, Gift, Trophy, Star, Award, Gem, Ribbon } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export interface Reward {
@@ -15,7 +14,6 @@ interface RewardsDialogProps {
   open: boolean;
   onClose: () => void;
   onSave: (reward: Reward) => void;
-  onDelete?: (id: string, title: string) => void;
   reward?: Reward;
   isEditing?: boolean;
 }
@@ -24,7 +22,6 @@ const RewardsDialog: React.FC<RewardsDialogProps> = ({
   open, 
   onClose, 
   onSave, 
-  onDelete,
   reward, 
   isEditing = false 
 }) => {
@@ -60,13 +57,6 @@ const RewardsDialog: React.FC<RewardsDialogProps> = ({
     
     onSave(newReward);
     onClose();
-  };
-
-  const handleDelete = () => {
-    if (reward && onDelete) {
-      onDelete(reward.id, reward.title);
-      onClose();
-    }
   };
 
   const icons = [
@@ -144,24 +134,12 @@ const RewardsDialog: React.FC<RewardsDialogProps> = ({
             />
           </div>
           
-          <div className="flex gap-2">
-            <button
-              className="flex-1 bg-app-pink hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
-              onClick={handleSave}
-            >
-              {isEditing ? 'Spara ändringar' : 'Lägg till'}
-            </button>
-            
-            {isEditing && onDelete && (
-              <button
-                className="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md transition-colors flex items-center justify-center"
-                onClick={handleDelete}
-              >
-                <Trash2 size={18} className="mr-1" />
-                Radera
-              </button>
-            )}
-          </div>
+          <button
+            className="w-full bg-app-pink hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
+            onClick={handleSave}
+          >
+            {isEditing ? 'Spara ändringar' : 'Lägg till'}
+          </button>
         </div>
       </DialogContent>
     </Dialog>
