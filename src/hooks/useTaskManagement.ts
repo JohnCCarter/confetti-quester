@@ -32,148 +32,102 @@ export const useTaskManagement = ({
 }: UseTaskManagementProps) => {
   
   const handleCompleteTask = (id: string) => {
-    try {
-      const taskToComplete = tasks.find(task => task.id === id);
-      if (!taskToComplete) {
-        console.warn(`No task found with id: ${id}`);
-        return;
-      }
-      
-      if (taskToComplete.completed) {
-        console.info(`Task ${id} is already completed`);
-        return;
-      }
-      
-      const taskElement = document.getElementById(`task-${id}`);
-      if (taskElement) {
-        const rect = taskElement.getBoundingClientRect();
-        setConfettiPosition({
-          x: rect.left + rect.width / 2,
-          y: rect.top + rect.height / 2
-        });
-      }
-      
-      setShowConfetti(true);
-      
-      setTasks(prev => prev.map(task => 
-        task.id === id 
-          ? { ...task, completed: true } 
-          : task
-      ));
-      
-      setUser(prev => ({
-        ...prev,
-        points: prev.points + (taskToComplete?.points || 0)
-      }));
-      
-      setCompletedTaskId(id);
-      
-      toast.success(`Bra jobbat! +${taskToComplete?.points || 0} poäng`, {
-        duration: 2000
+    const taskToComplete = tasks.find(task => task.id === id);
+    if (!taskToComplete || taskToComplete.completed) return;
+    
+    const taskElement = document.getElementById(`task-${id}`);
+    if (taskElement) {
+      const rect = taskElement.getBoundingClientRect();
+      setConfettiPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2
       });
-    } catch (error) {
-      console.error('Error in handleCompleteTask:', error);
-      toast.error('Ett fel uppstod när uppgiften skulle markeras som slutförd');
     }
+    
+    setShowConfetti(true);
+    
+    setTasks(prev => prev.map(task => 
+      task.id === id 
+        ? { ...task, completed: true } 
+        : task
+    ));
+    
+    setUser(prev => ({
+      ...prev,
+      points: prev.points + (taskToComplete?.points || 0)
+    }));
+    
+    setCompletedTaskId(id);
+    
+    toast.success(`Bra jobbat! +${taskToComplete?.points || 0} poäng`, {
+      duration: 2000
+    });
   };
 
   const handleEditTask = (id: string, setCurrentTask: Function, setTaskDialogOpen: Function) => {
-    try {
-      const taskToEdit = tasks.find(task => task.id === id);
-      if (taskToEdit) {
-        setCurrentTask(taskToEdit);
-        setTaskDialogOpen(true);
-      } else {
-        console.warn(`No task found with id: ${id}`);
-      }
-    } catch (error) {
-      console.error('Error in handleEditTask:', error);
-      toast.error('Ett fel uppstod när uppgiften skulle redigeras');
+    const taskToEdit = tasks.find(task => task.id === id);
+    if (taskToEdit) {
+      setCurrentTask(taskToEdit);
+      setTaskDialogOpen(true);
     }
   };
 
   const handleDeleteTask = (id: string) => {
-    try {
-      if (!id) {
-        console.warn('Attempted to delete task with undefined id');
-        return;
-      }
-      
-      const taskExists = tasks.some(task => task.id === id);
-      if (!taskExists) {
-        console.warn(`No task found with id: ${id}`);
-        return;
-      }
-      
-      setTasks(prev => prev.filter(task => task.id !== id));
-      toast.success('Uppgift borttagen!');
-    } catch (error) {
-      console.error('Error in handleDeleteTask:', error);
-      toast.error('Ett fel uppstod när uppgiften skulle raderas');
-    }
+    setTasks(prev => prev.filter(task => task.id !== id));
+    toast.success('Uppgift borttagen!');
   };
 
   const handleSaveTask = (task: Task) => {
-    try {
-      if (tasks.some(t => t.id === task.id)) {
-        setTasks(prev => prev.map(t => t.id === task.id ? task : t));
-        toast.success('Uppgift uppdaterad!');
-      } else {
-        setTasks(prev => [...prev, task]);
-        toast.success('Ny uppgift tillagd!');
-      }
-    } catch (error) {
-      console.error('Error in handleSaveTask:', error);
-      toast.error('Ett fel uppstod när uppgiften skulle sparas');
+    if (tasks.some(t => t.id === task.id)) {
+      setTasks(prev => prev.map(t => t.id === task.id ? task : t));
+      toast.success('Uppgift uppdaterad!');
+    } else {
+      setTasks(prev => [...prev, task]);
+      toast.success('Ny uppgift tillagd!');
     }
   };
 
   const handleResetTasks = () => {
-    try {
-      // Istället för att återställa allt, återställer vi bara slutförda uppgifter, men behåller personliga ändringar
-      
-      // Hämta de initiala uppgifterna baserat på vilken användare
-      const defaultTasks = isIsabel ? isabelTasks : zozoTasks;
-      
-      // Skapa en kopia av de aktuella uppgifterna
-      const updatedTasks = [...tasks];
-      
-      // Återställ endast completed-status för varje uppgift
-      updatedTasks.forEach(task => {
-        task.completed = false;
-      });
-      
-      // Återställ alla uppgifter som saknas från defaultTasks (för att säkerställa att standarduppgifter inte saknas)
-      defaultTasks.forEach(defaultTask => {
-        if (!updatedTasks.some(task => task.id === defaultTask.id)) {
-          updatedTasks.push({...defaultTask});
-        }
-      });
-      
-      setTasks(updatedTasks);
-      
-      // Återställ användarens poäng till 0, men behåll andra användarinställningar
-      setUser(prev => ({
-        ...prev,
-        points: 0
-      }));
-      
-      // Återställ achievments (prestationer) till ej slutförda
-      const currentAchievements = isIsabel ? defaultIsabelAchievements : defaultZozoAchievements;
-      const updatedAchievements = currentAchievements.map(achievement => ({
-        ...achievement,
-        completed: false
-      }));
-      
-      setAchievements(updatedAchievements);
-      
-      // Behåll belöningar oförändrade, återställer inte dessa
-      
-      toast.success('Uppgifter och poäng har återställts!');
-    } catch (error) {
-      console.error('Error in handleResetTasks:', error);
-      toast.error('Ett fel uppstod när uppgifterna skulle återställas');
-    }
+    // Istället för att återställa allt, återställer vi bara slutförda uppgifter, men behåller personliga ändringar
+    
+    // Hämta de initiala uppgifterna baserat på vilken användare
+    const defaultTasks = isIsabel ? isabelTasks : zozoTasks;
+    
+    // Skapa en kopia av de aktuella uppgifterna
+    const updatedTasks = [...tasks];
+    
+    // Återställ endast completed-status för varje uppgift
+    updatedTasks.forEach(task => {
+      task.completed = false;
+    });
+    
+    // Återställ alla uppgifter som saknas från defaultTasks (för att säkerställa att standarduppgifter inte saknas)
+    defaultTasks.forEach(defaultTask => {
+      if (!updatedTasks.some(task => task.id === defaultTask.id)) {
+        updatedTasks.push({...defaultTask});
+      }
+    });
+    
+    setTasks(updatedTasks);
+    
+    // Återställ användarens poäng till 0, men behåll andra användarinställningar
+    setUser(prev => ({
+      ...prev,
+      points: 0
+    }));
+    
+    // Återställ achievments (prestationer) till ej slutförda
+    const currentAchievements = isIsabel ? defaultIsabelAchievements : defaultZozoAchievements;
+    const updatedAchievements = currentAchievements.map(achievement => ({
+      ...achievement,
+      completed: false
+    }));
+    
+    setAchievements(updatedAchievements);
+    
+    // Behåll belöningar oförändrade, återställer inte dessa
+    
+    toast.success('Uppgifter och poäng har återställts!');
   };
 
   return {
