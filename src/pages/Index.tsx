@@ -34,11 +34,11 @@ const Index = () => {
   useEffect(() => {
     if (!completedTaskId) return;
     
-    const completedTask = tasks.find(t => t.id === completedTaskId);
+    const completedTask = tasks.find(task => task.id === completedTaskId);
     if (!completedTask) return;
 
-    const categoryTasks = tasks.filter(t => t.category === completedTask.category);
-    const allCompleted = categoryTasks.every(t => t.completed);
+    const categoryTasks = tasks.filter(task => task.category === completedTask.category);
+    const allCompleted = categoryTasks.every(task => task.completed);
     
     if (allCompleted && categoryTasks.length > 0) {
       setTimeout(() => {

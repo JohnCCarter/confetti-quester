@@ -115,7 +115,7 @@ const MainContent: React.FC<MainContentProps> = ({
             <UserCard 
               name={`Dina poäng`}
               points={user.points}
-              completedTasks={tasks.filter(t => t.completed).length}
+              completedTasks={tasks.filter(task => task.completed).length}
               stars={user.stars}
               onEdit={() => UserManager.openUserDialog()}
               userTheme={userTheme}

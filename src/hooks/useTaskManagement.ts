@@ -64,7 +64,11 @@ export const useTaskManagement = ({
     });
   }, [tasks, setTasks, setUser, setShowConfetti, setConfettiPosition, setCompletedTaskId]);
 
-  const handleEditTask = useCallback((id: string, setCurrentTask: Function, setTaskDialogOpen: Function) => {
+  const handleEditTask = useCallback((
+    id: string, 
+    setCurrentTask: (task: Task | null) => void, 
+    setTaskDialogOpen: (open: boolean) => void
+  ) => {
     const taskToEdit = tasks.find(task => task.id === id);
     if (taskToEdit) {
       setCurrentTask(taskToEdit);
@@ -78,8 +82,8 @@ export const useTaskManagement = ({
   }, [setTasks]);
 
   const handleSaveTask = useCallback((task: Task) => {
-    if (tasks.some(t => t.id === task.id)) {
-      setTasks(prev => prev.map(t => t.id === task.id ? task : t));
+    if (tasks.some(existingTask => existingTask.id === task.id)) {
+      setTasks(prev => prev.map(existingTask => existingTask.id === task.id ? task : existingTask));
       toast.success('Uppgift uppdaterad!');
     } else {
       setTasks(prev => [...prev, task]);

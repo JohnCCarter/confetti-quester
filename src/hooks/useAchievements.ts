@@ -19,7 +19,7 @@ export const useAchievements = (
   // Check achievements whenever tasks or user points change
   useEffect(() => {
     // Only process if task completion status or points actually changed
-    const currentCompleted = new Set(tasks.filter(t => t.completed).map(t => t.id));
+    const currentCompleted = new Set(tasks.filter(task => task.completed).map(task => task.id));
     const tasksChanged = 
       currentCompleted.size !== prevTasksCompletedRef.current.size ||
       [...currentCompleted].some(id => !prevTasksCompletedRef.current.has(id));
@@ -108,7 +108,7 @@ export const useAchievements = (
       setAchievements(updatedAchievements);
       
       // Update user stars count
-      const completedCount = updatedAchievements.filter(a => a.completed).length;
+      const completedCount = updatedAchievements.filter(achievement => achievement.completed).length;
       setUser(prev => ({
         ...prev,
         stars: completedCount
