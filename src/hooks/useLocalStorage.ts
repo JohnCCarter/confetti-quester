@@ -16,7 +16,7 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Clear previous timeout
+    // Clear previous timeout if exists
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -29,17 +29,14 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
         console.error(`Error setting localStorage key "${key}":`, error);
       }
     }, 300);
-  }, [key, storedValue]);
 
-  // Cleanup on unmount - ensures pending writes are cleared when component unmounts
-  // This is separate from the main effect to avoid interfering with the debouncing logic
-  useEffect(() => {
+    // Cleanup function clears timeout when effect re-runs or component unmounts
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, []);
+  }, [key, storedValue]);
 
   return [storedValue, setStoredValue];
 }
