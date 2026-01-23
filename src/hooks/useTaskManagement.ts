@@ -68,6 +68,9 @@ export const useTaskManagement = ({
     });
   }, [setTasks, setUser, setShowConfetti, setConfettiPosition, setCompletedTaskId]);
 
+  // Note: editTask uses setTasks to read current task state while maintaining callback stability
+  // This prevents the callback from being recreated when tasks change, which is important for
+  // React.memo optimizations in child components
   const editTask = useCallback((
     id: string, 
     setCurrentTask: (task: Task | null) => void, 
@@ -79,7 +82,7 @@ export const useTaskManagement = ({
         setCurrentTask(taskToEdit);
         setTaskDialogOpen(true);
       }
-      return prev;
+      return prev; // No state change, just reading
     });
   }, [setTasks]);
 

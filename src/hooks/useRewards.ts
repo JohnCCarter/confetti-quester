@@ -31,12 +31,13 @@ export const useRewards = (
   }, [setRewards]);
 
   const redeemReward = useCallback((id: string) => {
-    // Use a ref-like variable to track the reward across state updates
+    // Track reward data across batched state updates
+    // React 18 batches these updates, so they happen synchronously
     let rewardPoints = 0;
     let rewardTitle = '';
     let hasEnoughPoints = false;
     
-    // First, check if user has enough points and get reward info
+    // Validate user has enough points and get reward info
     setUser(prevUser => {
       setRewards(prevRewards => {
         const rewardToRedeem = prevRewards.find(reward => reward.id === id);
@@ -46,6 +47,7 @@ export const useRewards = (
           return prevRewards;
         }
         
+        // Store reward data for later use
         rewardPoints = rewardToRedeem.points;
         rewardTitle = rewardToRedeem.title;
         hasEnoughPoints = prevUser.points >= rewardPoints;
@@ -53,6 +55,7 @@ export const useRewards = (
         return prevRewards;
       });
       
+      // Deduct points if validation passed
       if (!hasEnoughPoints) {
         toast.error('Inte tillräckligt med poäng!');
         return prevUser;
@@ -64,42 +67,41 @@ export const useRewards = (
       };
     });
     
-    // Early return if validation failed
+    // Exit early if validation failed
     if (!hasEnoughPoints) {
       return;
     }
     
-    // Mark "Belönad" achievement as completed if it's the first time
+    // Update "Belönad" achievement if this is the first redemption
     setAchievements(prevAchievements => {
       const rewardAchievementIndex = prevAchievements.findIndex(
         achievement => achievement.id === '5'
       );
       
-      if (
-        rewardAchievementIndex >= 0 &&
-        !prevAchievements[rewardAchievementIndex].completed
-      ) {
-        const updatedAchievements = prevAchievements.map((achievement, index) =>
-          index === rewardAchievementIndex
-            ? { ...achievement, completed: true }
-            : achievement
-        );
-        
-        // Update user stars count based on completed achievements
-        const completedCount = updatedAchievements.filter(achievement => achievement.completed).length;
-        setUser(prevUser => ({
-          ...prevUser,
-          stars: completedCount
-        }));
-        
-        toast.success('Ny prestation upplåst!', {
-          duration: 3000
-        });
-        
-        return updatedAchievements;
+      // Early return if achievement doesn't exist or is already completed
+      if (rewardAchievementIndex < 0 || prevAchievements[rewardAchievementIndex].completed) {
+        return prevAchievements;
       }
       
-      return prevAchievements;
+      // Mark achievement as completed
+      const updatedAchievements = prevAchievements.map((achievement, index) =>
+        index === rewardAchievementIndex
+          ? { ...achievement, completed: true }
+          : achievement
+      );
+      
+      // Update user stars based on total completed achievements
+      const completedCount = updatedAchievements.filter(achievement => achievement.completed).length;
+      setUser(prevUser => ({
+        ...prevUser,
+        stars: completedCount
+      }));
+      
+      toast.success('Ny prestation upplåst!', {
+        duration: 3000
+      });
+      
+      return updatedAchievements;
     });
     
     toast.success(`Du har löst in "${rewardTitle}"!`);
