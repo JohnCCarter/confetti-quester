@@ -31,66 +31,78 @@ export const useRewards = (
   }, [setRewards]);
 
   const redeemReward = useCallback((id: string) => {
-    setRewards(prev => {
-      const rewardToRedeem = prev.find(reward => reward.id === id);
-      
-      if (!rewardToRedeem) {
-        toast.error('Belöning hittades inte!');
-        return prev;
-      }
-      
-      // Check if user has enough points using the current user state
-      setUser(prevUser => {
-        if (prevUser.points < rewardToRedeem.points) {
-          toast.error('Inte tillräckligt med poäng!');
-          return prevUser;
+    // Use a ref-like variable to track the reward across state updates
+    let rewardPoints = 0;
+    let rewardTitle = '';
+    let hasEnoughPoints = false;
+    
+    // First, check if user has enough points and get reward info
+    setUser(prevUser => {
+      setRewards(prevRewards => {
+        const rewardToRedeem = prevRewards.find(reward => reward.id === id);
+        
+        if (!rewardToRedeem) {
+          toast.error('Belöning hittades inte!');
+          return prevRewards;
         }
         
-        // Deduct points
-        const updatedUser = {
-          ...prevUser,
-          points: prevUser.points - rewardToRedeem.points
-        };
+        rewardPoints = rewardToRedeem.points;
+        rewardTitle = rewardToRedeem.title;
+        hasEnoughPoints = prevUser.points >= rewardPoints;
         
-        // Mark "Belönad" achievement as completed if it's the first time
-        setAchievements(prevAchievements => {
-          const rewardAchievementIndex = prevAchievements.findIndex(
-            achievement => achievement.id === '5'
-          );
-          
-          if (
-            rewardAchievementIndex >= 0 &&
-            !prevAchievements[rewardAchievementIndex].completed
-          ) {
-            const updatedAchievements = prevAchievements.map((achievement, index) =>
-              index === rewardAchievementIndex
-                ? { ...achievement, completed: true }
-                : achievement
-            );
-            
-            // Update user stars count
-            const completedCount = updatedAchievements.filter(achievement => achievement.completed).length;
-            setUser(prevUser => ({
-              ...prevUser,
-              stars: completedCount
-            }));
-            
-            toast.success('Ny prestation upplåst!', {
-              duration: 3000
-            });
-            
-            return updatedAchievements;
-          }
-          
-          return prevAchievements;
-        });
-        
-        toast.success(`Du har löst in "${rewardToRedeem.title}"!`);
-        return updatedUser;
+        return prevRewards;
       });
       
-      return prev;
+      if (!hasEnoughPoints) {
+        toast.error('Inte tillräckligt med poäng!');
+        return prevUser;
+      }
+      
+      return {
+        ...prevUser,
+        points: prevUser.points - rewardPoints
+      };
     });
+    
+    // Early return if validation failed
+    if (!hasEnoughPoints) {
+      return;
+    }
+    
+    // Mark "Belönad" achievement as completed if it's the first time
+    setAchievements(prevAchievements => {
+      const rewardAchievementIndex = prevAchievements.findIndex(
+        achievement => achievement.id === '5'
+      );
+      
+      if (
+        rewardAchievementIndex >= 0 &&
+        !prevAchievements[rewardAchievementIndex].completed
+      ) {
+        const updatedAchievements = prevAchievements.map((achievement, index) =>
+          index === rewardAchievementIndex
+            ? { ...achievement, completed: true }
+            : achievement
+        );
+        
+        // Update user stars count based on completed achievements
+        const completedCount = updatedAchievements.filter(achievement => achievement.completed).length;
+        setUser(prevUser => ({
+          ...prevUser,
+          stars: completedCount
+        }));
+        
+        toast.success('Ny prestation upplåst!', {
+          duration: 3000
+        });
+        
+        return updatedAchievements;
+      }
+      
+      return prevAchievements;
+    });
+    
+    toast.success(`Du har löst in "${rewardTitle}"!`);
   }, [setRewards, setUser, setAchievements]);
 
   return {
