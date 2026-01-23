@@ -66,21 +66,46 @@ export const useAchievements = (
       allEveningCompleted = false;
     }
 
+    const morningAchievementIndex = achievements.findIndex(achievement => achievement.id === '1');
+    const eveningAchievementIndex = achievements.findIndex(achievement => achievement.id === '2');
+    const pointsAchievementIndex = achievements.findIndex(achievement => achievement.id === '4');
+
     // Achievement 1: Complete all morning tasks
-    if (allMorningCompleted && !achievements[0].completed) {
-      updatedAchievements[0] = { ...updatedAchievements[0], completed: true };
+    if (
+      allMorningCompleted &&
+      morningAchievementIndex >= 0 &&
+      !achievements[morningAchievementIndex].completed
+    ) {
+      updatedAchievements[morningAchievementIndex] = {
+        ...updatedAchievements[morningAchievementIndex],
+        completed: true
+      };
       achievementsUnlocked = true;
     }
 
     // Achievement 2: Complete all evening tasks
-    if (allEveningCompleted && !achievements[1].completed) {
-      updatedAchievements[1] = { ...updatedAchievements[1], completed: true };
+    if (
+      allEveningCompleted &&
+      eveningAchievementIndex >= 0 &&
+      !achievements[eveningAchievementIndex].completed
+    ) {
+      updatedAchievements[eveningAchievementIndex] = {
+        ...updatedAchievements[eveningAchievementIndex],
+        completed: true
+      };
       achievementsUnlocked = true;
     }
 
     // Achievement 4: Collect 25 points
-    if (user.points >= 25 && !achievements[3].completed) {
-      updatedAchievements[3] = { ...updatedAchievements[3], completed: true };
+    if (
+      user.points >= 25 &&
+      pointsAchievementIndex >= 0 &&
+      !achievements[pointsAchievementIndex].completed
+    ) {
+      updatedAchievements[pointsAchievementIndex] = {
+        ...updatedAchievements[pointsAchievementIndex],
+        completed: true
+      };
       achievementsUnlocked = true;
     }
 

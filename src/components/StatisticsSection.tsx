@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Calendar, Trophy } from 'lucide-react';
 import SectionHeader from './SectionHeader';
 import AchievementItem, { Achievement } from './AchievementItem';
@@ -35,12 +35,15 @@ const StatisticsSection: React.FC<StatisticsSectionProps> = ({
 }) => {
   // Get day names for current locale
   const dayNames = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'];
-  const getDayClasses = (completedCount: number) => (
-    completedCount > 0
-      ? userTheme === 'pink'
-        ? 'bg-app-pink text-white'
-        : 'bg-app-blue text-white'
-      : 'bg-gray-800 text-gray-400'
+  const getDayClasses = useCallback(
+    (completedCount: number) => (
+      completedCount > 0
+        ? userTheme === 'pink'
+          ? 'bg-app-pink text-white'
+          : 'bg-app-blue text-white'
+        : 'bg-gray-800 text-gray-400'
+    ),
+    [userTheme]
   );
   
   return (
