@@ -60,4 +60,4 @@ const UserHeader: React.FC<UserHeaderProps> = ({
   );
 };
 
-export default UserHeader;
+export default React.memo(UserHeader);

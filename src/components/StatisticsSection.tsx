@@ -4,6 +4,7 @@ import { Calendar, Trophy } from 'lucide-react';
 import SectionHeader from './SectionHeader';
 import AchievementItem, { Achievement } from './AchievementItem';
 import { Task } from './TaskDialog';
+import { createAnimationStyleCache } from '@/lib/animationUtils';
 
 interface WeekStatistics {
   completedToday: number;
@@ -26,6 +27,9 @@ interface StatisticsSectionProps {
 
 // Extract constant arrays to avoid recreation on every render
 const DAY_NAMES = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'];
+
+// Create cached animation style getter for achievement animations (100ms delay, 0.5s duration)
+const getAnimationStyle = createAnimationStyleCache(100, '0.5s');
 
 const StatisticsSection: React.FC<StatisticsSectionProps> = ({ 
   userStars, 
@@ -111,10 +115,7 @@ const StatisticsSection: React.FC<StatisticsSectionProps> = ({
                 <div 
                   key={achievement.id} 
                   className="transition-all duration-300"
-                  style={{ 
-                    animationDelay: `${index * 100}ms`,
-                    animation: 'fade-in 0.5s ease-out forwards'
-                  }}
+                  style={getAnimationStyle(index)}
                 >
                   <AchievementItem 
                     achievement={achievement}

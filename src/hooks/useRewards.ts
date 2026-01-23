@@ -13,14 +13,17 @@ export const useRewards = (
   setAchievements: React.Dispatch<React.SetStateAction<Achievement[]>>
 ) => {
   const saveReward = useCallback((reward: Reward) => {
-    if (rewards.some(existingReward => existingReward.id === reward.id)) {
-      setRewards(prev => prev.map(existingReward => existingReward.id === reward.id ? reward : existingReward));
-      toast.success('Belöning uppdaterad!');
-    } else {
-      setRewards(prev => [...prev, reward]);
-      toast.success('Ny belöning tillagd!');
-    }
-  }, [rewards, setRewards]);
+    setRewards(prev => {
+      const rewardExists = prev.some(existingReward => existingReward.id === reward.id);
+      if (rewardExists) {
+        toast.success('Belöning uppdaterad!');
+        return prev.map(existingReward => existingReward.id === reward.id ? reward : existingReward);
+      } else {
+        toast.success('Ny belöning tillagd!');
+        return [...prev, reward];
+      }
+    });
+  }, [setRewards]);
 
   const deleteReward = useCallback((id: string) => {
     setRewards(prev => prev.filter(reward => reward.id !== id));
@@ -28,47 +31,81 @@ export const useRewards = (
   }, [setRewards]);
 
   const redeemReward = useCallback((id: string) => {
-    const rewardToRedeem = rewards.find(reward => reward.id === id);
+    // Track reward data across batched state updates
+    // React 18 batches these updates, so they happen synchronously
+    let rewardPoints = 0;
+    let rewardTitle = '';
+    let hasEnoughPoints = false;
     
-    if (!rewardToRedeem || user.points < rewardToRedeem.points) {
-      toast.error('Inte tillräckligt med poäng!');
+    // Validate user has enough points and get reward info
+    setUser(prevUser => {
+      setRewards(prevRewards => {
+        const rewardToRedeem = prevRewards.find(reward => reward.id === id);
+        
+        if (!rewardToRedeem) {
+          toast.error('Belöning hittades inte!');
+          return prevRewards;
+        }
+        
+        // Store reward data for later use
+        rewardPoints = rewardToRedeem.points;
+        rewardTitle = rewardToRedeem.title;
+        hasEnoughPoints = prevUser.points >= rewardPoints;
+        
+        return prevRewards;
+      });
+      
+      // Deduct points if validation passed
+      if (!hasEnoughPoints) {
+        toast.error('Inte tillräckligt med poäng!');
+        return prevUser;
+      }
+      
+      return {
+        ...prevUser,
+        points: prevUser.points - rewardPoints
+      };
+    });
+    
+    // Exit early if validation failed
+    if (!hasEnoughPoints) {
       return;
     }
     
-    setUser(prev => ({
-      ...prev,
-      points: prev.points - rewardToRedeem.points
-    }));
-    
-    // Mark "Belönad" achievement as completed if it's the first time
-    const rewardAchievementIndex = achievements.findIndex(
-      achievement => achievement.id === '5'
-    );
-    if (
-      rewardAchievementIndex >= 0 &&
-      !achievements[rewardAchievementIndex].completed
-    ) {
-      const updatedAchievements = achievements.map((achievement, index) =>
+    // Update "Belönad" achievement if this is the first redemption
+    setAchievements(prevAchievements => {
+      const rewardAchievementIndex = prevAchievements.findIndex(
+        achievement => achievement.id === '5'
+      );
+      
+      // Early return if achievement doesn't exist or is already completed
+      if (rewardAchievementIndex < 0 || prevAchievements[rewardAchievementIndex].completed) {
+        return prevAchievements;
+      }
+      
+      // Mark achievement as completed
+      const updatedAchievements = prevAchievements.map((achievement, index) =>
         index === rewardAchievementIndex
           ? { ...achievement, completed: true }
           : achievement
       );
-      setAchievements(updatedAchievements);
       
-      // Update user stars count
+      // Update user stars based on total completed achievements
       const completedCount = updatedAchievements.filter(achievement => achievement.completed).length;
-      setUser(prev => ({
-        ...prev,
+      setUser(prevUser => ({
+        ...prevUser,
         stars: completedCount
       }));
       
       toast.success('Ny prestation upplåst!', {
         duration: 3000
       });
-    }
+      
+      return updatedAchievements;
+    });
     
-    toast.success(`Du har löst in "${rewardToRedeem.title}"!`);
-  }, [rewards, user.points, achievements, setUser, setAchievements]);
+    toast.success(`Du har löst in "${rewardTitle}"!`);
+  }, [setRewards, setUser, setAchievements]);
 
   return {
     saveReward,

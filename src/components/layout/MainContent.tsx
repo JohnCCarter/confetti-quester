@@ -12,6 +12,10 @@ import { Task } from '@/components/TaskDialog';
 import { Reward } from '@/components/RewardsDialog';
 import { Achievement } from '@/components/AchievementItem';
 
+// Module-level constants to avoid re-creating on every render
+const EMPTY_ACHIEVEMENTS: Achievement[] = [];
+const ZERO_ACHIEVEMENTS = 0;
+
 interface MainContentProps {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
@@ -155,8 +159,8 @@ const MainContent: React.FC<MainContentProps> = ({
           <div className="mb-6">
             <StatisticsSection 
               userStars={user.stars}
-              achievements={[]}
-              totalAchievements={0}
+              achievements={EMPTY_ACHIEVEMENTS}
+              totalAchievements={ZERO_ACHIEVEMENTS}
               userTheme={userTheme}
               showWeekOverview={true}
               hideAchievements={true}
@@ -196,4 +200,4 @@ const MainContent: React.FC<MainContentProps> = ({
   );
 };
 
-export default MainContent;
+export default React.memo(MainContent);
