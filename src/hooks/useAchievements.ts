@@ -33,23 +33,45 @@ export const useAchievements = (
     prevPointsRef.current = user.points;
     
     // Create a copy of achievements to track changes
-    let updatedAchievements = [...achievements];
+    const updatedAchievements = [...achievements];
     let achievementsUnlocked = false;
 
-    // Check morning master achievement
-    const morningTasks = tasks.filter(task => task.category === 'morning');
-    const allMorningCompleted = morningTasks.length > 0 && morningTasks.every(task => task.completed);
-    
+    // Check morning/evening achievements in a single pass
+    let hasMorningTasks = false;
+    let hasEveningTasks = false;
+    let allMorningCompleted = true;
+    let allEveningCompleted = true;
+
+    for (const task of tasks) {
+      if (task.category === 'morning') {
+        hasMorningTasks = true;
+        if (!task.completed) {
+          allMorningCompleted = false;
+        }
+      }
+
+      if (task.category === 'evening') {
+        hasEveningTasks = true;
+        if (!task.completed) {
+          allEveningCompleted = false;
+        }
+      }
+    }
+
+    if (!hasMorningTasks) {
+      allMorningCompleted = false;
+    }
+
+    if (!hasEveningTasks) {
+      allEveningCompleted = false;
+    }
+
     // Achievement 1: Complete all morning tasks
     if (allMorningCompleted && !achievements[0].completed) {
       updatedAchievements[0] = { ...updatedAchievements[0], completed: true };
       achievementsUnlocked = true;
     }
 
-    // Check evening princess/prince achievement
-    const eveningTasks = tasks.filter(task => task.category === 'evening');
-    const allEveningCompleted = eveningTasks.length > 0 && eveningTasks.every(task => task.completed);
-    
     // Achievement 2: Complete all evening tasks
     if (allEveningCompleted && !achievements[1].completed) {
       updatedAchievements[1] = { ...updatedAchievements[1], completed: true };

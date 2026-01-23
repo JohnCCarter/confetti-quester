@@ -100,8 +100,9 @@ export const useTaskManagement = ({
     }));
     
     // Återställ alla uppgifter som saknas från defaultTasks (för att säkerställa att standarduppgifter inte saknas)
+    const updatedTaskIds = new Set(updatedTasks.map(task => task.id));
     const missingTasks = defaultTasks.filter(
-      defaultTask => !updatedTasks.some(task => task.id === defaultTask.id)
+      defaultTask => !updatedTaskIds.has(defaultTask.id)
     );
     updatedTasks = [...updatedTasks, ...missingTasks.map(task => ({ ...task }))];
     

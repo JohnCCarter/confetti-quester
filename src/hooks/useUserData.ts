@@ -22,38 +22,40 @@ export const useUserData = () => {
   };
 
   const handleSwitchUser = () => {
+    const loadUserData = <T,>(key: string, fallback: T) => {
+      const stored = localStorage.getItem(key);
+      return stored ? (JSON.parse(stored) as T) : fallback;
+    };
+
+    const saveUserData = (
+      prefix: string,
+      currentUser: User,
+      currentTasks: Task[],
+      currentRewards: Reward[],
+      currentAchievements: Achievement[]
+    ) => {
+      localStorage.setItem(prefix, JSON.stringify(currentUser));
+      localStorage.setItem(`${prefix}Tasks`, JSON.stringify(currentTasks));
+      localStorage.setItem(`${prefix}Rewards`, JSON.stringify(currentRewards));
+      localStorage.setItem(`${prefix}Achievements`, JSON.stringify(currentAchievements));
+    };
+
     if (user.id === defaultUser.id) {
       // Switching to Zozo
-      localStorage.setItem('isabel', JSON.stringify(user));
-      localStorage.setItem('isabelTasks', JSON.stringify(tasks));
-      localStorage.setItem('isabelRewards', JSON.stringify(rewards));
-      localStorage.setItem('isabelAchievements', JSON.stringify(achievements));
-      
-      const savedZozo = localStorage.getItem('zozo');
-      const savedZozoTasks = localStorage.getItem('zozoTasks');
-      const savedZozoRewards = localStorage.getItem('zozoRewards');
-      const savedZozoAchievements = localStorage.getItem('zozoAchievements');
-      
-      setUser(savedZozo ? JSON.parse(savedZozo) : alternateUser);
-      setTasks(savedZozoTasks ? JSON.parse(savedZozoTasks) : zozoTasks);
-      setRewards(savedZozoRewards ? JSON.parse(savedZozoRewards) : defaultRewards);
-      setAchievements(savedZozoAchievements ? JSON.parse(savedZozoAchievements) : defaultZozoAchievements);
+      saveUserData('isabel', user, tasks, rewards, achievements);
+
+      setUser(loadUserData('zozo', alternateUser));
+      setTasks(loadUserData('zozoTasks', zozoTasks));
+      setRewards(loadUserData('zozoRewards', defaultRewards));
+      setAchievements(loadUserData('zozoAchievements', defaultZozoAchievements));
     } else {
       // Switching to Isabel
-      localStorage.setItem('zozo', JSON.stringify(user));
-      localStorage.setItem('zozoTasks', JSON.stringify(tasks));
-      localStorage.setItem('zozoRewards', JSON.stringify(rewards));
-      localStorage.setItem('zozoAchievements', JSON.stringify(achievements));
-      
-      const savedIsabel = localStorage.getItem('isabel');
-      const savedIsabelTasks = localStorage.getItem('isabelTasks');
-      const savedIsabelRewards = localStorage.getItem('isabelRewards');
-      const savedIsabelAchievements = localStorage.getItem('isabelAchievements');
-      
-      setUser(savedIsabel ? JSON.parse(savedIsabel) : defaultUser);
-      setTasks(savedIsabelTasks ? JSON.parse(savedIsabelTasks) : isabelTasks);
-      setRewards(savedIsabelRewards ? JSON.parse(savedIsabelRewards) : defaultRewards);
-      setAchievements(savedIsabelAchievements ? JSON.parse(savedIsabelAchievements) : defaultIsabelAchievements);
+      saveUserData('zozo', user, tasks, rewards, achievements);
+
+      setUser(loadUserData('isabel', defaultUser));
+      setTasks(loadUserData('isabelTasks', isabelTasks));
+      setRewards(loadUserData('isabelRewards', defaultRewards));
+      setAchievements(loadUserData('isabelAchievements', defaultIsabelAchievements));
     }
   };
 

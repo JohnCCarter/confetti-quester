@@ -41,9 +41,10 @@ export const useRewards = (
     }));
     
     // Mark "Belönad" achievement as completed if it's the first time
-    if (!achievements[4].completed) {
-      const updatedAchievements = achievements.map((achievement, index) => 
-        index === 4 ? { ...achievement, completed: true } : achievement
+    const rewardAchievement = achievements.find(achievement => achievement.id === '5');
+    if (rewardAchievement && !rewardAchievement.completed) {
+      const updatedAchievements = achievements.map(achievement =>
+        achievement.id === '5' ? { ...achievement, completed: true } : achievement
       );
       setAchievements(updatedAchievements);
       
