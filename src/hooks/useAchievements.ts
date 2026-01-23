@@ -66,9 +66,12 @@ export const useAchievements = (
       allEveningCompleted = false;
     }
 
-    const morningAchievementIndex = achievements.findIndex(achievement => achievement.id === '1');
-    const eveningAchievementIndex = achievements.findIndex(achievement => achievement.id === '2');
-    const pointsAchievementIndex = achievements.findIndex(achievement => achievement.id === '4');
+    const achievementIndexById = new Map(
+      achievements.map((achievement, index) => [achievement.id, index])
+    );
+    const morningAchievementIndex = achievementIndexById.get('1') ?? -1;
+    const eveningAchievementIndex = achievementIndexById.get('2') ?? -1;
+    const pointsAchievementIndex = achievementIndexById.get('4') ?? -1;
 
     // Achievement 1: Complete all morning tasks
     if (
