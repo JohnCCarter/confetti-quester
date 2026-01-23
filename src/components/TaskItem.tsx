@@ -1,7 +1,5 @@
-
 import React, { useState } from 'react';
 import { Check, Edit2, Trash2 } from 'lucide-react';
-import { toast } from 'sonner';
 import CustomTaskIcon from './CustomTaskIcon';
 
 export interface TaskProps {
@@ -28,7 +26,7 @@ const TaskItem: React.FC<TaskProps> = ({
   userTheme = 'pink'
 }) => {
   const [isChecking, setIsChecking] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const themeTextClass = userTheme === 'pink' ? 'group-hover:text-app-pink' : 'group-hover:text-app-blue';
 
   const handleComplete = () => {
     if (completed) return;
@@ -42,20 +40,15 @@ const TaskItem: React.FC<TaskProps> = ({
 
   return (
     <div 
-      className={`task-item ${completed ? 'completed' : ''} transform transition-all duration-300 md:p-4 md:rounded-xl
-        ${isHovered ? 'scale-[1.02] shadow-md' : ''}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className={`task-item group ${completed ? 'completed' : ''} md:p-4 md:rounded-xl`}
     >
       <div 
-        className={`w-8 h-8 rounded-full border-2 flex items-center justify-center mr-3 cursor-pointer transition-all duration-300 md:w-10 md:h-10 md:mr-4
+        className={`task-checkbox w-8 h-8 rounded-full border-2 flex items-center justify-center mr-3 cursor-pointer transition-all duration-300 md:w-10 md:h-10 md:mr-4
           ${completed 
             ? 'border-app-green bg-app-green' 
             : isChecking 
               ? 'border-app-green animate-[pulse_1s_cubic-bezier(0.4,0,0.6,1)_infinite]' 
-              : isHovered
-                ? 'border-gray-400 scale-125 rotate-3'
-                : 'border-gray-600'}`}
+              : 'border-gray-600'}`}
         onClick={handleComplete}
       >
         {completed && (
@@ -64,44 +57,32 @@ const TaskItem: React.FC<TaskProps> = ({
       </div>
       
       <div className="flex items-center">
-        <div className={`mr-2 transition-all duration-300 md:mr-3 md:scale-125 ${isHovered ? 'scale-110' : ''}`}>
-          <CustomTaskIcon icon={icon} isHovered={isHovered} />
+        <div className="task-icon mr-2 transition-all duration-300 md:mr-3 md:scale-125">
+          <CustomTaskIcon icon={icon} />
         </div>
-        <span className={`font-medium transition-all duration-300 md:text-lg ${
-          completed 
-            ? 'line-through text-gray-500' 
-            : isHovered 
-              ? userTheme === 'pink' ? 'text-app-pink scale-105' : 'text-app-blue scale-105' 
-              : ''
+        <span className={`task-title font-medium transition-all duration-300 md:text-lg ${themeTextClass} ${
+          completed ? 'line-through text-gray-500' : ''
         }`}>{title}</span>
       </div>
       
       <div className="ml-auto flex items-center space-x-2">
-        <div className={`flex items-center transition-all duration-300 ${isHovered ? 'scale-110 rotate-3' : ''}`}>
-          <span className={`text-sm text-amber-400 mr-1 md:text-base ${isHovered ? 'animate-pulse' : ''}`}>★</span>
-          <span className={`text-sm transition-colors duration-300 md:text-base ${isHovered ? 'text-amber-300' : 'text-gray-400'}`}>
+        <div className="task-points flex items-center transition-all duration-300">
+          <span className="task-points-star text-sm text-amber-400 mr-1 md:text-base">★</span>
+          <span className="text-sm transition-colors duration-300 md:text-base text-gray-400 group-hover:text-amber-300">
             {points} poäng
           </span>
         </div>
         
         <button 
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 ${
-            isHovered 
-              ? 'text-white bg-gray-700 scale-110' 
-              : 'text-gray-400 hover:text-white hover:bg-gray-700'
-          }`}
+          className="task-action-button task-edit-button w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 text-gray-400 hover:text-white hover:bg-gray-700"
           onClick={() => onEdit(id)}
           aria-label="Redigera uppgift"
         >
-          <Edit2 size={16} className={`transition-all duration-300 md:size-5 ${isHovered ? 'animate-pulse' : ''}`} />
+          <Edit2 size={16} className="transition-all duration-300 md:size-5 group-hover:animate-pulse" />
         </button>
         
         <button 
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 ${
-            isHovered 
-              ? 'text-white bg-red-700 scale-110' 
-              : 'text-red-500 hover:text-white hover:bg-red-700'
-          }`}
+          className="task-action-button task-delete-button w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 md:w-10 md:h-10 text-red-500 hover:text-white hover:bg-red-700"
           onClick={() => onDelete(id, title)}
           aria-label="Radera uppgift"
         >

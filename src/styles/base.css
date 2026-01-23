@@ -20,6 +20,42 @@
     @apply relative flex items-center p-4 mb-3 rounded-xl transition-all duration-300 hover:bg-task-hover dark:hover:bg-task-hover;
   }
 
+  .task-item:hover {
+    @apply scale-[1.02] shadow-md;
+  }
+
+  .task-item:hover .task-checkbox {
+    @apply border-gray-400 scale-125 rotate-3;
+  }
+
+  .task-item:hover .task-icon {
+    @apply scale-110;
+  }
+
+  .task-item:hover .task-title {
+    @apply scale-105;
+  }
+
+  .task-item:hover .task-points {
+    @apply scale-110 rotate-3;
+  }
+
+  .task-item:hover .task-points-star {
+    @apply animate-pulse;
+  }
+
+  .task-item:hover .task-action-button {
+    @apply scale-110;
+  }
+
+  .task-item:hover .task-edit-button {
+    @apply text-white bg-gray-700;
+  }
+
+  .task-item:hover .task-delete-button {
+    @apply text-white bg-red-700;
+  }
+
   .light .task-item {
     @apply bg-white/60 hover:bg-gray-100/60 shadow-sm;
   }
@@ -30,6 +66,61 @@
 
   .light .task-item.completed {
     @apply bg-gray-100/60;
+  }
+
+  /* Reward item hover styles */
+  .reward-item:hover {
+    @apply shadow-lg translate-y-[-4px] scale-[1.02];
+  }
+
+  .reward-item:hover .reward-icon {
+    @apply scale-110 rotate-3;
+  }
+
+  .reward-item:hover .reward-title {
+    @apply scale-105;
+  }
+
+  .reward-item:hover .reward-action-button {
+    @apply opacity-100;
+  }
+
+  /* Achievement item hover styles */
+  .achievement-item:hover {
+    @apply shadow-lg translate-y-[-4px] scale-[1.02];
+  }
+
+  .achievement-item:hover .achievement-icon {
+    @apply scale-110 rotate-3;
+  }
+
+  .achievement-item:hover .achievement-title {
+    @apply scale-105;
+  }
+
+  .achievement-item:hover .achievement-description {
+    @apply text-gray-300;
+  }
+
+  /* User card hover styles */
+  .user-card:hover {
+    @apply shadow-lg translate-y-[-2px];
+  }
+
+  .user-card:hover .user-avatar {
+    @apply scale-110;
+  }
+
+  .user-card:hover .user-edit-icon {
+    @apply opacity-100 animate-pulse;
+  }
+
+  .user-card:hover .user-badge {
+    @apply scale-110;
+  }
+
+  .user-card:hover .user-star {
+    @apply scale-110;
   }
 
   .confetti-container {
@@ -77,5 +168,105 @@
 
   .shake {
     animation: wiggle 0.5s ease-in-out;
+  }
+
+  /* Theme variables - Dark mode (default) */
+  :root {
+    --background: 222 47% 11%;
+    --foreground: 0 0% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 0 0% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 329 89% 69%;
+    --primary-foreground: 222 47% 11%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 17%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 224 76% 48%;
+    --radius: 0.75rem;
+  }
+
+  /* Theme variables - Light mode */
+  .light {
+    --background: 0 0% 99%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 329 89% 69%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 220 14% 95%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 220 14% 95%;
+    --muted-foreground: 220 8% 46%;
+    --accent: 220 14% 95%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 14% 95%;
+    --input: 220 14% 95%;
+    --ring: 224 76% 48%;
+  }
+
+  /* Background gradients - Default */
+  body {
+    background-color: #0f172a !important;
+    background-image: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 70%, #4c1d95 100%) !important;
+    background-size: 200% 200% !important;
+    background-position: center !important;
+  }
+  
+  html.light body {
+    background-color: #f8fafc !important;
+    background-image: radial-gradient(circle at center, #eef2ff 0%, #f8fafc 70%, #f0f9ff 100%) !important;
+    background-size: 200% 200% !important;
+    background-position: center !important;
+  }
+
+  /* User-specific backgrounds - Isabel */
+  body.user-isabel {
+    background: none !important;
+  }
+  
+  html.dark body.user-isabel {
+    background-color: #3b1d51 !important;
+    background-image: radial-gradient(circle at center, #4a2260 0%, #3b1d51 70%, #701a75 100%) !important;
+    background-size: 200% 200% !important;
+    background-position: center !important;
+  }
+
+  html.light body.user-isabel {
+    background-color: #f9a8d4 !important;
+    background-image: radial-gradient(circle at center, #fbcfe8 0%, #f9a8d4 70%, #fdf2f8 100%) !important;
+    background-size: 200% 200% !important;
+    background-position: center !important;
+  }
+
+  /* User-specific backgrounds - Zozo */
+  body.user-zozo {
+    background: none !important;
+  }
+  
+  html.dark body.user-zozo {
+    background-color: #142354 !important;
+    background-image: radial-gradient(circle at center, #1e3a8a 0%, #142354 70%, #2563eb 100%) !important;
+    background-size: 200% 200% !important;
+    background-position: center !important;
+  }
+
+  html.light body.user-zozo {
+    background-color: #3b82f6 !important;
+    background-image: radial-gradient(circle at center, #93c5fd 0%, #3b82f6 70%, #dbeafe 100%) !important;
+    background-size: 200% 200% !important;
+    background-position: center !important;
   }
 }
