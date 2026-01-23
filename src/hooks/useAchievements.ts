@@ -43,31 +43,27 @@ export const useAchievements = (
     // Check morning/evening achievements in a single pass
     let hasMorningTasks = false;
     let hasEveningTasks = false;
-    let allMorningCompleted = true;
-    let allEveningCompleted = true;
+    let allMorningCompleted = false;
+    let allEveningCompleted = false;
 
     for (const task of tasks) {
       if (task.category === 'morning') {
-        hasMorningTasks = true;
-        if (!task.completed) {
-          allMorningCompleted = false;
+        if (!hasMorningTasks) {
+          hasMorningTasks = true;
+          allMorningCompleted = task.completed;
+        } else {
+          allMorningCompleted = allMorningCompleted && task.completed;
         }
       }
 
       if (task.category === 'evening') {
-        hasEveningTasks = true;
-        if (!task.completed) {
-          allEveningCompleted = false;
+        if (!hasEveningTasks) {
+          hasEveningTasks = true;
+          allEveningCompleted = task.completed;
+        } else {
+          allEveningCompleted = allEveningCompleted && task.completed;
         }
       }
-    }
-
-    if (!hasMorningTasks) {
-      allMorningCompleted = false;
-    }
-
-    if (!hasEveningTasks) {
-      allEveningCompleted = false;
     }
 
     const morningAchievementIndex = achievementIndexById.get('1') ?? -1;
