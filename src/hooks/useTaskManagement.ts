@@ -94,17 +94,16 @@ export const useTaskManagement = ({
     const defaultTasks = isIsabel ? isabelTasks : zozoTasks;
     
     // Återställ endast completed-status för varje uppgift (immutably)
-    const updatedTasks = tasks.map(task => ({
+    let updatedTasks = tasks.map(task => ({
       ...task,
       completed: false
     }));
     
     // Återställ alla uppgifter som saknas från defaultTasks (för att säkerställa att standarduppgifter inte saknas)
-    defaultTasks.forEach(defaultTask => {
-      if (!updatedTasks.some(task => task.id === defaultTask.id)) {
-        updatedTasks.push({...defaultTask});
-      }
-    });
+    const missingTasks = defaultTasks.filter(
+      defaultTask => !updatedTasks.some(task => task.id === defaultTask.id)
+    );
+    updatedTasks = [...updatedTasks, ...missingTasks.map(task => ({ ...task }))];
     
     setTasks(updatedTasks);
     

@@ -13,20 +13,23 @@ export const useAchievements = (
   setUser: React.Dispatch<React.SetStateAction<User>>
 ) => {
   // Track previous values to avoid unnecessary processing
-  const prevTasksRef = useRef<Task[]>(tasks);
+  const prevTasksCompletedRef = useRef<Set<string>>(new Set());
   const prevPointsRef = useRef<number>(user.points);
   
   // Check achievements whenever tasks or user points change
   useEffect(() => {
-    // Only process if tasks or points actually changed
-    const tasksChanged = JSON.stringify(tasks) !== JSON.stringify(prevTasksRef.current);
+    // Only process if task completion status or points actually changed
+    const currentCompleted = new Set(tasks.filter(t => t.completed).map(t => t.id));
+    const tasksChanged = 
+      currentCompleted.size !== prevTasksCompletedRef.current.size ||
+      [...currentCompleted].some(id => !prevTasksCompletedRef.current.has(id));
     const pointsChanged = user.points !== prevPointsRef.current;
     
     if (!tasksChanged && !pointsChanged) {
       return;
     }
     
-    prevTasksRef.current = tasks;
+    prevTasksCompletedRef.current = currentCompleted;
     prevPointsRef.current = user.points;
     
     // Create a copy of achievements to track changes
@@ -74,7 +77,7 @@ export const useAchievements = (
         duration: 3000
       });
     }
-  }, [tasks, user.points]);
+  }, [tasks, user.points, achievements, setAchievements, setUser]);
 
   return { achievements };
 };
