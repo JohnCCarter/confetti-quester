@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import UserCard from '@/components/UserCard';
 import StatisticsSection from '@/components/StatisticsSection';
@@ -8,20 +7,24 @@ import TaskManager from '@/features/tasks/TaskManager';
 import RewardManager from '@/features/rewards/RewardManager';
 import UserManager from '@/features/users/UserManager';
 import { useTaskManagement } from '@/hooks/useTaskManagement';
+import { User } from '@/components/UserDialog';
+import { Task } from '@/components/TaskDialog';
+import { Reward } from '@/components/RewardsDialog';
+import { Achievement } from '@/components/AchievementItem';
 
 interface MainContentProps {
-  user: any;
-  setUser: React.Dispatch<React.SetStateAction<any>>;
-  tasks: any[];
-  setTasks: React.Dispatch<React.SetStateAction<any[]>>;
-  rewards: any[];
-  setRewards: React.Dispatch<React.SetStateAction<any[]>>;
-  achievements: any[];
-  setAchievements: React.Dispatch<React.SetStateAction<any[]>>;
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
+  tasks: Task[];
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  rewards: Reward[];
+  setRewards: React.Dispatch<React.SetStateAction<Reward[]>>;
+  achievements: Achievement[];
+  setAchievements: React.Dispatch<React.SetStateAction<Achievement[]>>;
   totalAchievements: number;
   handleSwitchUser: () => void;
-  handleSaveUser: (user: any) => void;
-  handleSaveReward: (reward: any) => void;
+  handleSaveUser: (user: User) => void;
+  handleSaveReward: (reward: Reward) => void;
   handleRedeemReward: (id: string) => void;
   handleDeleteReward: (id: string) => void;
   isIsabel: boolean;
@@ -115,7 +118,7 @@ const MainContent: React.FC<MainContentProps> = ({
             <UserCard 
               name={`Dina poäng`}
               points={user.points}
-              completedTasks={tasks.filter(t => t.completed).length}
+              completedTasks={tasks.filter(task => task.completed).length}
               stars={user.stars}
               onEdit={() => UserManager.openUserDialog()}
               userTheme={userTheme}

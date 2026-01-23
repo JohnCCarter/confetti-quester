@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useCallback } from 'react';
 import ReactCanvasConfetti from 'react-canvas-confetti';
 
@@ -9,22 +8,32 @@ interface ConfettiProps {
   position?: { x: number; y: number };
 }
 
+interface ConfettiConfig {
+  spread?: number;
+  startVelocity?: number;
+  decay?: number;
+  scalar?: number;
+  ticks?: number;
+}
+
+type ConfettiInstance = (options: Record<string, unknown>) => void;
+
 const Confetti: React.FC<ConfettiProps> = ({ 
   active, 
   onComplete, 
   type = 'small',
   position 
 }) => {
-  const confettiRef = useRef<any>(null);
+  const confettiRef = useRef<ConfettiInstance | null>(null);
 
-  const getInstance = useCallback((instance: any) => {
+  const getInstance = useCallback((instance: ConfettiInstance) => {
     confettiRef.current = instance;
   }, []);
 
-  const makeShot = useCallback((particleRatio: number, opts: any) => {
+  const fireConfetti = useCallback((particleRatio: number, confettiConfig: ConfettiConfig) => {
     if (confettiRef.current) {
       confettiRef.current({
-        ...opts,
+        ...confettiConfig,
         origin: position ? { 
           x: position.x / window.innerWidth,
           y: position.y / window.innerHeight 
@@ -42,7 +51,7 @@ const Confetti: React.FC<ConfettiProps> = ({
   useEffect(() => {
     if (active) {
       if (type === 'small') {
-        makeShot(0.25, {
+        fireConfetti(0.25, {
           spread: 26,
           startVelocity: 25,
           decay: 0.92,
@@ -51,21 +60,21 @@ const Confetti: React.FC<ConfettiProps> = ({
         });
       } else {
         // Full screen celebration
-        makeShot(0.25, {
+        fireConfetti(0.25, {
           spread: 26,
           startVelocity: 55,
           ticks: 150
         });
         
         setTimeout(() => {
-          makeShot(0.2, {
+          fireConfetti(0.2, {
             spread: 60,
             ticks: 150
           });
         }, 250);
         
         setTimeout(() => {
-          makeShot(0.35, {
+          fireConfetti(0.35, {
             spread: 100,
             decay: 0.91,
             scalar: 0.8,
@@ -74,7 +83,7 @@ const Confetti: React.FC<ConfettiProps> = ({
         }, 400);
         
         setTimeout(() => {
-          makeShot(0.1, {
+          fireConfetti(0.1, {
             spread: 120,
             startVelocity: 30,
             decay: 0.92,
@@ -84,7 +93,7 @@ const Confetti: React.FC<ConfettiProps> = ({
         }, 550);
         
         setTimeout(() => {
-          makeShot(0.25, {
+          fireConfetti(0.25, {
             spread: 50,
             startVelocity: 45,
             decay: 0.94,
@@ -98,7 +107,7 @@ const Confetti: React.FC<ConfettiProps> = ({
         if (onComplete) onComplete();
       }, 1500);
     }
-  }, [active, makeShot, onComplete, type]);
+  }, [active, fireConfetti, onComplete, type]);
 
   const style: React.CSSProperties = {
     position: 'fixed',

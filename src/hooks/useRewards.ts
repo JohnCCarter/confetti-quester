@@ -1,7 +1,7 @@
-
 import { useState, useCallback } from 'react';
 import { User } from '@/components/UserDialog';
 import { Reward } from '@/components/RewardsDialog';
+import { Achievement } from '@/components/AchievementItem';
 import { toast } from 'sonner';
 
 export const useRewards = (
@@ -9,12 +9,12 @@ export const useRewards = (
   setRewards: React.Dispatch<React.SetStateAction<Reward[]>>,
   user: User,
   setUser: React.Dispatch<React.SetStateAction<User>>,
-  achievements: any[],
-  setAchievements: React.Dispatch<React.SetStateAction<any[]>>
+  achievements: Achievement[],
+  setAchievements: React.Dispatch<React.SetStateAction<Achievement[]>>
 ) => {
   const handleSaveReward = useCallback((reward: Reward) => {
-    if (rewards.some(r => r.id === reward.id)) {
-      setRewards(prev => prev.map(r => r.id === reward.id ? reward : r));
+    if (rewards.some(existingReward => existingReward.id === reward.id)) {
+      setRewards(prev => prev.map(existingReward => existingReward.id === reward.id ? reward : existingReward));
       toast.success('Belöning uppdaterad!');
     } else {
       setRewards(prev => [...prev, reward]);
@@ -56,7 +56,7 @@ export const useRewards = (
       setAchievements(updatedAchievements);
       
       // Update user stars count
-      const completedCount = updatedAchievements.filter(a => a.completed).length;
+      const completedCount = updatedAchievements.filter(achievement => achievement.completed).length;
       setUser(prev => ({
         ...prev,
         stars: completedCount

@@ -1,6 +1,8 @@
-
 import { useState, useEffect, useCallback } from 'react';
 import { Task } from '@/components/TaskDialog';
+import { User } from '@/components/UserDialog';
+import { Achievement } from '@/components/AchievementItem';
+import { Reward } from '@/components/RewardsDialog';
 import { toast } from 'sonner';
 import { isabelTasks, zozoTasks } from '@/data/tasks';
 import { defaultUser, alternateUser, defaultIsabelAchievements, defaultZozoAchievements } from '@/hooks/useUserManagement';
@@ -8,13 +10,13 @@ import { defaultUser, alternateUser, defaultIsabelAchievements, defaultZozoAchie
 interface UseTaskManagementProps {
   tasks: Task[];
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-  setUser: React.Dispatch<React.SetStateAction<any>>;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
   setShowConfetti: React.Dispatch<React.SetStateAction<boolean>>;
   setConfettiPosition: React.Dispatch<React.SetStateAction<{x: number, y: number} | null>>;
   setShowFullConfetti: React.Dispatch<React.SetStateAction<boolean>>;
   setCompletedTaskId: React.Dispatch<React.SetStateAction<string | null>>;
-  setAchievements: React.Dispatch<React.SetStateAction<any[]>>;
-  setRewards: React.Dispatch<React.SetStateAction<any[]>>;
+  setAchievements: React.Dispatch<React.SetStateAction<Achievement[]>>;
+  setRewards: React.Dispatch<React.SetStateAction<Reward[]>>;
   isIsabel: boolean;
 }
 
@@ -64,7 +66,11 @@ export const useTaskManagement = ({
     });
   }, [tasks, setTasks, setUser, setShowConfetti, setConfettiPosition, setCompletedTaskId]);
 
-  const handleEditTask = useCallback((id: string, setCurrentTask: Function, setTaskDialogOpen: Function) => {
+  const handleEditTask = useCallback((
+    id: string, 
+    setCurrentTask: (task: Task | null) => void, 
+    setTaskDialogOpen: (open: boolean) => void
+  ) => {
     const taskToEdit = tasks.find(task => task.id === id);
     if (taskToEdit) {
       setCurrentTask(taskToEdit);
@@ -78,8 +84,8 @@ export const useTaskManagement = ({
   }, [setTasks]);
 
   const handleSaveTask = useCallback((task: Task) => {
-    if (tasks.some(t => t.id === task.id)) {
-      setTasks(prev => prev.map(t => t.id === task.id ? task : t));
+    if (tasks.some(existingTask => existingTask.id === task.id)) {
+      setTasks(prev => prev.map(existingTask => existingTask.id === task.id ? task : existingTask));
       toast.success('Uppgift uppdaterad!');
     } else {
       setTasks(prev => [...prev, task]);
