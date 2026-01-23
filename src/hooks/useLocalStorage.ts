@@ -31,7 +31,8 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
     }, 300);
   }, [key, storedValue]);
 
-  // Cleanup on unmount only
+  // Cleanup on unmount - ensures pending writes are cleared when component unmounts
+  // This is separate from the main effect to avoid interfering with the debouncing logic
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {

@@ -4,6 +4,7 @@ import { Gift, Plus } from 'lucide-react';
 import { Reward } from './RewardsDialog';
 import SectionHeader from './SectionHeader';
 import RewardItem from './RewardItem';
+import { createAnimationStyleCache } from '@/lib/animationUtils';
 
 interface RewardsSectionProps {
   rewards: Reward[];
@@ -15,26 +16,8 @@ interface RewardsSectionProps {
   userTheme: 'pink' | 'blue';
 }
 
-// Create a cache of precomputed animation styles for common indices (0-99)
-// This avoids creating new style objects on every render
-const ANIMATION_STYLE_CACHE = new Map<number, React.CSSProperties>();
-for (let i = 0; i < 100; i++) {
-  ANIMATION_STYLE_CACHE.set(i, {
-    animationDelay: `${i * 100}ms`,
-    animation: 'fade-in 0.5s ease-out forwards'
-  });
-}
-
-const getAnimationStyle = (index: number): React.CSSProperties => {
-  // Use cached style if available, otherwise create new one
-  const cached = ANIMATION_STYLE_CACHE.get(index);
-  if (cached) return cached;
-  
-  return {
-    animationDelay: `${index * 100}ms`,
-    animation: 'fade-in 0.5s ease-out forwards'
-  };
-};
+// Create cached animation style getter for reward list animations (100ms delay, 0.5s duration)
+const getAnimationStyle = createAnimationStyleCache(100, '0.5s');
 
 const RewardsSection: React.FC<RewardsSectionProps> = ({
   rewards,
