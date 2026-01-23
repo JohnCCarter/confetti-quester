@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Calendar, Trophy } from 'lucide-react';
 import SectionHeader from './SectionHeader';
 import AchievementItem, { Achievement } from './AchievementItem';
@@ -35,6 +35,16 @@ const StatisticsSection: React.FC<StatisticsSectionProps> = ({
 }) => {
   // Get day names for current locale
   const dayNames = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'];
+  const getDayClasses = useCallback(
+    (completedCount: number) => (
+      completedCount > 0
+        ? userTheme === 'pink'
+          ? 'bg-app-pink text-white'
+          : 'bg-app-blue text-white'
+        : 'bg-gray-800 text-gray-400'
+    ),
+    [userTheme]
+  );
   
   return (
     <>
@@ -70,9 +80,7 @@ const StatisticsSection: React.FC<StatisticsSectionProps> = ({
                     <div key={day} className="flex flex-col items-center">
                       <span className="text-xs text-gray-400">{day}</span>
                       <div className={`mt-1 w-6 h-6 rounded-full flex items-center justify-center text-xs ${
-                        weekStatistics.completedByDay[index.toString()] > 0 
-                          ? userTheme === 'pink' ? 'bg-app-pink text-white' : 'bg-app-blue text-white' 
-                          : 'bg-gray-800 text-gray-400'
+                        getDayClasses(weekStatistics.completedByDay[index.toString()] || 0)
                       }`}>
                         {weekStatistics.completedByDay[index.toString()] || 0}
                       </div>

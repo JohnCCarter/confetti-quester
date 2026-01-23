@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { User } from '@/components/UserDialog';
 import { Task } from '@/components/TaskDialog';
 import { Achievement } from '@/components/AchievementItem';
@@ -32,33 +32,74 @@ export const useAchievements = (
     prevTasksCompletedRef.current = currentCompleted;
     prevPointsRef.current = user.points;
     
+    const achievementIndexById = new Map(
+      achievements.map((achievement, index) => [achievement.id, index])
+    );
+
     // Create a copy of achievements to track changes
-    let updatedAchievements = [...achievements];
+    const updatedAchievements = [...achievements];
     let achievementsUnlocked = false;
 
-    // Check morning master achievement
-    const morningTasks = tasks.filter(task => task.category === 'morning');
-    const allMorningCompleted = morningTasks.length > 0 && morningTasks.every(task => task.completed);
-    
+    // Check morning/evening achievements in a single pass
+    let hasMorningTasks = false;
+    let hasEveningTasks = false;
+    let allMorningCompleted = true;
+    let allEveningCompleted = true;
+
+    for (const task of tasks) {
+      if (task.category === 'morning') {
+        hasMorningTasks = true;
+        allMorningCompleted = allMorningCompleted && task.completed;
+      }
+
+      if (task.category === 'evening') {
+        hasEveningTasks = true;
+        allEveningCompleted = allEveningCompleted && task.completed;
+      }
+    }
+
+    const morningAchievementIndex = achievementIndexById.get('1') ?? -1;
+    const eveningAchievementIndex = achievementIndexById.get('2') ?? -1;
+    const pointsAchievementIndex = achievementIndexById.get('4') ?? -1;
+
     // Achievement 1: Complete all morning tasks
-    if (allMorningCompleted && !achievements[0].completed) {
-      updatedAchievements[0] = { ...updatedAchievements[0], completed: true };
+    if (
+      hasMorningTasks &&
+      allMorningCompleted &&
+      morningAchievementIndex >= 0 &&
+      !achievements[morningAchievementIndex].completed
+    ) {
+      updatedAchievements[morningAchievementIndex] = {
+        ...updatedAchievements[morningAchievementIndex],
+        completed: true
+      };
       achievementsUnlocked = true;
     }
 
-    // Check evening princess/prince achievement
-    const eveningTasks = tasks.filter(task => task.category === 'evening');
-    const allEveningCompleted = eveningTasks.length > 0 && eveningTasks.every(task => task.completed);
-    
     // Achievement 2: Complete all evening tasks
-    if (allEveningCompleted && !achievements[1].completed) {
-      updatedAchievements[1] = { ...updatedAchievements[1], completed: true };
+    if (
+      hasEveningTasks &&
+      allEveningCompleted &&
+      eveningAchievementIndex >= 0 &&
+      !achievements[eveningAchievementIndex].completed
+    ) {
+      updatedAchievements[eveningAchievementIndex] = {
+        ...updatedAchievements[eveningAchievementIndex],
+        completed: true
+      };
       achievementsUnlocked = true;
     }
 
     // Achievement 4: Collect 25 points
-    if (user.points >= 25 && !achievements[3].completed) {
-      updatedAchievements[3] = { ...updatedAchievements[3], completed: true };
+    if (
+      user.points >= 25 &&
+      pointsAchievementIndex >= 0 &&
+      !achievements[pointsAchievementIndex].completed
+    ) {
+      updatedAchievements[pointsAchievementIndex] = {
+        ...updatedAchievements[pointsAchievementIndex],
+        completed: true
+      };
       achievementsUnlocked = true;
     }
 
