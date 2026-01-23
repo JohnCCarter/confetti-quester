@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { AlarmClock, Moon } from 'lucide-react';
 import TaskItem from '@/components/TaskItem';
 import { Task } from '@/components/TaskDialog';
@@ -23,11 +23,20 @@ const TaskList: React.FC<TaskListProps> = ({
 }) => {
   const [hoveredSection, setHoveredSection] = useState<'morning' | 'evening' | null>(null);
   
-  const morningTasks = tasks.filter(task => task.category === 'morning');
-  const eveningTasks = tasks.filter(task => task.category === 'evening');
-  
-  const completedMorningTasks = morningTasks.filter(task => task.completed).length;
-  const completedEveningTasks = eveningTasks.filter(task => task.completed).length;
+  // Memoize task filtering to avoid recalculation on every render
+  const { morningTasks, eveningTasks, completedMorningTasks, completedEveningTasks } = useMemo(() => {
+    const morning = tasks.filter(task => task.category === 'morning');
+    const evening = tasks.filter(task => task.category === 'evening');
+    const completedMorning = morning.filter(task => task.completed).length;
+    const completedEvening = evening.filter(task => task.completed).length;
+    
+    return {
+      morningTasks: morning,
+      eveningTasks: evening,
+      completedMorningTasks: completedMorning,
+      completedEveningTasks: completedEvening
+    };
+  }, [tasks]);
 
   const textColorClass = userTheme === 'pink' ? 'text-app-pink' : 'text-app-blue';
 
@@ -139,4 +148,4 @@ const TaskList: React.FC<TaskListProps> = ({
   );
 };
 
-export default TaskList;
+export default React.memo(TaskList);

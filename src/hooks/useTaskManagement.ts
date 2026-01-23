@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Task } from '@/components/TaskDialog';
 import { toast } from 'sonner';
 import { isabelTasks, zozoTasks } from '@/data/tasks';
@@ -31,7 +31,7 @@ export const useTaskManagement = ({
   isIsabel
 }: UseTaskManagementProps) => {
   
-  const handleCompleteTask = (id: string) => {
+  const handleCompleteTask = useCallback((id: string) => {
     const taskToComplete = tasks.find(task => task.id === id);
     if (!taskToComplete || taskToComplete.completed) return;
     
@@ -62,22 +62,22 @@ export const useTaskManagement = ({
     toast.success(`Bra jobbat! +${taskToComplete?.points || 0} poäng`, {
       duration: 2000
     });
-  };
+  }, [tasks, setTasks, setUser, setShowConfetti, setConfettiPosition, setCompletedTaskId]);
 
-  const handleEditTask = (id: string, setCurrentTask: Function, setTaskDialogOpen: Function) => {
+  const handleEditTask = useCallback((id: string, setCurrentTask: Function, setTaskDialogOpen: Function) => {
     const taskToEdit = tasks.find(task => task.id === id);
     if (taskToEdit) {
       setCurrentTask(taskToEdit);
       setTaskDialogOpen(true);
     }
-  };
+  }, [tasks]);
 
-  const handleDeleteTask = (id: string) => {
+  const handleDeleteTask = useCallback((id: string) => {
     setTasks(prev => prev.filter(task => task.id !== id));
     toast.success('Uppgift borttagen!');
-  };
+  }, [setTasks]);
 
-  const handleSaveTask = (task: Task) => {
+  const handleSaveTask = useCallback((task: Task) => {
     if (tasks.some(t => t.id === task.id)) {
       setTasks(prev => prev.map(t => t.id === task.id ? task : t));
       toast.success('Uppgift uppdaterad!');
@@ -85,21 +85,19 @@ export const useTaskManagement = ({
       setTasks(prev => [...prev, task]);
       toast.success('Ny uppgift tillagd!');
     }
-  };
+  }, [tasks, setTasks]);
 
-  const handleResetTasks = () => {
+  const handleResetTasks = useCallback(() => {
     // Istället för att återställa allt, återställer vi bara slutförda uppgifter, men behåller personliga ändringar
     
     // Hämta de initiala uppgifterna baserat på vilken användare
     const defaultTasks = isIsabel ? isabelTasks : zozoTasks;
     
-    // Skapa en kopia av de aktuella uppgifterna
-    const updatedTasks = [...tasks];
-    
-    // Återställ endast completed-status för varje uppgift
-    updatedTasks.forEach(task => {
-      task.completed = false;
-    });
+    // Återställ endast completed-status för varje uppgift (immutably)
+    const updatedTasks = tasks.map(task => ({
+      ...task,
+      completed: false
+    }));
     
     // Återställ alla uppgifter som saknas från defaultTasks (för att säkerställa att standarduppgifter inte saknas)
     defaultTasks.forEach(defaultTask => {
@@ -128,7 +126,7 @@ export const useTaskManagement = ({
     // Behåll belöningar oförändrade, återställer inte dessa
     
     toast.success('Uppgifter och poäng har återställts!');
-  };
+  }, [tasks, setTasks, setUser, setAchievements, isIsabel]);
 
   return {
     handleCompleteTask,
