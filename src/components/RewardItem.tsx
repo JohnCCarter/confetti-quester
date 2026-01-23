@@ -150,4 +150,4 @@ const RewardItem: React.FC<RewardItemProps> = ({
   );
 };
 
-export default RewardItem;
+export default React.memo(RewardItem);

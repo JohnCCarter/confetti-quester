@@ -54,4 +54,4 @@ const TasksSection: React.FC<TasksSectionProps> = ({
   );
 };
 
-export default TasksSection;
+export default React.memo(TasksSection);

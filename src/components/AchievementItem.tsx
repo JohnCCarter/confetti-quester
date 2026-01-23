@@ -87,4 +87,4 @@ const AchievementItem: React.FC<AchievementItemProps> = ({
   );
 };
 
-export default AchievementItem;
+export default React.memo(AchievementItem);
