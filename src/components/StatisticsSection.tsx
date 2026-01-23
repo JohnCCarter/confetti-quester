@@ -125,4 +125,4 @@ const StatisticsSection: React.FC<StatisticsSectionProps> = ({
   );
 };
 
-export default StatisticsSection;
+export default React.memo(StatisticsSection);

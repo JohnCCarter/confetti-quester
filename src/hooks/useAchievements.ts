@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { User } from '@/components/UserDialog';
 import { Task } from '@/components/TaskDialog';
 import { Achievement } from '@/components/AchievementItem';
@@ -12,8 +12,26 @@ export const useAchievements = (
   setAchievements: React.Dispatch<React.SetStateAction<Achievement[]>>,
   setUser: React.Dispatch<React.SetStateAction<User>>
 ) => {
+  // Track previous values to avoid unnecessary processing
+  const prevTasksCompletedRef = useRef<Set<string>>(new Set());
+  const prevPointsRef = useRef<number>(user.points);
+  
   // Check achievements whenever tasks or user points change
   useEffect(() => {
+    // Only process if task completion status or points actually changed
+    const currentCompleted = new Set(tasks.filter(t => t.completed).map(t => t.id));
+    const tasksChanged = 
+      currentCompleted.size !== prevTasksCompletedRef.current.size ||
+      [...currentCompleted].some(id => !prevTasksCompletedRef.current.has(id));
+    const pointsChanged = user.points !== prevPointsRef.current;
+    
+    if (!tasksChanged && !pointsChanged) {
+      return;
+    }
+    
+    prevTasksCompletedRef.current = currentCompleted;
+    prevPointsRef.current = user.points;
+    
     // Create a copy of achievements to track changes
     let updatedAchievements = [...achievements];
     let achievementsUnlocked = false;
@@ -24,7 +42,7 @@ export const useAchievements = (
     
     // Achievement 1: Complete all morning tasks
     if (allMorningCompleted && !achievements[0].completed) {
-      updatedAchievements[0].completed = true;
+      updatedAchievements[0] = { ...updatedAchievements[0], completed: true };
       achievementsUnlocked = true;
     }
 
@@ -34,13 +52,13 @@ export const useAchievements = (
     
     // Achievement 2: Complete all evening tasks
     if (allEveningCompleted && !achievements[1].completed) {
-      updatedAchievements[1].completed = true;
+      updatedAchievements[1] = { ...updatedAchievements[1], completed: true };
       achievementsUnlocked = true;
     }
 
     // Achievement 4: Collect 25 points
     if (user.points >= 25 && !achievements[3].completed) {
-      updatedAchievements[3].completed = true;
+      updatedAchievements[3] = { ...updatedAchievements[3], completed: true };
       achievementsUnlocked = true;
     }
 

@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { User } from '@/components/UserDialog';
 import { Reward } from '@/components/RewardsDialog';
 import { toast } from 'sonner';
@@ -12,7 +12,7 @@ export const useRewards = (
   achievements: any[],
   setAchievements: React.Dispatch<React.SetStateAction<any[]>>
 ) => {
-  const handleSaveReward = (reward: Reward) => {
+  const handleSaveReward = useCallback((reward: Reward) => {
     if (rewards.some(r => r.id === reward.id)) {
       setRewards(prev => prev.map(r => r.id === reward.id ? reward : r));
       toast.success('Belöning uppdaterad!');
@@ -20,14 +20,14 @@ export const useRewards = (
       setRewards(prev => [...prev, reward]);
       toast.success('Ny belöning tillagd!');
     }
-  };
+  }, [rewards, setRewards]);
 
-  const handleDeleteReward = (id: string) => {
+  const handleDeleteReward = useCallback((id: string) => {
     setRewards(prev => prev.filter(reward => reward.id !== id));
     toast.success('Belöning borttagen!');
-  };
+  }, [setRewards]);
 
-  const handleRedeemReward = (id: string) => {
+  const handleRedeemReward = useCallback((id: string) => {
     const rewardToRedeem = rewards.find(reward => reward.id === id);
     
     if (!rewardToRedeem || user.points < rewardToRedeem.points) {
@@ -42,8 +42,9 @@ export const useRewards = (
     
     // Mark "Belönad" achievement as completed if it's the first time
     if (!achievements[4].completed) {
-      const updatedAchievements = [...achievements];
-      updatedAchievements[4].completed = true;
+      const updatedAchievements = achievements.map((achievement, index) => 
+        index === 4 ? { ...achievement, completed: true } : achievement
+      );
       setAchievements(updatedAchievements);
       
       // Update user stars count
@@ -59,7 +60,7 @@ export const useRewards = (
     }
     
     toast.success(`Du har löst in "${rewardToRedeem.title}"!`);
-  };
+  }, [rewards, user.points, achievements, setUser, setAchievements]);
 
   return {
     handleSaveReward,

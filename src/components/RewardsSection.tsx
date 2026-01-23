@@ -78,4 +78,4 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
   );
 };
 
-export default RewardsSection;
+export default React.memo(RewardsSection);
