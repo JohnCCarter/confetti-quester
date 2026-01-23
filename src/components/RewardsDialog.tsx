@@ -44,7 +44,7 @@ const RewardsDialog: React.FC<RewardsDialogProps> = ({
     }
   }, [reward, open]);
 
-  const handleSave = () => {
+  const saveReward = () => {
     if (!title.trim()) return;
     
     const newReward: Reward = {
@@ -59,7 +59,7 @@ const RewardsDialog: React.FC<RewardsDialogProps> = ({
     onClose();
   };
 
-  const icons = [
+  const rewardIcons = [
     { id: 'gift', component: <Gift size={24} className="text-purple-400" /> },
     { id: 'trophy', component: <Trophy size={24} className="text-yellow-400" /> },
     { id: 'star', component: <Star size={24} className="text-yellow-400" /> },
@@ -109,15 +109,15 @@ const RewardsDialog: React.FC<RewardsDialogProps> = ({
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-1">Ikon</label>
             <div className="flex flex-wrap gap-2">
-              {icons.map((item) => (
+              {rewardIcons.map((rewardIcon) => (
                 <button
-                  key={item.id}
+                  key={rewardIcon.id}
                   className={`w-12 h-12 rounded-md flex items-center justify-center transition-colors ${
-                    icon === item.id ? 'bg-gray-700 ring-2 ring-app-pink' : 'bg-gray-800 hover:bg-gray-700'
+                    icon === rewardIcon.id ? 'bg-gray-700 ring-2 ring-app-pink' : 'bg-gray-800 hover:bg-gray-700'
                   }`}
-                  onClick={() => setIcon(item.id)}
+                  onClick={() => setIcon(rewardIcon.id)}
                 >
-                  {item.component}
+                  {rewardIcon.component}
                 </button>
               ))}
             </div>
@@ -136,7 +136,7 @@ const RewardsDialog: React.FC<RewardsDialogProps> = ({
           
           <button
             className="w-full bg-app-pink hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
-            onClick={handleSave}
+            onClick={saveReward}
           >
             {isEditing ? 'Spara ändringar' : 'Lägg till'}
           </button>

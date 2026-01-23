@@ -58,14 +58,14 @@ const UserCard: React.FC<UserCardProps> = ({
       <div className="flex items-center justify-start">
         <Trophy size={16} className={`${starColorClass} mr-1 transition-transform duration-300 ${isHovered ? 'scale-110' : ''}`} />
         <div className="flex space-x-1">
-          {[...Array(5)].map((_, i) => (
+          {[...Array(5)].map((_, starIndex) => (
             <span 
-              key={i} 
+              key={starIndex} 
               className={`text-xl transition-transform duration-300 ${
-                i < stars 
+                starIndex < stars 
                   ? starColorClass 
                   : 'text-gray-600'
-              } ${isHovered && i < stars ? 'transform scale-110' : ''}`}
+              } ${isHovered && starIndex < stars ? 'transform scale-110' : ''}`}
             >
               ★
             </span>

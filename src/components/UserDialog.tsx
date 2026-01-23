@@ -33,7 +33,7 @@ const UserDialog: React.FC<UserDialogProps> = ({
     }
   }, [user, open]);
 
-  const handleSave = () => {
+  const saveUser = () => {
     if (!name.trim()) return;
     
     const updatedUser: User = {
@@ -87,7 +87,7 @@ const UserDialog: React.FC<UserDialogProps> = ({
           
           <button
             className="w-full bg-app-pink hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
-            onClick={handleSave}
+            onClick={saveUser}
           >
             Spara ändringar
           </button>

@@ -20,9 +20,9 @@ const Index = () => {
     totalAchievements,
     handleSwitchUser,
     handleSaveUser,
-    handleSaveReward,
-    handleRedeemReward,
-    handleDeleteReward,
+    saveReward,
+    redeemReward,
+    deleteReward,
     isIsabel
   } = useUserManagement();
 
@@ -80,9 +80,9 @@ const Index = () => {
         totalAchievements={totalAchievements}
         handleSwitchUser={handleSwitchUser}
         handleSaveUser={handleSaveUser}
-        handleSaveReward={handleSaveReward}
-        handleRedeemReward={handleRedeemReward}
-        handleDeleteReward={handleDeleteReward}
+        saveReward={saveReward}
+        redeemReward={redeemReward}
+        deleteReward={deleteReward}
         isIsabel={isIsabel}
         setShowConfetti={setShowConfetti}
         setConfettiPosition={setConfettiPosition}
