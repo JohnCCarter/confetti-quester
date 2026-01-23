@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import { User } from '@/components/UserDialog';
 import { Task } from '@/components/TaskDialog';
 import { Achievement } from '@/components/AchievementItem';
@@ -15,15 +15,6 @@ export const useAchievements = (
   // Track previous values to avoid unnecessary processing
   const prevTasksCompletedRef = useRef<Set<string>>(new Set());
   const prevPointsRef = useRef<number>(user.points);
-  
-  // Stabilize setAchievements and setUser callbacks to avoid dependency issues
-  const stableSetAchievements = useCallback((updater: React.SetStateAction<Achievement[]>) => {
-    setAchievements(updater);
-  }, [setAchievements]);
-
-  const stableSetUser = useCallback((updater: React.SetStateAction<User>) => {
-    setUser(updater);
-  }, [setUser]);
   
   // Check achievements whenever tasks or user points change
   useEffect(() => {
@@ -114,11 +105,11 @@ export const useAchievements = (
 
     // Update achievements if any were unlocked
     if (achievementsUnlocked) {
-      stableSetAchievements(updatedAchievements);
+      setAchievements(updatedAchievements);
       
       // Update user stars count
       const completedCount = updatedAchievements.filter(achievement => achievement.completed).length;
-      stableSetUser(prev => ({
+      setUser(prev => ({
         ...prev,
         stars: completedCount
       }));
@@ -127,7 +118,7 @@ export const useAchievements = (
         duration: 3000
       });
     }
-  }, [tasks, user.points, achievements, stableSetAchievements, stableSetUser]);
+  }, [tasks, user.points, achievements, setAchievements, setUser]);
 
   return { achievements };
 };
