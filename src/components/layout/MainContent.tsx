@@ -196,4 +196,4 @@ const MainContent: React.FC<MainContentProps> = ({
   );
 };
 
-export default MainContent;
+export default React.memo(MainContent);

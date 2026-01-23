@@ -34,49 +34,54 @@ export const useTaskManagement = ({
 }: UseTaskManagementProps) => {
   
   const completeTask = useCallback((id: string) => {
-    const taskToComplete = tasks.find(task => task.id === id);
-    if (!taskToComplete || taskToComplete.completed) return;
-    
-    const taskElement = document.getElementById(`task-${id}`);
-    if (taskElement) {
-      const rect = taskElement.getBoundingClientRect();
-      setConfettiPosition({
-        x: rect.left + rect.width / 2,
-        y: rect.top + rect.height / 2
+    setTasks(prev => {
+      const taskToComplete = prev.find(task => task.id === id);
+      if (!taskToComplete || taskToComplete.completed) return prev;
+      
+      const taskElement = document.getElementById(`task-${id}`);
+      if (taskElement) {
+        const rect = taskElement.getBoundingClientRect();
+        setConfettiPosition({
+          x: rect.left + rect.width / 2,
+          y: rect.top + rect.height / 2
+        });
+      }
+      
+      setShowConfetti(true);
+      
+      setUser(prevUser => ({
+        ...prevUser,
+        points: prevUser.points + (taskToComplete?.points || 0)
+      }));
+      
+      setCompletedTaskId(id);
+      
+      toast.success(`Bra jobbat! +${taskToComplete?.points || 0} poäng`, {
+        duration: 2000
       });
-    }
-    
-    setShowConfetti(true);
-    
-    setTasks(prev => prev.map(task => 
-      task.id === id 
-        ? { ...task, completed: true } 
-        : task
-    ));
-    
-    setUser(prev => ({
-      ...prev,
-      points: prev.points + (taskToComplete?.points || 0)
-    }));
-    
-    setCompletedTaskId(id);
-    
-    toast.success(`Bra jobbat! +${taskToComplete?.points || 0} poäng`, {
-      duration: 2000
+      
+      return prev.map(task => 
+        task.id === id 
+          ? { ...task, completed: true } 
+          : task
+      );
     });
-  }, [tasks, setTasks, setUser, setShowConfetti, setConfettiPosition, setCompletedTaskId]);
+  }, [setTasks, setUser, setShowConfetti, setConfettiPosition, setCompletedTaskId]);
 
   const editTask = useCallback((
     id: string, 
     setCurrentTask: (task: Task | null) => void, 
     setTaskDialogOpen: (open: boolean) => void
   ) => {
-    const taskToEdit = tasks.find(task => task.id === id);
-    if (taskToEdit) {
-      setCurrentTask(taskToEdit);
-      setTaskDialogOpen(true);
-    }
-  }, [tasks]);
+    setTasks(prev => {
+      const taskToEdit = prev.find(task => task.id === id);
+      if (taskToEdit) {
+        setCurrentTask(taskToEdit);
+        setTaskDialogOpen(true);
+      }
+      return prev;
+    });
+  }, [setTasks]);
 
   const deleteTask = useCallback((id: string) => {
     setTasks(prev => prev.filter(task => task.id !== id));
@@ -84,14 +89,17 @@ export const useTaskManagement = ({
   }, [setTasks]);
 
   const saveTask = useCallback((task: Task) => {
-    if (tasks.some(existingTask => existingTask.id === task.id)) {
-      setTasks(prev => prev.map(existingTask => existingTask.id === task.id ? task : existingTask));
-      toast.success('Uppgift uppdaterad!');
-    } else {
-      setTasks(prev => [...prev, task]);
-      toast.success('Ny uppgift tillagd!');
-    }
-  }, [tasks, setTasks]);
+    setTasks(prev => {
+      const taskExists = prev.some(existingTask => existingTask.id === task.id);
+      if (taskExists) {
+        toast.success('Uppgift uppdaterad!');
+        return prev.map(existingTask => existingTask.id === task.id ? task : existingTask);
+      } else {
+        toast.success('Ny uppgift tillagd!');
+        return [...prev, task];
+      }
+    });
+  }, [setTasks]);
 
   const resetTasks = useCallback(() => {
     // Istället för att återställa allt, återställer vi bara slutförda uppgifter, men behåller personliga ändringar
@@ -99,20 +107,22 @@ export const useTaskManagement = ({
     // Hämta de initiala uppgifterna baserat på vilken användare
     const defaultTasks = isIsabel ? isabelTasks : zozoTasks;
     
-    // Återställ endast completed-status för varje uppgift (immutably)
-    let updatedTasks = tasks.map(task => ({
-      ...task,
-      completed: false
-    }));
-    
-    // Återställ alla uppgifter som saknas från defaultTasks (för att säkerställa att standarduppgifter inte saknas)
-    const updatedTaskIds = new Set(updatedTasks.map(task => task.id));
-    const missingTasks = defaultTasks.filter(
-      defaultTask => !updatedTaskIds.has(defaultTask.id)
-    );
-    updatedTasks = [...updatedTasks, ...missingTasks.map(task => ({ ...task }))];
-    
-    setTasks(updatedTasks);
+    setTasks(prev => {
+      // Återställ endast completed-status för varje uppgift (immutably)
+      let updatedTasks = prev.map(task => ({
+        ...task,
+        completed: false
+      }));
+      
+      // Återställ alla uppgifter som saknas från defaultTasks (för att säkerställa att standarduppgifter inte saknas)
+      const updatedTaskIds = new Set(updatedTasks.map(task => task.id));
+      const missingTasks = defaultTasks.filter(
+        defaultTask => !updatedTaskIds.has(defaultTask.id)
+      );
+      updatedTasks = [...updatedTasks, ...missingTasks.map(task => ({ ...task }))];
+      
+      return updatedTasks;
+    });
     
     // Återställ användarens poäng till 0, men behåll andra användarinställningar
     setUser(prev => ({
@@ -132,7 +142,7 @@ export const useTaskManagement = ({
     // Behåll belöningar oförändrade, återställer inte dessa
     
     toast.success('Uppgifter och poäng har återställts!');
-  }, [tasks, setTasks, setUser, setAchievements, isIsabel]);
+  }, [setTasks, setUser, setAchievements, isIsabel]);
 
   return {
     completeTask,
