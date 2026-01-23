@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import UserHeader from '@/components/UserHeader';
 import { useUserManagement } from '@/hooks/useUserManagement';
 import AppLayout from '@/components/layout/AppLayout';
@@ -31,6 +31,10 @@ const Index = () => {
   const [showFullConfetti, setShowFullConfetti] = useState(false);
   const [completedTaskId, setCompletedTaskId] = useState<string | null>(null);
   
+  // Memoize the alternate user name to avoid recalculation
+  const alternateUserName = useMemo(() => isIsabel ? 'Zozo' : 'Isabel', [isIsabel]);
+  const userTheme = useMemo(() => isIsabel ? 'pink' : 'blue' as const, [isIsabel]);
+  
   useEffect(() => {
     if (!completedTaskId) return;
     
@@ -59,8 +63,8 @@ const Index = () => {
         <UserHeader 
           userName={user.name}
           onSwitchUser={handleSwitchUser}
-          alternateUserName={isIsabel ? 'Zozo' : 'Isabel'}
-          userTheme={isIsabel ? 'pink' : 'blue'}
+          alternateUserName={alternateUserName}
+          userTheme={userTheme}
         />
       </div>
       

@@ -13,6 +13,12 @@ interface TaskListProps {
   userTheme?: 'pink' | 'blue';
 }
 
+// Extract animation style generator to avoid creating new objects on each render
+const getAnimationStyle = (index: number): React.CSSProperties => ({
+  animationDelay: `${index * 75}ms`,
+  animation: 'fade-in 0.4s ease-out forwards'
+});
+
 const TaskList: React.FC<TaskListProps> = ({ 
   filter, 
   tasks, 
@@ -62,10 +68,7 @@ const TaskList: React.FC<TaskListProps> = ({
                 id={`task-${task.id}`} 
                 key={task.id}
                 className="transition-all duration-300"
-                style={{ 
-                  animationDelay: `${index * 75}ms`,
-                  animation: 'fade-in 0.4s ease-out forwards'
-                }}
+                style={getAnimationStyle(index)}
               >
                 <TaskItem
                   id={task.id}
@@ -104,10 +107,7 @@ const TaskList: React.FC<TaskListProps> = ({
                 id={`task-${task.id}`} 
                 key={task.id}
                 className="transition-all duration-300"
-                style={{ 
-                  animationDelay: `${index * 75}ms`,
-                  animation: 'fade-in 0.4s ease-out forwards'
-                }}
+                style={getAnimationStyle(index)}
               >
                 <TaskItem
                   id={task.id}
