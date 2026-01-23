@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { X } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import CustomTaskIcon, { CustomIconType } from './CustomTaskIcon';
@@ -20,6 +19,24 @@ interface TaskDialogProps {
   task?: Task;
   isEditing?: boolean;
 }
+
+// Move icon arrays to module-level constants to avoid recreation on every render
+const MORNING_ICONS: CustomIconType[] = [
+  'bed', 'shirt', 'hairbrush', 'breakfast', 'toothbrush', 'jacket', 'heart'
+];
+
+const EVENING_ICONS: CustomIconType[] = [
+  'tidybox', 'shower', 'eveningtoothbrush', 'clothes', 'homework', 'readwrite', 'sleep', 'eveningheart'
+];
+
+const STANDARD_ICONS: CustomIconType[] = [
+  'coffee', 'shirt', 'bed', 'scissors', 'smile', 'utensils', 'droplet', 
+  'home', 'book', 'heart', 'pencil', 'moon'
+];
+
+// Pre-compute unique icon sets to avoid runtime computation
+const UNIQUE_MORNING_ICONS = Array.from(new Set([...MORNING_ICONS, ...STANDARD_ICONS]));
+const UNIQUE_EVENING_ICONS = Array.from(new Set([...EVENING_ICONS, ...STANDARD_ICONS]));
 
 const TaskDialog: React.FC<TaskDialogProps> = ({ 
   open, 
@@ -63,28 +80,8 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
     onClose();
   };
 
-  // Morning icons
-  const morningIcons: CustomIconType[] = [
-    'bed', 'shirt', 'hairbrush', 'breakfast', 'toothbrush', 'jacket', 'heart'
-  ];
-
-  // Evening icons
-  const eveningIcons: CustomIconType[] = [
-    'tidybox', 'shower', 'eveningtoothbrush', 'clothes', 'homework', 'readwrite', 'sleep', 'eveningheart'
-  ];
-
-  // Standard icons (for backward compatibility)
-  const standardIcons: CustomIconType[] = [
-    'coffee', 'shirt', 'bed', 'scissors', 'smile', 'utensils', 'droplet', 
-    'home', 'book', 'heart', 'pencil', 'moon'
-  ];
-
-  const icons = category === 'morning' 
-    ? [...morningIcons, ...standardIcons] 
-    : [...eveningIcons, ...standardIcons];
-
-  // Remove duplicates
-  const uniqueIcons = Array.from(new Set(icons));
+  // Use pre-computed icon arrays based on category
+  const uniqueIcons = category === 'morning' ? UNIQUE_MORNING_ICONS : UNIQUE_EVENING_ICONS;
 
   return (
     <Dialog open={open} onOpenChange={(open) => !open && onClose()}>

@@ -18,6 +18,16 @@ interface RewardsDialogProps {
   isEditing?: boolean;
 }
 
+// Move icon array to module-level constant to avoid recreation on every render
+const REWARD_ICONS = [
+  { id: 'gift', component: <Gift size={24} className="text-purple-400" /> },
+  { id: 'trophy', component: <Trophy size={24} className="text-yellow-400" /> },
+  { id: 'star', component: <Star size={24} className="text-yellow-400" /> },
+  { id: 'award', component: <Award size={24} className="text-orange-400" /> },
+  { id: 'gem', component: <Gem size={24} className="text-blue-400" /> },
+  { id: 'ribbon', component: <Ribbon size={24} className="text-pink-400" /> }
+] as const;
+
 const RewardsDialog: React.FC<RewardsDialogProps> = ({ 
   open, 
   onClose, 
@@ -58,15 +68,6 @@ const RewardsDialog: React.FC<RewardsDialogProps> = ({
     onSave(newReward);
     onClose();
   };
-
-  const rewardIcons = [
-    { id: 'gift', component: <Gift size={24} className="text-purple-400" /> },
-    { id: 'trophy', component: <Trophy size={24} className="text-yellow-400" /> },
-    { id: 'star', component: <Star size={24} className="text-yellow-400" /> },
-    { id: 'award', component: <Award size={24} className="text-orange-400" /> },
-    { id: 'gem', component: <Gem size={24} className="text-blue-400" /> },
-    { id: 'ribbon', component: <Ribbon size={24} className="text-pink-400" /> }
-  ];
 
   return (
     <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
@@ -109,7 +110,7 @@ const RewardsDialog: React.FC<RewardsDialogProps> = ({
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-1">Ikon</label>
             <div className="flex flex-wrap gap-2">
-              {rewardIcons.map((rewardIcon) => (
+              {REWARD_ICONS.map((rewardIcon) => (
                 <button
                   key={rewardIcon.id}
                   className={`w-12 h-12 rounded-md flex items-center justify-center transition-colors ${
