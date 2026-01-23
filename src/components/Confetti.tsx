@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useCallback } from 'react';
 import ReactCanvasConfetti from 'react-canvas-confetti';
 
@@ -9,19 +8,29 @@ interface ConfettiProps {
   position?: { x: number; y: number };
 }
 
+interface ConfettiConfig {
+  spread?: number;
+  startVelocity?: number;
+  decay?: number;
+  scalar?: number;
+  ticks?: number;
+}
+
+type ConfettiInstance = (options: Record<string, unknown>) => void;
+
 const Confetti: React.FC<ConfettiProps> = ({ 
   active, 
   onComplete, 
   type = 'small',
   position 
 }) => {
-  const confettiRef = useRef<any>(null);
+  const confettiRef = useRef<ConfettiInstance | null>(null);
 
-  const getInstance = useCallback((instance: any) => {
+  const getInstance = useCallback((instance: ConfettiInstance) => {
     confettiRef.current = instance;
   }, []);
 
-  const fireConfetti = useCallback((particleRatio: number, confettiConfig: any) => {
+  const fireConfetti = useCallback((particleRatio: number, confettiConfig: ConfettiConfig) => {
     if (confettiRef.current) {
       confettiRef.current({
         ...confettiConfig,

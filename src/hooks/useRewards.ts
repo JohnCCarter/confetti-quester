@@ -1,7 +1,7 @@
-
 import { useState, useCallback } from 'react';
 import { User } from '@/components/UserDialog';
 import { Reward } from '@/components/RewardsDialog';
+import { Achievement } from '@/components/AchievementItem';
 import { toast } from 'sonner';
 
 export const useRewards = (
@@ -9,8 +9,8 @@ export const useRewards = (
   setRewards: React.Dispatch<React.SetStateAction<Reward[]>>,
   user: User,
   setUser: React.Dispatch<React.SetStateAction<User>>,
-  achievements: any[],
-  setAchievements: React.Dispatch<React.SetStateAction<any[]>>
+  achievements: Achievement[],
+  setAchievements: React.Dispatch<React.SetStateAction<Achievement[]>>
 ) => {
   const handleSaveReward = useCallback((reward: Reward) => {
     if (rewards.some(existingReward => existingReward.id === reward.id)) {
