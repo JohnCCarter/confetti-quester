@@ -47,7 +47,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
     }
   }, [task, open]);
 
-  const handleSave = () => {
+  const saveTask = () => {
     if (!title.trim()) return;
     
     const newTask: Task = {
@@ -165,7 +165,7 @@ const TaskDialog: React.FC<TaskDialogProps> = ({
           
           <button
             className="w-full bg-app-pink hover:bg-pink-600 text-white font-medium py-2 px-4 rounded-md transition-colors"
-            onClick={handleSave}
+            onClick={saveTask}
           >
             {isEditing ? 'Spara ändringar' : 'Lägg till'}
           </button>

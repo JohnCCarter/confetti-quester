@@ -12,7 +12,7 @@ export const useRewards = (
   achievements: Achievement[],
   setAchievements: React.Dispatch<React.SetStateAction<Achievement[]>>
 ) => {
-  const handleSaveReward = useCallback((reward: Reward) => {
+  const saveReward = useCallback((reward: Reward) => {
     if (rewards.some(existingReward => existingReward.id === reward.id)) {
       setRewards(prev => prev.map(existingReward => existingReward.id === reward.id ? reward : existingReward));
       toast.success('Belöning uppdaterad!');
@@ -22,12 +22,12 @@ export const useRewards = (
     }
   }, [rewards, setRewards]);
 
-  const handleDeleteReward = useCallback((id: string) => {
+  const deleteReward = useCallback((id: string) => {
     setRewards(prev => prev.filter(reward => reward.id !== id));
     toast.success('Belöning borttagen!');
   }, [setRewards]);
 
-  const handleRedeemReward = useCallback((id: string) => {
+  const redeemReward = useCallback((id: string) => {
     const rewardToRedeem = rewards.find(reward => reward.id === id);
     
     if (!rewardToRedeem || user.points < rewardToRedeem.points) {
@@ -71,8 +71,8 @@ export const useRewards = (
   }, [rewards, user.points, achievements, setUser, setAchievements]);
 
   return {
-    handleSaveReward,
-    handleRedeemReward,
-    handleDeleteReward
+    saveReward,
+    redeemReward,
+    deleteReward
   };
 };

@@ -24,9 +24,9 @@ interface MainContentProps {
   totalAchievements: number;
   handleSwitchUser: () => void;
   handleSaveUser: (user: User) => void;
-  handleSaveReward: (reward: Reward) => void;
-  handleRedeemReward: (id: string) => void;
-  handleDeleteReward: (id: string) => void;
+  saveReward: (reward: Reward) => void;
+  redeemReward: (id: string) => void;
+  deleteReward: (id: string) => void;
   isIsabel: boolean;
   setShowConfetti: React.Dispatch<React.SetStateAction<boolean>>;
   setConfettiPosition: React.Dispatch<React.SetStateAction<{x: number, y: number} | null>>;
@@ -46,9 +46,9 @@ const MainContent: React.FC<MainContentProps> = ({
   totalAchievements,
   handleSwitchUser,
   handleSaveUser,
-  handleSaveReward,
-  handleRedeemReward,
-  handleDeleteReward,
+  saveReward,
+  redeemReward,
+  deleteReward,
   isIsabel,
   setShowConfetti,
   setConfettiPosition,
@@ -89,11 +89,11 @@ const MainContent: React.FC<MainContentProps> = ({
   }, [tasks]);
   
   const { 
-    handleCompleteTask, 
-    handleEditTask, 
-    handleSaveTask, 
-    handleResetTasks,
-    handleDeleteTask
+    completeTask, 
+    editTask, 
+    saveTask, 
+    resetTasks,
+    deleteTask
   } = useTaskManagement({
     tasks,
     setTasks,
@@ -140,10 +140,10 @@ const MainContent: React.FC<MainContentProps> = ({
               filter={filter}
               setFilter={setFilter}
               tasks={tasks}
-              onComplete={handleCompleteTask}
+              onComplete={completeTask}
               onEdit={(id) => TaskManager.openEditTaskDialog(id, tasks)}
               onDelete={(id, title) => TaskManager.openDeleteTaskDialog(id, title)}
-              onReset={handleResetTasks}
+              onReset={resetTasks}
               onAddTask={() => TaskManager.openAddTaskDialog()}
               userTheme={userTheme}
             />
@@ -169,7 +169,7 @@ const MainContent: React.FC<MainContentProps> = ({
               rewards={rewards}
               userPoints={user.points}
               onAddReward={() => RewardManager.openAddRewardDialog()}
-              onRedeemReward={handleRedeemReward}
+              onRedeemReward={redeemReward}
               onEditReward={(id) => RewardManager.openEditRewardDialog(id, rewards)}
               onDeleteReward={(id, title) => RewardManager.openDeleteRewardDialog(id, title)}
               userTheme={userTheme}
@@ -179,8 +179,8 @@ const MainContent: React.FC<MainContentProps> = ({
       </div>
       
       <TaskManager 
-        onSaveTask={handleSaveTask}
-        onDeleteTask={handleDeleteTask}
+        onSaveTask={saveTask}
+        onDeleteTask={deleteTask}
       />
       
       <UserManager 
@@ -189,8 +189,8 @@ const MainContent: React.FC<MainContentProps> = ({
       />
       
       <RewardManager
-        onSaveReward={handleSaveReward}
-        onDeleteReward={handleDeleteReward}
+        onSaveReward={saveReward}
+        onDeleteReward={deleteReward}
       />
     </>
   );

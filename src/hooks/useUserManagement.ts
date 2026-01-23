@@ -25,7 +25,7 @@ export const useUserManagement = () => {
   useAchievements(tasks, user, achievements, setAchievements, setUser);
 
   // Setup rewards management
-  const { handleSaveReward, handleRedeemReward, handleDeleteReward } = useRewards(
+  const { saveReward, redeemReward, deleteReward } = useRewards(
     rewards, 
     setRewards, 
     user, 
@@ -45,9 +45,9 @@ export const useUserManagement = () => {
     setAchievements,
     handleSwitchUser,
     handleSaveUser,
-    handleSaveReward,
-    handleRedeemReward,
-    handleDeleteReward,
+    saveReward,
+    redeemReward,
+    deleteReward,
     isIsabel,
     totalAchievements: defaultIsabelAchievements.length
   };

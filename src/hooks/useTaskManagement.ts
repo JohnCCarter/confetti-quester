@@ -33,7 +33,7 @@ export const useTaskManagement = ({
   isIsabel
 }: UseTaskManagementProps) => {
   
-  const handleCompleteTask = useCallback((id: string) => {
+  const completeTask = useCallback((id: string) => {
     const taskToComplete = tasks.find(task => task.id === id);
     if (!taskToComplete || taskToComplete.completed) return;
     
@@ -66,7 +66,7 @@ export const useTaskManagement = ({
     });
   }, [tasks, setTasks, setUser, setShowConfetti, setConfettiPosition, setCompletedTaskId]);
 
-  const handleEditTask = useCallback((
+  const editTask = useCallback((
     id: string, 
     setCurrentTask: (task: Task | null) => void, 
     setTaskDialogOpen: (open: boolean) => void
@@ -78,12 +78,12 @@ export const useTaskManagement = ({
     }
   }, [tasks]);
 
-  const handleDeleteTask = useCallback((id: string) => {
+  const deleteTask = useCallback((id: string) => {
     setTasks(prev => prev.filter(task => task.id !== id));
     toast.success('Uppgift borttagen!');
   }, [setTasks]);
 
-  const handleSaveTask = useCallback((task: Task) => {
+  const saveTask = useCallback((task: Task) => {
     if (tasks.some(existingTask => existingTask.id === task.id)) {
       setTasks(prev => prev.map(existingTask => existingTask.id === task.id ? task : existingTask));
       toast.success('Uppgift uppdaterad!');
@@ -93,7 +93,7 @@ export const useTaskManagement = ({
     }
   }, [tasks, setTasks]);
 
-  const handleResetTasks = useCallback(() => {
+  const resetTasks = useCallback(() => {
     // Istället för att återställa allt, återställer vi bara slutförda uppgifter, men behåller personliga ändringar
     
     // Hämta de initiala uppgifterna baserat på vilken användare
@@ -135,10 +135,10 @@ export const useTaskManagement = ({
   }, [tasks, setTasks, setUser, setAchievements, isIsabel]);
 
   return {
-    handleCompleteTask,
-    handleEditTask,
-    handleSaveTask,
-    handleResetTasks,
-    handleDeleteTask
+    completeTask,
+    editTask,
+    saveTask,
+    resetTasks,
+    deleteTask
   };
 };
