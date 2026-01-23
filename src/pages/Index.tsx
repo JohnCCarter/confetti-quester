@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import UserHeader from '@/components/UserHeader';
 import { useUserManagement } from '@/hooks/useUserManagement';
 import AppLayout from '@/components/layout/AppLayout';

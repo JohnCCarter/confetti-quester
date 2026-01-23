@@ -29,14 +29,16 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
         console.error(`Error setting localStorage key "${key}":`, error);
       }
     }, 300);
+  }, [key, storedValue]);
 
-    // Cleanup on unmount
+  // Cleanup on unmount only
+  useEffect(() => {
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [key, storedValue]);
+  }, []);
 
   return [storedValue, setStoredValue];
 }
