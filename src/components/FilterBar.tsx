@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { AlarmClock, Moon } from 'lucide-react';
 
@@ -37,4 +36,4 @@ const FilterBar: React.FC<FilterBarProps> = ({ filter, setFilter, userTheme = 'p
   );
 };
 
-export default FilterBar;
+export default React.memo(FilterBar);

@@ -1,6 +1,2 @@
-
-/* Main stylesheet that imports all modular CSS files */
-@import './theme-variables.css';
+/* Main stylesheet - all styles consolidated in base.css */
 @import './base.css';
-@import './background-gradients.css';
-@import './user-themes.css';
