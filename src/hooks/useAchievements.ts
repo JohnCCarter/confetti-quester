@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { User } from '@/components/UserDialog';
 import { Task } from '@/components/TaskDialog';
 import { Achievement } from '@/components/AchievementItem';
@@ -32,6 +32,10 @@ export const useAchievements = (
     prevTasksCompletedRef.current = currentCompleted;
     prevPointsRef.current = user.points;
     
+    const achievementIndexById = new Map(
+      achievements.map((achievement, index) => [achievement.id, index])
+    );
+
     // Create a copy of achievements to track changes
     const updatedAchievements = [...achievements];
     let achievementsUnlocked = false;
@@ -66,9 +70,6 @@ export const useAchievements = (
       allEveningCompleted = false;
     }
 
-    const achievementIndexById = new Map(
-      achievements.map((achievement, index) => [achievement.id, index])
-    );
     const morningAchievementIndex = achievementIndexById.get('1') ?? -1;
     const eveningAchievementIndex = achievementIndexById.get('2') ?? -1;
     const pointsAchievementIndex = achievementIndexById.get('4') ?? -1;
