@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import UserCard from '@/components/UserCard';
 import StatisticsSection from '@/components/StatisticsSection';
 import TasksSection from '@/components/TasksSection';
@@ -54,8 +54,8 @@ const MainContent: React.FC<MainContentProps> = ({
 }) => {
   const [filter, setFilter] = useState<'all' | 'morning' | 'evening'>('all');
   
-  // Calculate week statistics
-  const calculateWeekStatistics = () => {
+  // Calculate week statistics - memoized to avoid recalculation on every render
+  const weekStatistics = useMemo(() => {
     const today = new Date();
     const dayOfWeek = today.getDay(); // 0 for Sunday, 1 for Monday, etc.
     
@@ -83,9 +83,7 @@ const MainContent: React.FC<MainContentProps> = ({
       completedByDay,
       tasksPerDay
     };
-  };
-  
-  const weekStatistics = calculateWeekStatistics();
+  }, [tasks]);
   
   const { 
     handleCompleteTask, 
