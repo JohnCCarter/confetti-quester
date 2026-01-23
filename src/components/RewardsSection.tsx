@@ -1,9 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Gift, Plus } from 'lucide-react';
 import { Reward } from './RewardsDialog';
 import SectionHeader from './SectionHeader';
 import RewardItem from './RewardItem';
+import { createAnimationStyleCache } from '@/lib/animationUtils';
 
 interface RewardsSectionProps {
   rewards: Reward[];
@@ -15,6 +16,9 @@ interface RewardsSectionProps {
   userTheme: 'pink' | 'blue';
 }
 
+// Create cached animation style getter for reward list animations (100ms delay, 0.5s duration)
+const getAnimationStyle = createAnimationStyleCache(100, '0.5s');
+
 const RewardsSection: React.FC<RewardsSectionProps> = ({
   rewards,
   userPoints,
@@ -25,7 +29,12 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
   userTheme
 }) => {
   const [isButtonHovered, setIsButtonHovered] = useState(false);
-  const buttonBgClass = userTheme === 'pink' ? 'bg-app-pink' : 'bg-app-blue';
+  
+  // Memoize button background class to avoid recalculation
+  const buttonBgClass = useMemo(() => 
+    userTheme === 'pink' ? 'bg-app-pink' : 'bg-app-blue',
+    [userTheme]
+  );
 
   return (
     <div className="mb-8">
@@ -40,10 +49,7 @@ const RewardsSection: React.FC<RewardsSectionProps> = ({
               <div 
                 key={reward.id}
                 className="transition-all duration-300"
-                style={{ 
-                  animationDelay: `${index * 100}ms`,
-                  animation: 'fade-in 0.5s ease-out forwards'
-                }}
+                style={getAnimationStyle(index)}
               >
                 <RewardItem 
                   reward={reward} 

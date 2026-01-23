@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { AlarmClock, Moon } from 'lucide-react';
 import TaskItem from '@/components/TaskItem';
 import { Task } from '@/components/TaskDialog';
+import { createAnimationStyleCache } from '@/lib/animationUtils';
 
 interface TaskListProps {
   filter: 'all' | 'morning' | 'evening';
@@ -12,6 +13,9 @@ interface TaskListProps {
   onDelete: (id: string, title: string) => void;
   userTheme?: 'pink' | 'blue';
 }
+
+// Create cached animation style getter for task list animations (75ms delay, 0.4s duration)
+const getAnimationStyle = createAnimationStyleCache(75, '0.4s');
 
 const TaskList: React.FC<TaskListProps> = ({ 
   filter, 
@@ -62,10 +66,7 @@ const TaskList: React.FC<TaskListProps> = ({
                 id={`task-${task.id}`} 
                 key={task.id}
                 className="transition-all duration-300"
-                style={{ 
-                  animationDelay: `${index * 75}ms`,
-                  animation: 'fade-in 0.4s ease-out forwards'
-                }}
+                style={getAnimationStyle(index)}
               >
                 <TaskItem
                   id={task.id}
@@ -104,10 +105,7 @@ const TaskList: React.FC<TaskListProps> = ({
                 id={`task-${task.id}`} 
                 key={task.id}
                 className="transition-all duration-300"
-                style={{ 
-                  animationDelay: `${index * 75}ms`,
-                  animation: 'fade-in 0.4s ease-out forwards'
-                }}
+                style={getAnimationStyle(index)}
               >
                 <TaskItem
                   id={task.id}

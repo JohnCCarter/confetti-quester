@@ -25,6 +25,7 @@ const Confetti: React.FC<ConfettiProps> = ({
   position 
 }) => {
   const confettiRef = useRef<ConfettiInstance | null>(null);
+  const timeoutsRef = useRef<NodeJS.Timeout[]>([]);
 
   const getInstance = useCallback((instance: ConfettiInstance) => {
     confettiRef.current = instance;
@@ -49,6 +50,10 @@ const Confetti: React.FC<ConfettiProps> = ({
   }, [position]);
 
   useEffect(() => {
+    // Clear all previous timeouts when component re-renders
+    timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
+    timeoutsRef.current = [];
+
     if (active) {
       if (type === 'small') {
         fireConfetti(0.25, {
@@ -66,23 +71,23 @@ const Confetti: React.FC<ConfettiProps> = ({
           ticks: 150
         });
         
-        setTimeout(() => {
+        timeoutsRef.current.push(setTimeout(() => {
           fireConfetti(0.2, {
             spread: 60,
             ticks: 150
           });
-        }, 250);
+        }, 250));
         
-        setTimeout(() => {
+        timeoutsRef.current.push(setTimeout(() => {
           fireConfetti(0.35, {
             spread: 100,
             decay: 0.91,
             scalar: 0.8,
             ticks: 150
           });
-        }, 400);
+        }, 400));
         
-        setTimeout(() => {
+        timeoutsRef.current.push(setTimeout(() => {
           fireConfetti(0.1, {
             spread: 120,
             startVelocity: 30,
@@ -90,9 +95,9 @@ const Confetti: React.FC<ConfettiProps> = ({
             scalar: 1.2,
             ticks: 150
           });
-        }, 550);
+        }, 550));
         
-        setTimeout(() => {
+        timeoutsRef.current.push(setTimeout(() => {
           fireConfetti(0.25, {
             spread: 50,
             startVelocity: 45,
@@ -100,13 +105,19 @@ const Confetti: React.FC<ConfettiProps> = ({
             scalar: 1.0,
             ticks: 150
           });
-        }, 700);
+        }, 700));
       }
       
-      setTimeout(() => {
+      timeoutsRef.current.push(setTimeout(() => {
         if (onComplete) onComplete();
-      }, 1500);
+      }, 1500));
     }
+
+    // Cleanup function to clear all timeouts on unmount or when active changes
+    return () => {
+      timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
+      timeoutsRef.current = [];
+    };
   }, [active, fireConfetti, onComplete, type]);
 
   const style: React.CSSProperties = {

@@ -24,6 +24,9 @@ interface StatisticsSectionProps {
   weekStatistics?: WeekStatistics;
 }
 
+// Extract constant arrays to avoid recreation on every render
+const DAY_NAMES = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'];
+
 const StatisticsSection: React.FC<StatisticsSectionProps> = ({ 
   userStars, 
   userTheme,
@@ -33,8 +36,6 @@ const StatisticsSection: React.FC<StatisticsSectionProps> = ({
   hideAchievements = false,
   weekStatistics
 }) => {
-  // Get day names for current locale
-  const dayNames = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'];
   const getDayClasses = useCallback(
     (completedCount: number) => (
       completedCount > 0
@@ -76,7 +77,7 @@ const StatisticsSection: React.FC<StatisticsSectionProps> = ({
                 </div>
                 
                 <div className="grid grid-cols-7 gap-1 text-center">
-                  {dayNames.map((day, index) => (
+                  {DAY_NAMES.map((day, index) => (
                     <div key={day} className="flex flex-col items-center">
                       <span className="text-xs text-gray-400">{day}</span>
                       <div className={`mt-1 w-6 h-6 rounded-full flex items-center justify-center text-xs ${
